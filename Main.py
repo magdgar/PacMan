@@ -1,4 +1,5 @@
 import sys
+
 import ctypes
 
 import pygame
@@ -6,9 +7,10 @@ from pygame.locals import *
 
 import objects.pacman
 
+
 user32 = ctypes.windll.user32
-WIDTH = user32.GetSystemMetrics(0)
-HEIGHT = user32.GetSystemMetrics(1)
+WIDTH = int(user32.GetSystemMetrics(0) / 2)
+HEIGHT = int(user32.GetSystemMetrics(1) / 2)
 pygame.init()
 
 UP = 'up'
@@ -16,7 +18,7 @@ DOWN = 'down'
 LEFT = 'left'
 RIGHT = 'right'
 
-windowSurface = pygame.display.set_mode((int(WIDTH/2), int( HEIGHT/2)), 0, 32)
+windowSurface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pygame.display.set_caption('Czy teraz widać zmiany??')
 pac_man = objects.pacman.PacMan(100, 100)
 mainClock = pygame.time.Clock()
