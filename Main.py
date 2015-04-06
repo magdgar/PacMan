@@ -18,7 +18,7 @@ BGCOLOR = (0, 0, 0)
 pygame.init()
 pygame.display.set_caption('Pac Man!')
 
-window_surface = pygame.display.set_mode(WIDTH, HEIGHT, 0, 32)
+window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 
 pac_man = objects.pacman.PacMan(100, 100)
 game_loop = gameloop.gameloop.GameLoop(window_surface, pac_man)
