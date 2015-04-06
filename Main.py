@@ -14,10 +14,10 @@ LEFT = 'left'
 RIGHT = 'right'
 
 windowSurface = pygame.display.set_mode((500, 400), 0, 32)
-pygame.display.set_caption('Pac Man!')
+pygame.display.set_caption('Czy teraz widać zmiany?')
 pac_man = objects.pacman.PacMan(100, 100)
 mainClock = pygame.time.Clock()
-BGCOLOR = (0, 0, 0)
+BGCOLOR = (66, 33, 63)
 
 right = False
 buttons = 0
