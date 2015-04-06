@@ -1,70 +1,31 @@
-import sys
 import ctypes
 import os
 
 import pygame
-from pygame.locals import *
 
 import objects.pacman
 
+import gameloop.gameloop
+
 
 user32 = ctypes.windll.user32
-WIDTH = user32.GetSystemMetrics(0)
-HEIGHT = user32.GetSystemMetrics(1)
+WIDTH = (int(user32.GetSystemMetrics(0) / 2))
+HEIGHT = (int(user32.GetSystemMetrics(1) / 2))
 pos_x = WIDTH/4
 pos_y = HEIGHT/4
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (pos_x, pos_y)
-
-pygame.init()
-
-UP = 'up'
-DOWN = 'down'
-LEFT = 'left'
-RIGHT = 'right'
-
-windowSurface = pygame.display.set_mode((int(WIDTH/2), int( HEIGHT/2)), 0, 32)
-pygame.display.set_caption('Czy teraz widać zmiany???')
-pac_man = objects.pacman.PacMan(100, 100)
-mainClock = pygame.time.Clock()
 BGCOLOR = (0, 0, 0)
+pygame.init()
+pygame.display.set_caption('Pac Man!')
 
-right = False
-pushed_buttons = 0
+window_surface = pygame.display.set_mode(WIDTH, HEIGHT, 0, 32)
+
+pac_man = objects.pacman.PacMan(100, 100)
+game_loop = gameloop.gameloop.GameLoop(window_surface, pac_man)
+mainClock = pygame.time.Clock()
+
 while True:
-
-    windowSurface.fill(BGCOLOR)
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == KEYDOWN:
-            pushed_buttons += 1
-            if event.key == K_UP:
-                direction = UP
-            elif event.key == K_RIGHT:
-                direction = RIGHT
-            elif event.key == K_DOWN:
-                direction = DOWN
-            elif event.key == K_LEFT:
-                direction = LEFT
-        elif event.type == KEYUP:
-            pushed_buttons -= 1
-
-    if pushed_buttons > 0:
-        if direction == UP:
-            pac_man.move(0, -5)
-            pac_man.paint(windowSurface, 0)
-        elif direction == RIGHT:
-            pac_man.move(5, 0)
-            pac_man.paint(windowSurface, 1)
-        elif direction == DOWN:
-            pac_man.move(0, 5)
-            pac_man.paint(windowSurface, 2)
-        elif direction == LEFT:
-            pac_man.move(-5, 0)
-            pac_man.paint(windowSurface, 3)
-    else:
-        pac_man.paint(windowSurface, 1)
-
+    window_surface.fill(BGCOLOR)
+    game_loop.move_pac_man(pygame.event.get())
     pygame.display.update()
     mainClock.tick(30)
