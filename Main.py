@@ -1,6 +1,5 @@
 import sys
 import ctypes
-import os
 
 import pygame
 from pygame.locals import *
@@ -10,10 +9,6 @@ import objects.pacman
 user32 = ctypes.windll.user32
 WIDTH = user32.GetSystemMetrics(0)
 HEIGHT = user32.GetSystemMetrics(1)
-pos_x = WIDTH/4
-pos_y = HEIGHT/4
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (pos_x, pos_y)
-
 pygame.init()
 
 UP = 'up'
