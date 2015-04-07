@@ -5,13 +5,13 @@ class PacMan:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.animations = [media.sprites.PacManAnimTop, media.sprites.PacManAnimRight,
-                           media.sprites.PacManAnimDown, media.sprites.PacManAnimLeft]
-        for animation in self.animations:
+        self.speed = 5
+        self.animations = media.sprites.PacManAnim
+        for key, animation in self.animations.items():
             animation.play()
 
-    def paint(self, window_surface, number):
-        self.animations[number].blit(window_surface, (self.x, self.y))
+    def paint(self, window_surface, direction):
+        self.animations[direction].blit(window_surface, (self.x, self.y))
 
     def move(self, dx, dy):
         self.x += dx
