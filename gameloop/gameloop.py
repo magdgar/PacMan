@@ -15,7 +15,7 @@ class GameLoop:
         self.window_surface = window_surface
         self.pushed_buttons = 0
         self.pac_man = pac_man
-        self.direction = ""
+        self.direction = RIGHT
 
     def move_pac_man(self, events):
         for event in events:
@@ -38,15 +38,13 @@ class GameLoop:
         if self.pushed_buttons > 0:
             if self.direction == UP:
                 self.pac_man.move(0, -self.pac_man.speed)
-                self.pac_man.paint(self.window_surface, UP)
             elif self.direction == RIGHT:
                 self.pac_man.move(self.pac_man.speed, 0)
-                self.pac_man.paint(self.window_surface, RIGHT)
             elif self.direction == DOWN:
                 self.pac_man.move(0, self.pac_man.speed)
-                self.pac_man.paint(self.window_surface, DOWN)
             elif self.direction == LEFT:
                 self.pac_man.move(-self.pac_man.speed, 0)
-                self.pac_man.paint(self.window_surface, LEFT)
+
+            self.pac_man.paint(self.window_surface, self.direction)
         else:
-            self.pac_man.paint(self.window_surface, 'up')
+            self.pac_man.paint(self.window_surface, self.direction)
