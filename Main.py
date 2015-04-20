@@ -4,8 +4,8 @@ import os
 import pygame
 
 import objects.pacman
-
 import gameloop.gameloop
+import background.background
 
 
 user32 = ctypes.windll.user32
@@ -26,6 +26,7 @@ mainClock = pygame.time.Clock()
 
 while True:
     window_surface.fill(BGCOLOR)
+    background.background.paint_background(window_surface)
     game_loop.move_pac_man(pygame.event.get())
     pygame.display.update()
     mainClock.tick(30)
