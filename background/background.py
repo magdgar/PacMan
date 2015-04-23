@@ -6,11 +6,12 @@ up_right_wall = pygame.image.load('media/3.png')
 right_down_corner = pygame.image.load('media/4.png')
 left_down_corner = pygame.image.load('media/5.png')
 up_left_corner = pygame.image.load('media/6.png')
+dot = pygame.image.load('media/dot.png')
 
 with open("background/lvl2.txt") as f:
     lines = f.readlines()
 
-walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
+walls_dict = {0: dot, 1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
               4: right_down_corner, 5: left_down_corner, 6: up_left_corner}
 
 
@@ -20,7 +21,7 @@ def paint_background(window_surface):
         x = 0
         for char in line:
             dict_walue = ord(char) - 48
-            if 0 < dict_walue < 7:
+            if 0 <= dict_walue < 7:
                 window_surface.blit(walls_dict[dict_walue], (x, y))
             x += 20
         y += 20
