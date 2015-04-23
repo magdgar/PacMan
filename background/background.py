@@ -7,7 +7,7 @@ right_down_corner = pygame.image.load('media/4.png')
 left_down_corner = pygame.image.load('media/5.png')
 up_left_corner = pygame.image.load('media/6.png')
 
-with open("background/level1.txt") as f:
+with open("background/lvl2.txt") as f:
     lines = f.readlines()
 
 walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
