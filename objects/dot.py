@@ -2,7 +2,7 @@ __author__ = 'Makda'
 
 import pygame
 
-
+# in this moment this in trash
 class Dot:
 
     def __init__(self, x, y):
