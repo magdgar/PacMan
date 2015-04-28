@@ -1,3 +1,4 @@
 # PacMan
 SuperPacMan!
-&lt;3&lt;3&lt;3
+It is an arcade game developed by Namco, but this time done by 2 IT students.
+Enjoy:)
