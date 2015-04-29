@@ -22,7 +22,7 @@ pygame.display.set_caption('Pac Man!')
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 
 #pac_man = objects.pacman.PacMan(100, 100)
-pac_man = objects.pacman.PacMan(5, 5)
+pac_man = objects.pacman.PacMan(4, 4)
 game_loop = gameloop.gameloop.GameLoop(window_surface, pac_man)
 mainClock = pygame.time.Clock()
 

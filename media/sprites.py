@@ -1,10 +1,7 @@
+from pygame.locals import *
+
 import media.pyganim
 
-
-UP = 'up'
-DOWN = 'down'
-LEFT = 'left'
-RIGHT = 'right'
 
 PacManAnimRight = media.pyganim.PygAnimation([('media/PacMan.png', 0.1),
                                               ('media/PacMan2.png', 0.1),
@@ -24,8 +21,8 @@ PacManAnimTop.flip(False, True)
 PacManAnimTop.makeTransformsPermanent()
 
 PacManAnim = {}
-PacManAnim[UP] = PacManAnimTop
-PacManAnim[RIGHT] = PacManAnimRight
-PacManAnim[DOWN] = PacManAnimDown
-PacManAnim[LEFT] = PacManAnimLeft
+PacManAnim[K_UP] = PacManAnimTop
+PacManAnim[K_RIGHT] = PacManAnimRight
+PacManAnim[K_DOWN] = PacManAnimDown
+PacManAnim[K_LEFT] = PacManAnimLeft
 
