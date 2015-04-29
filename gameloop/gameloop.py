@@ -21,7 +21,7 @@ class GameLoop:
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == KEYDOWN:
+            elif event.type == KEYDOWN:
                 self.new_direction = event.key
 
         if self.in_place_to_change_direction():

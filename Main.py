@@ -7,6 +7,7 @@ import objects.pacman
 import objects.dot
 import gameloop.gameloop
 import background.background
+from media.dirtyrect import *
 
 
 user32 = ctypes.windll.user32
@@ -25,10 +26,12 @@ window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pac_man = objects.pacman.PacMan(4, 4)
 game_loop = gameloop.gameloop.GameLoop(window_surface, pac_man)
 mainClock = pygame.time.Clock()
-
+background.background.paint_whole_background(window_surface)
+pygame.display.update()
+pygame.image.save(window_surface, "media/screenshot.jpeg")
 while True:
     window_surface.fill(BGCOLOR)
-    background.background.paint_background(window_surface)
     game_loop.move_pac_man(pygame.event.get())
-    pygame.display.update()
+    pygame.display.update(DIRTY_RECT)
+    clear_dirty_rect()
     mainClock.tick(30)
