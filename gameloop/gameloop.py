@@ -18,11 +18,11 @@ class GameLoop:
 
     def move_pac_man(self, events):
         for event in events:
-            if event.type == QUIT:
+            if event.type == KEYDOWN:
+                self.new_direction = event.key
+            elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == KEYDOWN:
-                self.new_direction = event.key
 
         if self.in_place_to_change_direction():
             self.direction = self.new_direction
