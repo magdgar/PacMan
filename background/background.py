@@ -8,6 +8,7 @@ left_down_corner = pygame.image.load('media/5.png')
 up_left_corner = pygame.image.load('media/6.png')
 dot = pygame.image.load('media/dot.png')
 background_image = pygame.image.load('media/screenshot.jpeg')
+
 with open("background/lvl2.txt") as f:
     lines = f.readlines()
 
