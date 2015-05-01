@@ -9,23 +9,26 @@ up_left_corner = pygame.image.load('media/6.png')
 dot = pygame.image.load('media/dot.png')
 background_image = pygame.image.load('media/screenshot.jpeg')
 
-with open("background/lvl2.txt") as f:
-    lines = f.readlines()
-
 walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
               4: right_down_corner, 5: left_down_corner, 6: up_left_corner, 7: dot}
 
 
+def proper_digit(number):
+    if number != '\n':
+        return int(number)
+    else:
+        return 0
+
+
+with open("background/lvl2.txt") as file:
+    array2d = [[proper_digit(digit) for digit in list(line)] for line in file]
+
+
 def paint_whole_background(window_surface):
-    y = 0
-    for line in lines:
-        x = 0
-        for char in line:
-            dict_value = ord(char) - 48
-            if 0 < dict_value <= 7:
-                window_surface.blit(walls_dict[dict_value], (x, y))
-            x += 20
-        y += 20
+    for x in range(len(array2d[0])):
+        for y in range(len(array2d) - 1):
+            if array2d[y][x] > 0:
+                window_surface.blit(walls_dict[array2d[y][x]], (x * 20, y * 20))
 
 
 def paint_background(window_surface, rect):
