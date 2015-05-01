@@ -27,9 +27,12 @@ class GameLoop:
         if self.in_place_to_change_direction():
             self.direction = self.new_direction
 
-        if self.is_this_the_wall():
-            self.direction = K_PAUSE
         self.pac_man.move(self.movements[self.direction])
+        if self.is_this_the_wall():
+            # self.direction = K_PAUSE
+            self.pac_man.move((self.movements[self.direction][0] * -1, self.movements[self.direction][1] * -1))
+            # self.pac_man.move(self.movements[self.direction][0]*-1, self.movements[self.direction][1]*-1)
+
         self.pac_man.paint(self.window_surface, self.direction)
 
     def in_place_to_change_direction(self):
