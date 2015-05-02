@@ -1,5 +1,6 @@
 import pygame
 
+blank_piece = pygame.image.load('media/0.png')
 horizontal_wall = pygame.image.load('media/1.png')
 vertical_wall = pygame.image.load('media/2.png')
 up_right_wall = pygame.image.load('media/3.png')
@@ -10,7 +11,8 @@ dot = pygame.image.load('media/dot.png')
 background_image = pygame.image.load('media/screenshot.jpeg')
 
 walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
-              4: right_down_corner, 5: left_down_corner, 6: up_left_corner, 7: dot}
+              4: right_down_corner, 5: left_down_corner, 6: up_left_corner,
+              7: dot, 0: blank_piece}
 
 
 def proper_digit(number):
@@ -29,6 +31,14 @@ def paint_whole_background(window_surface):
         for y in range(len(array2d) - 1):
             if array2d[y][x] > 0:
                 window_surface.blit(walls_dict[array2d[y][x]], (x * 20, y * 20))
+
+
+def paint_whole_background(window_surface, map_array):
+    for y in range(len(map_array)):
+        for x in range(len(map_array[0]) - 1):
+            if 8 > map_array[y][x] >= 0:
+                window_surface.fill((0, 0, 0), (x * 20, y * 20, 20, 20))
+                window_surface.blit(walls_dict[map_array[y][x]], (x * 20, y * 20))
 
 
 def paint_background(window_surface, rect):
