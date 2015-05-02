@@ -22,18 +22,11 @@ def proper_digit(number):
         return 0
 
 
-with open("background/lvl2.txt") as file:
+with open("background/map.txt") as file:
     array2d = [[proper_digit(digit) for digit in list(line)] for line in file]
 
 
-def paint_whole_background(window_surface):
-    for x in range(len(array2d[0])):
-        for y in range(len(array2d) - 1):
-            if array2d[y][x] > 0:
-                window_surface.blit(walls_dict[array2d[y][x]], (x * 20, y * 20))
-
-
-def paint_whole_background(window_surface, map_array):
+def paint_whole_background(window_surface, map_array=array2d):
     for y in range(len(map_array)):
         for x in range(len(map_array[0]) - 1):
             if 8 > map_array[y][x] >= 0:

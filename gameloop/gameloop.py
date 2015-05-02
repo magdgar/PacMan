@@ -12,7 +12,7 @@ class GameLoop:
         self.new_direction = K_RIGHT
         self.movements = {K_UP: (0, -self.pac_man.speed), K_RIGHT: (self.pac_man.speed, 0),
                           K_DOWN: (0, self.pac_man.speed), K_LEFT: (-self.pac_man.speed, 0), K_PAUSE: (0, 0)}
-        with open("background/lvl2.txt") as f:
+        with open("background/map.txt") as f:
             lines = f.readlines()
         self.bg_matrix = lines
 
@@ -38,4 +38,4 @@ class GameLoop:
     def is_this_the_wall(self):
         x = int(self.pac_man.x/20) + 1
         y = int(self.pac_man.y/20) + 1
-        return ord(self.bg_matrix[y][x:x+1])-48 != 7
+        return 0 < ord(self.bg_matrix[y][x:x + 1]) - 48 < 7

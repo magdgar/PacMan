@@ -1,5 +1,4 @@
 import ctypes
-import os
 
 import pygame
 
@@ -13,16 +12,16 @@ from media.dirtyrect import *
 user32 = ctypes.windll.user32
 WIDTH = 1000
 HEIGHT = 600
-pos_x = WIDTH/2
-pos_y = HEIGHT/2
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (pos_x, pos_y)
+# pos_x = WIDTH/2
+#pos_y = HEIGHT/2
+#os.environ['SDL_VIDEO_WINDOW_POS'] = "%d, %d" % (pos_x, pos_y)
 BGCOLOR = (0, 0, 0)
 pygame.init()
 pygame.display.set_caption('Pac Man!')
 
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 
-pac_man = objects.pacman.PacMan(4, 4)
+pac_man = objects.pacman.PacMan(44, 44)
 game_loop = gameloop.gameloop.GameLoop(window_surface, pac_man)
 mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
