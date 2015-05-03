@@ -12,7 +12,7 @@ class GameLoop:
         self.new_direction = K_RIGHT
         self.movements = {K_UP: (0, -self.pac_man.speed), K_RIGHT: (self.pac_man.speed, 0),
                           K_DOWN: (0, self.pac_man.speed), K_LEFT: (-self.pac_man.speed, 0), K_PAUSE: (0, 0)}
-        with open("background/map.txt") as f:
+        with open("background/lvl2.txt") as f:
             lines = f.readlines()
         self.bg_matrix = lines
 

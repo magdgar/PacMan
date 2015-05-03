@@ -22,7 +22,7 @@ def proper_digit(number):
         return 0
 
 
-with open("background/map.txt") as file:
+with open("background/lvl2.txt") as file:
     array2d = [[proper_digit(digit) for digit in list(line)] for line in file]
 
 
