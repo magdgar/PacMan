@@ -36,6 +36,6 @@ class GameLoop:
                or ((self.new_direction == K_RIGHT or self.new_direction == K_LEFT) and self.pac_man.y % 20 == 0)
 
     def is_this_the_wall(self):
-        x = int(self.pac_man.x/20) + 1
-        y = int(self.pac_man.y/20) + 1
+        x = int(self.pac_man.x/20)
+        y = int(self.pac_man.y/20)
         return 0 < ord(self.bg_matrix[y][x:x + 1]) - 48 < 7
