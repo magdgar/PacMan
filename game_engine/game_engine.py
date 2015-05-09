@@ -3,12 +3,13 @@ __author__ = 'Makda'
 import sys
 import pygame
 from pygame.locals import *
+from objects.Container import *
 
 
 class GameEngine:
-    def __init__(self, window_surface, hero):
+    def __init__(self, window_surface):
         self.window_surface = window_surface
-        self.hero = hero
+        self.hero = get_object(0)
         self.direction = K_RIGHT
         self.new_direction = K_RIGHT
         self.movements = {K_UP: (0, -self.hero.speed), K_RIGHT: (self.hero.speed, 0),

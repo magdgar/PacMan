@@ -3,23 +3,22 @@ import ctypes
 import pygame
 
 import objects.pacman
-import objects.dot
 import gameloop.gameloop
 import background.background
-from media.dirtyrect import *
 import game_engine.game_engine
+from objects.Container import *
 
 user32 = ctypes.windll.user32
 WIDTH = 1000
 HEIGHT = 600
-BGCOLOR = (0, 0, 0)
 
 pygame.init()
 pygame.display.set_caption('Pac Man!')
 
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pac_man = objects.pacman.PacMan(16, 16)
-game_engine = game_engine.game_engine.GameEngine(window_surface, pac_man)
+add_object(pac_man)
+game_engine = game_engine.game_engine.GameEngine(window_surface)
 game_loop = gameloop.gameloop.GameLoop(window_surface, game_engine)
 mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
