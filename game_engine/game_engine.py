@@ -7,17 +7,14 @@ from objects.Container import *
 
 
 class GameEngine:
-    def __init__(self, window_surface, painter):
+    def __init__(self, window_surface):
         self.window_surface = window_surface
-        self.painter = painter
         with open("background/lvl2.txt") as f:
             lines = f.readlines()
         self.bg_matrix = lines
 
     def simulate_world(self, events):
-        pac_man = get_object(0)
-        self.move_hero(pac_man, events)
-        self.painter.paint(pac_man)
+        self.move_hero(get_object(0), events)   # pac_man
 
     def move_hero(self, hero, events):
         for event in events:

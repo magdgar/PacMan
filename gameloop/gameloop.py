@@ -1,4 +1,5 @@
 import painter.painter
+from objects.Container import *
 
 
 class GameLoop:
@@ -9,3 +10,4 @@ class GameLoop:
     def perform_one_cycle(self, events):
         self.painter.paint_objects()
         self.game_engine.simulate_world(events)
+        self.painter.paint(get_object(0))   # pac_man
