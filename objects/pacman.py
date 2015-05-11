@@ -4,7 +4,9 @@ from pygame.locals import *
 
 import media.sprites
 from media.dirtyrect import *
-import background
+import sys
+import pygame
+from game_engine.game_engine import *
 
 
 class PacMan:
@@ -13,12 +15,11 @@ class PacMan:
         self.y = y
         self.speed = 4
         self.animations = media.sprites.PacManAnim
+        self.direction = K_RIGHT
+        self.new_direction = K_RIGHT
+
         for key, animation in self.animations.items():
             animation.play()
-
-    def paint(self, window_surface, direction):
-        background.background.paint_background(window_surface, DIRTY_RECT[0])
-        self.animations[direction].blit(window_surface, (self.x, self.y))
 
     def move(self, d_move):
         add_dirty_rect(Rect(self.x - self.speed, self.y - self.speed, 40, 40))

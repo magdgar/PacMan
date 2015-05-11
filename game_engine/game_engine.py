@@ -7,8 +7,9 @@ from objects.Container import *
 
 
 class GameEngine:
-    def __init__(self, window_surface):
+    def __init__(self, window_surface, painter):
         self.window_surface = window_surface
+        self.painter = painter
         self.hero = get_object(0)
         self.direction = K_RIGHT
         self.new_direction = K_RIGHT
@@ -21,6 +22,7 @@ class GameEngine:
 
     def simulate_world(self, events):
         self.move_hero(events)
+        self.painter.paint(self.direction, self.hero)
 
     def move_hero(self, events):
         for event in events:
@@ -36,7 +38,6 @@ class GameEngine:
 
         if self.is_this_the_wall():
             self.hero.move((self.movements[self.direction][0] * -1, self.movements[self.direction][1] * -1))
-        self.hero.paint(self.window_surface, self.direction)
 
     def in_place_to_change_direction(self):
         return ((self.new_direction == K_UP or self.new_direction == K_DOWN) and self.hero.x % 20 == 0) \
