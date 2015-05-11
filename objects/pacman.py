@@ -1,6 +1,6 @@
 import media.sprites
 from media.dirtyrect import *
-from game_engine.game_engine import *
+from game_engine.gameengine import *
 
 
 class PacMan:
