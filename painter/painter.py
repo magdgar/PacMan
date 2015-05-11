@@ -15,6 +15,6 @@ class Painter:
         pygame.display.update(DIRTY_RECT)
         clear_dirty_rect()
 
-    def paint(self, direction, hero):
+    def paint(self, hero):
         background.background.paint_background(self.window_surface, DIRTY_RECT[0])
-        hero.animations[hero.direction].blit(self.window_surface, (hero.x, hero.y)) #only change
+        hero.animations[hero.direction].blit(self.window_surface, (hero.x, hero.y))
