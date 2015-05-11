@@ -17,4 +17,4 @@ class Painter:
 
     def paint(self, direction, hero):
         background.background.paint_background(self.window_surface, DIRTY_RECT[0])
-        hero.animations[direction].blit(self.window_surface, (hero.x, hero.y))
+        hero.animations[hero.direction].blit(self.window_surface, (hero.x, hero.y)) #only change
