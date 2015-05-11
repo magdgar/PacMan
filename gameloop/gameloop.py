@@ -1,5 +1,6 @@
 import painter.painter
-from objects.Container import *
+from media.dirtyrect import *
+from game_engine.game_engine import *
 
 
 class GameLoop:
@@ -8,6 +9,6 @@ class GameLoop:
         self.painter = painter.painter.Painter(window_surface)
 
     def perform_one_cycle(self, events):
+        add_dirty_rect(Rect(0, 0, 40, 40))
         self.painter.paint_objects()
         self.game_engine.simulate_world(events)
-        self.painter.paint(get_object(0))   # pac_man

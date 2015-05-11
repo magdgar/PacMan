@@ -1,11 +1,5 @@
-#from pygame.rect import *
-
-from pygame.locals import *
-
 import media.sprites
 from media.dirtyrect import *
-import sys
-import pygame
 from game_engine.game_engine import *
 
 
