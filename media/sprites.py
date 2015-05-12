@@ -1,6 +1,6 @@
 from pygame.locals import *
 
-from objects.Cointainer import *
+from objects.Container import *
 import media.pyganim
 
 

@@ -2,7 +2,7 @@ import pygame
 
 from media.dirtyrect import *
 import background
-from objects.container import *
+from objects.Container import *
 
 BGCOLOR = (0, 0, 0)
 

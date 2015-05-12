@@ -13,4 +13,4 @@ class Hero:
                           K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0), K_PAUSE: (0, 0)}
 
     def move(self):
-        add_dirty_rect(Rect(self.x - self.speed, self.y - self.speed, 40, 40))
+        add_dirty_rect(Rect(self.x - self.speed, self.y - self.speed, 30, 30))

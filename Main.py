@@ -7,7 +7,7 @@ import gameloop.gameloop
 import background.background
 import game_engine.gameengine
 import painter.painter
-from objects.container import *
+from objects.Container import *
 
 user32 = ctypes.windll.user32
 WIDTH = 1000
@@ -25,7 +25,7 @@ game_loop = gameloop.gameloop.GameLoop(window_surface, game_engine)
 mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
 pygame.display.update()
-pygame.image.save(window_surface, "resources/screenshot.jpeg")
+# pygame.image.save(window_surface, "resources/screenshot.jpeg")
 
 while True:
     game_loop.perform_one_cycle(pygame.event.get())

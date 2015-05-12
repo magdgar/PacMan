@@ -3,7 +3,7 @@ import sys
 import pygame
 from pygame.locals import *
 
-from objects.container import *
+from objects.Container import *
 
 
 class GameEngine:
