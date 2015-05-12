@@ -5,9 +5,9 @@ import pygame
 import objects.pacman
 import gameloop.gameloop
 import background.background
-import game_engine.game_engine
+import game_engine.gameengine
 import painter.painter
-from objects.Container import *
+from objects.container import *
 
 user32 = ctypes.windll.user32
 WIDTH = 1000
@@ -20,12 +20,12 @@ window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pac_man = objects.pacman.PacMan(16, 16)
 add_object(pac_man)
 painter = painter.painter.Painter(window_surface)
-game_engine = game_engine.game_engine.GameEngine(window_surface)
+game_engine = game_engine.gameengine.GameEngine(window_surface)
 game_loop = gameloop.gameloop.GameLoop(window_surface, game_engine)
 mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
 pygame.display.update()
-pygame.image.save(window_surface, "media/screenshot.jpeg")
+pygame.image.save(window_surface, "resources/screenshot.jpeg")
 
 while True:
     game_loop.perform_one_cycle(pygame.event.get())

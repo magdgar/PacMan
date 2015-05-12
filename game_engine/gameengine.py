@@ -1,13 +1,15 @@
 import sys
+
 import pygame
 from pygame.locals import *
-from objects.Container import *
+
+from objects.container import *
 
 
 class GameEngine:
     def __init__(self, window_surface):
         self.window_surface = window_surface
-        with open("background/lvl2.txt") as f:
+        with open("resources/lvl2.txt") as f:
             lines = f.readlines()
         self.bg_matrix = lines
 
