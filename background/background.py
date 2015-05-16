@@ -9,6 +9,7 @@ left_down_corner = pygame.image.load('resources/5.png')
 up_left_corner = pygame.image.load('resources/6.png')
 dot = pygame.image.load('resources/dot.png')
 background_image = pygame.image.load('resources/screenshot.jpeg')
+background_image_dot = pygame.image.load('resources/screenshot_dot.jpeg')
 
 walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
               4: right_down_corner, 5: left_down_corner, 6: up_left_corner,
@@ -26,5 +27,8 @@ def paint_whole_background(window_surface, map_array=array2d):
                 window_surface.blit(walls_dict[map_array[y][x]], (x * 20, y * 20))
 
 
-def repaint_fragment_of_background(window_surface, rect):
-    window_surface.blit(background_image, rect, rect)
+def repaint_fragment_of_background(window_surface, rect, is_dot):
+    if is_dot:
+        window_surface.blit(background_image_dot, rect, rect)
+    else:
+        window_surface.blit(background_image, rect, rect)

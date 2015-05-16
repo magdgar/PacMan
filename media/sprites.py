@@ -1,6 +1,5 @@
 from pygame.locals import *
 
-from objects.Container import *
 import media.pyganim
 
 
@@ -21,9 +20,15 @@ PacManAnimTop = PacManAnimDown.getCopy()
 PacManAnimTop.flip(False, True)
 PacManAnimTop.makeTransformsPermanent()
 
-PacManAnim = {}
-PacManAnim[K_UP] = PacManAnimTop
-PacManAnim[K_RIGHT] = PacManAnimRight
-PacManAnim[K_DOWN] = PacManAnimDown
-PacManAnim[K_LEFT] = PacManAnimLeft
+PacManAnim = {K_UP: PacManAnimTop, K_RIGHT: PacManAnimRight, K_DOWN: PacManAnimDown, K_LEFT: PacManAnimLeft}
 
+BlinkyAnimTop = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
+                                            ('resources/blinky_up_2.png', 0.1)])
+BlinkyAnimRight = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
+                                              ('resources/blinky_up_2.png', 0.1)])
+BlinkyAnimDown = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
+                                             ('resources/blinky_up_2.png', 0.1)])
+BlinkyAnimLeft = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
+                                             ('resources/blinky_up_2.png', 0.1)])
+
+BlinkyAnim = {K_UP: BlinkyAnimTop, K_RIGHT: BlinkyAnimRight, K_DOWN: BlinkyAnimDown, K_LEFT: BlinkyAnimLeft}

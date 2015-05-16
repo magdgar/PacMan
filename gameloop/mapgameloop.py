@@ -13,7 +13,8 @@ class GameLoop:
     def __init__(self, window_surface):
         self.window_surface = window_surface
         self.current_paint_item = MAP_DICT[K_1]
-        self.reload_map()
+        self.map_array = []
+        # self.reload_map()
 
     def handle_map_event(self, events):
         for event in events:
@@ -46,10 +47,10 @@ class GameLoop:
             for x in range(len(self.map_array[0]) - 1):
                 string += str(self.map_array[y][x])
             string += '\n'
-        with open("background/map.txt", "w") as file:
+        with open("resources/map.txt", "w") as file:
             file.write(string)
 
-    def reload_map(self):
-        with open("background/map.txt") as file:
-            self.map_array = [[proper_digit(digit) for digit in list(line)] for line in file]
-        paint_whole_background(self.window_surface, self.map_array)
+            # def reload_map(self):
+            # with open("resources/lvl2.txt") as file:
+            #       array2d = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
+            #  paint_whole_background(self.window_surface, self.map_array)
