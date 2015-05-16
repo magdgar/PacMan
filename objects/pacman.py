@@ -27,7 +27,7 @@ class PacMan(Hero):
         events = arguments[1]
         for event in events:
             if event.type == KEYDOWN:
-                hero.new_direction = event.key
+               hero.new_direction = event.key
             elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()
@@ -43,7 +43,7 @@ class PacMan(Hero):
 
     @staticmethod
     def eat_dot(hero):
-        x = round(hero.x / 20)
-        y = round(hero.y / 20)
+        x = round(hero.x/20)
+        y = round(hero.y/20)
         BG_MATRIX[y][x] = 0
 

@@ -1,3 +1,4 @@
+from pygame.constants import *
 from game_engine.gameengine import *
 
 
@@ -12,7 +13,7 @@ class Hero:
                           K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0), K_PAUSE: (0, 0)}
         add_object(self)
 
-    def move_hero(self, arguments):  # od logiki TODO
+    def move_hero(self, arguments): #od logiki TODO
         pass
 
     def move(self):
@@ -27,7 +28,7 @@ class Hero:
     def in_place_to_change_direction(hero):
         return ((hero.new_direction == K_UP or hero.new_direction == K_DOWN) and (hero.x + 2) % 20 == 0) \
                or ((hero.new_direction == K_RIGHT or hero.new_direction == K_LEFT) and (hero.y + 4) % 20 == 0) \
- \
+
     @staticmethod
     def is_this_the_wall(hero):
         if hero.x < 20:
@@ -37,4 +38,4 @@ class Hero:
         x2 = round((hero.x + 12) / 20)
         y1 = round((hero.y - 4) / 20)
         y2 = round((hero.y + 12) / 20)
-        return 0 < BG_MATRIX[y1][x1] < 7 or 0 < BG_MATRIX[y2][x2] < 7
+        return 0 < BG_MATRIX[y1][x1]  < 7 or 0 < BG_MATRIX[y2][x2] < 7

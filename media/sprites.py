@@ -24,11 +24,11 @@ PacManAnim = {K_UP: PacManAnimTop, K_RIGHT: PacManAnimRight, K_DOWN: PacManAnimD
 
 BlinkyAnimTop = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
                                             ('resources/blinky_up_2.png', 0.1)])
-BlinkyAnimRight = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
-                                              ('resources/blinky_up_2.png', 0.1)])
-BlinkyAnimDown = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
-                                             ('resources/blinky_up_2.png', 0.1)])
-BlinkyAnimLeft = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
-                                             ('resources/blinky_up_2.png', 0.1)])
+BlinkyAnimRight = media.pyganim.PygAnimation([('resources/blinky_right_1.png', 0.1),
+                                            ('resources/blinky_right_2.png', 0.1)])
+BlinkyAnimDown = media.pyganim.PygAnimation([('resources/blinky_down_1.png', 0.1),
+                                            ('resources/blinky_down_2.png', 0.1)])
+BlinkyAnimLeft = media.pyganim.PygAnimation([('resources/blinky_left_1.png', 0.1),
+                                            ('resources/blinky_left_2.png', 0.1)])
 
 BlinkyAnim = {K_UP: BlinkyAnimTop, K_RIGHT: BlinkyAnimRight, K_DOWN: BlinkyAnimDown, K_LEFT: BlinkyAnimLeft}

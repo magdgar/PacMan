@@ -4,6 +4,7 @@ from pacfunctions.paclogic import *
 
 
 def get_next_direction(point_from, point_to):
+
     shortest_way_list = shortest_way(point_from, point_to)
     return change_to_direction(point_from, shortest_way_list[0])
 

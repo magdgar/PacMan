@@ -59,6 +59,7 @@ def valid_value(point):
 
 
 def to_path_array():
+
     for y in range(len(path_array)):
         for x in range(len(path_array[0])):
             if path_array_copy[y][x] != 0:
