@@ -29,16 +29,8 @@ class PacMan(Hero):
             elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-
-        if self.in_place_to_change_direction(self):
-            self.direction = self.new_direction
-
+        super().move_hero()
         self.eat_dot(self)
-        self.move()
-
-        if self.is_this_the_wall(self):
-            print(self.x)
-            self.go_back()
 
     @staticmethod
     def eat_dot(hero):

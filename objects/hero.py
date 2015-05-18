@@ -13,8 +13,13 @@ class Hero:
                           K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0), K_PAUSE: (0, 0)}
         add_object(self)
 
-    def move_hero(self, arguments): #od logiki TODO
-        pass
+    def move_hero(self):
+        if self.in_place_to_change_direction(self):
+            self.direction = self.new_direction
+        self.move()
+
+        if self.is_this_the_wall(self):
+            self.go_back()
 
     def move(self):
         self.x += self.movements[self.direction][0]
@@ -26,8 +31,10 @@ class Hero:
 
     @staticmethod
     def in_place_to_change_direction(hero):
-        return ((hero.new_direction == K_UP or hero.new_direction == K_DOWN) and (hero.x + 2) % 20 == 0) \
-               or ((hero.new_direction == K_RIGHT or hero.new_direction == K_LEFT) and (hero.y + 4) % 20 == 0) \
+        direction = hero.new_direction
+        return ((direction == K_UP or direction == K_DOWN) and (hero.x + 2) % 20 == 0) \
+               or ((direction == K_RIGHT or direction == K_LEFT) and (hero.y + 4) % 20 == 0) \
+
 
     @staticmethod
     def is_this_the_wall(hero):

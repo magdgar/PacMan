@@ -21,11 +21,12 @@ class Blinky(Hero):
         add_dirty_rect(PacDirtyRect(Rect(self.x - self.speed, self.y - self.speed, 30, 31), self.is_dot_at_field()))
 
     def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
-        self.new_direction = get_next_direction((round(self.y / 20), round(self.x / 20)),
-                                            (round(get_object(0).y / 20), round(get_object(0).x / 20)))
-        if self.in_place_to_change_direction(self):
-            self.direction = self.new_direction
-        self.move()
+        x = round(self.x / 20)
+        y = round(self.y / 20)
+        pac_x = round(get_object(0).x / 20)
+        pac_y = round(get_object(0).y / 20)
+        self.new_direction = get_next_direction((y, x), (pac_y, pac_x))
+        super().move_hero()
 
     def is_dot_at_field(self):
         return BG_MATRIX[round(self.y / 20)][round(self.x / 20)] == 7
