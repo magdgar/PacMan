@@ -25,7 +25,7 @@ class PacMan(Hero):
         events = arguments[0]
         for event in events:
             if event.type == KEYDOWN:
-               self.new_direction = event.key
+                self.new_direction = event.key
             elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()

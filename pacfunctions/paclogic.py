@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 
-with open("C:/Users/Maciek/PacMan/pacfunctions/lvl2.txt") as file:
+with open("pacfunctions/lvl2.txt") as file:
     path_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
     path_array_copy = deepcopy(path_array)
 
