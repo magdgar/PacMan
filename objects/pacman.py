@@ -22,24 +22,23 @@ class PacMan(Hero):
         add_dirty_rect(PacDirtyRect(Rect(self.x - self.speed, self.y - self.speed, 30, 35), False))
 
     def move_hero(self, arguments):
-
-        hero = arguments[0]
-        events = arguments[1]
+        events = arguments[0]
         for event in events:
             if event.type == KEYDOWN:
-               hero.new_direction = event.key
+               self.new_direction = event.key
             elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()
 
-        if self.in_place_to_change_direction(hero):
-            hero.direction = hero.new_direction
+        if self.in_place_to_change_direction(self):
+            self.direction = self.new_direction
 
         self.eat_dot(self)
-        hero.move()
+        self.move()
 
-        if self.is_this_the_wall(hero):
-            hero.go_back()
+        if self.is_this_the_wall(self):
+            print(self.x)
+            self.go_back()
 
     @staticmethod
     def eat_dot(hero):

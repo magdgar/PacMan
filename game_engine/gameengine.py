@@ -11,5 +11,5 @@ class GameEngine:
 
     def simulate_world(self, events):
         for hero in get_objects():
-            hero.move_hero([hero, events])
+            hero.move_hero([events])
 
