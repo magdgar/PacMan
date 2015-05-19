@@ -31,6 +31,16 @@ class Hero:
         self.y -= self.movements[self.direction][1]
         self.area_rect.move_ip(-self.movements[self.direction][0], -self.movements[self.direction][1])
 
+    def get_proper_random_direction(self):
+        if not self.is_this_the_wall(K_UP):
+            return K_UP
+        elif not self.is_this_the_wall(K_RIGHT):
+            return K_RIGHT
+        elif not self.is_this_the_wall(K_DOWN):
+            return K_DOWN
+        elif not self.is_this_the_wall(K_LEFT):
+            return K_LEFT
+
     def in_place_to_change_direction(self):
         return RECT_MATRIX.is_at_direction_change_place(self.area_rect)
 

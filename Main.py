@@ -18,7 +18,7 @@ pygame.display.set_caption('Pac Man!')
 
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pac_man = PacMan(37, 17)
-blinky = Blinky(397, 97)
+blinky = Blinky(417, 397)
 painter = painter.painter.Painter(window_surface)
 game_engine = game_engine.gameengine.GameEngine(window_surface)
 game_loop = gameloop.gameloop.GameLoop(window_surface, game_engine)
