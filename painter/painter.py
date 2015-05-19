@@ -16,7 +16,7 @@ class Painter:
         for pac_dirty_rect in DIRTY_RECT:
             background.background.repaint_fragment_of_background(self.window_surface, pac_dirty_rect.dirty_rect, pac_dirty_rect.dot)
         for hero in get_objects():
-            hero.animations[hero.direction].blit(self.window_surface, (hero.x, hero.y + 1))
+            hero.animations[hero.direction].blit(self.window_surface, (hero.x, hero.y))
         for pac_dirty_rect in DIRTY_RECT:
             pygame.display.update(pac_dirty_rect.dirty_rect)
         clear_dirty_rect()
