@@ -3,19 +3,19 @@ from pygame.rect import Rect
 from game_engine.gameengine import *
 from media.matrix import RectMatrix
 
-RECT_MATRIX = RectMatrix(BG_MATRIX)
+RECT_MATRIX = RectMatrix(BG_MATRIX) #static field to all hero object
 class Hero:
 
     def __init__(self, x, y):
-        self.x = x
-        self.y = y
+        self.map_point = (y, x) #cooridnates on map.txt
+        self.x = x * 20 - 3 # coordinates used to paint object
+        self.y = y * 20 - 3
         self.speed = 2
-        self.area_rect = Rect(x + 3, y + 3, 20, 20)
+        self.area_rect = Rect(self.x + 3, self.y + 3, 20, 20)
         self.direction = K_DOWN
         self.new_direction = K_DOWN
         self.movements = {K_UP: (0, -self.speed), K_RIGHT: (self.speed, 0),
-                          K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0),
-                          K_PAUSE: (0, 0), K_BREAK: (0, 0)}
+                          K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0)}
         add_object(self)
 
     def move_hero(self, arguments): #od logiki TODO
@@ -44,6 +44,7 @@ class Hero:
     def in_place_to_change_direction(self):
         return RECT_MATRIX.is_at_direction_change_place(self.area_rect)
 
+    #checks if next point with givien direction to current hero map_point have wall on it
     def is_this_the_wall(self, direction):
         return RECT_MATRIX.is_this_the_wall(self.area_rect, (int(self.movements[direction][0]/self.speed),
                                                              int(self.movements[direction][1]/self.speed)))

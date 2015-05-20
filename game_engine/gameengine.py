@@ -9,8 +9,8 @@ class GameEngine:
     def __init__(self, window_surface):
         self.window_surface = window_surface
 
-
-    def simulate_world(self, events):
+    @staticmethod
+    def simulate_world(events):
         for hero in get_objects():
             hero.move_hero([events])
 

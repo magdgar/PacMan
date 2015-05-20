@@ -13,18 +13,17 @@ class RectMatrix:
                     return True
         return False
 
-    def is_dot_at_field(self, rect):
-        for y in range(len(self.matrix)):
-            for x in range(len(self.matrix[0])):
-                if self.matrix[y][x][0].contains(rect):
-                    return self.matrix[y][x][1] == 7
-        return False
+    def is_dot_at_field(self, map_point):
+        return self.matrix[map_point[0]][map_point[1]][1] == 7
 
-    def eat_dot(self, rect):
+    def get_map_point(self, rect):
         for y in range(len(self.matrix)):
             for x in range(len(self.matrix[0])):
                 if self.matrix[y][x][0].contains(rect):
-                    self.matrix[y][x][1] = 0
+                    return y, x
+
+    def eat_dot(self, map_point):
+        self.matrix[map_point[0]][map_point[1]][1] = 0
 
     def is_this_the_wall(self, rect, alter):
         for y in range(len(self.matrix)):

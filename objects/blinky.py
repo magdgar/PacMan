@@ -25,11 +25,11 @@ class Blinky(Hero):
     def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
 
         if self.in_place_to_change_direction():
+            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()
             if self.change_direction_counter % self.stupidity == 0:
                 self.change_direction_counter = 1
-                self.new_directions = get_next_directions((round(self.y / 20), round(self.x / 20)),
-                                                    (round(get_object(0).y / 20), round(get_object(0).x / 20)))
+                self.new_directions = get_next_directions(self.map_point, get_object(0).map_point)
                 self.direction = self.new_directions[0]
             else:
                 if self.change_direction_counter < len(self.new_directions):
@@ -41,4 +41,4 @@ class Blinky(Hero):
         self.move()
 
     def is_dot_at_field(self):
-        return RECT_MATRIX.is_dot_at_field(self.area_rect)
+        return RECT_MATRIX.is_dot_at_field(self.map_point)
