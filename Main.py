@@ -25,7 +25,7 @@ game_loop = gameloop.gameloop.GameLoop(window_surface, game_engine)
 mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
 pygame.display.update()
-#pygame.image.save(window_surface, "resources/screenshot_dot.jpeg")
+# pygame.image.save(window_surface, "resources/screenshot_dot.jpeg")
 print([item for sublist in [[1], [1, 2, 3]] for item in sublist])
 print(Rect(100, 100, 20, 20).contains(105, 105, 10, 10))
 while True:

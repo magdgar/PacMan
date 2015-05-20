@@ -15,7 +15,7 @@ walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
               4: right_down_corner, 5: left_down_corner, 6: up_left_corner,
               7: dot, 0: blank_piece}
 
-with open("resources/lvl2.txt") as file:
+with open("resources/map.txt") as file:
     array2d = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 
