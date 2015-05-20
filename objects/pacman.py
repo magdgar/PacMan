@@ -42,4 +42,3 @@ class PacMan(Hero):
     def eat_dot(self):
         RECT_MATRIX.eat_dot(self.map_point)
 
-

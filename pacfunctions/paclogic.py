@@ -66,5 +66,3 @@ def to_path_array():
                 path_array[y][x] = '*'
             else:
                 path_array[y][x] = 0
-
-

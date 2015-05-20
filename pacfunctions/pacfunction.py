@@ -9,7 +9,6 @@ def get_next_directions(point_from, point_to):
         directions.append(change_to_direction(shortest_way_list[n], shortest_way_list[n+1]))
     return directions
 
-
 def change_to_direction(point_from, next_point):
     if point_from[0] < next_point[0]:
         return K_DOWN
@@ -19,4 +18,3 @@ def change_to_direction(point_from, next_point):
         return K_UP
     elif point_from[1] > next_point[1]:
         return K_LEFT
-
