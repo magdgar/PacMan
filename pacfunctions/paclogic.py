@@ -18,7 +18,7 @@ def shortest_way(place_from, place_to, road_value=0):
 
 
 def colect_way_back(place_to, road_value):
-    road_back = []
+    road_back = [place_to]
     while road_value > 0:
         for point in road_neighbour(place_to):
             if path_array[point[0]][point[1]] == road_value:
