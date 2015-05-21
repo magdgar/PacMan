@@ -5,6 +5,8 @@ from pygame.rect import Rect
 
 from objects.pacman import PacMan
 from objects.blinky import Blinky
+from objects.pinky import Pinky
+from objects.inky import Inky
 from objects.clyde import Clyde
 import gameloop.gameloop
 import background.background
@@ -20,7 +22,9 @@ pygame.display.set_caption('Pac Man!')
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 pac_man = PacMan(2, 1)
 blinky = Blinky(21, 20)
-clyde = Clyde(10, 2)
+# pinky = Pinky(15, 14)
+# inky = Inky(21, 20)
+# clyde = Clyde(15, 14)
 painter = painter.painter.Painter(window_surface)
 game_engine = game_engine.gameengine.GameEngine(window_surface)
 game_loop = gameloop.gameloop.GameLoop(window_surface, game_engine)
