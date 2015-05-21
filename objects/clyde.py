@@ -1,36 +1,13 @@
-from pygame.rect import Rect
 from objects.container import get_object
+from objects.hero import RECT_MATRIX
 from pacfunctions.pacfunction import get_next_directions
 import media
-from media.dirtyrect import add_dirty_rect, PacDirtyRect
-from objects.hero import Hero, RECT_MATRIX
+from objects.ghost import Ghost
 
 
-class Clyde(Hero):
+class Clyde(Ghost):
     def __init__(self, x, y):
-        super().__init__(x, y)
-        self.is_dot = True
-        self.animations = media.sprites.ClydeAnim
-        self.change_direction_counter = 1
-        self.stupidity = 6
-        self.new_directions = self.get_directions()
-        for key, animation in self.animations.items():
-            animation.play()
-
-    def move(self):
-        super().move()
-        add_dirty_rect(PacDirtyRect(Rect(self.x, self.y, 26, 26), self.is_dot))
-
-    def get_directions(self):
-        directions_to_pacman = get_next_directions((round(self.y / 20), round(self.x / 20)),
-                                                    (round(get_object(0).y / 20), round(get_object(0).x / 20)))
-        directions_to_left_corner = get_next_directions((round(self.y / 20), round(self.x / 20)), (27, 1))
-        if len(directions_to_pacman) <= 8:
-            self.stupidity = len(directions_to_left_corner)
-            return directions_to_left_corner
-        else:
-            self.stupidity = 6
-            return directions_to_pacman
+        super().__init__(x, y, media.sprites.ClydeAnim)
 
     def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
 
@@ -47,8 +24,14 @@ class Clyde(Hero):
                 else:
                     self.direction = self.get_proper_random_direction()
                 self.change_direction_counter += 1
+        super().move()
 
-        self.move()
-
-    def is_dot_at_field(self):
-        return RECT_MATRIX.is_dot_at_field(self.map_point)
+    def get_directions(self):
+        directions_to_pacman = get_next_directions(self.map_point, get_object(0).map_point)
+        directions_to_left_corner = get_next_directions(self.map_point, (27, 1))
+        if len(directions_to_pacman) <= 8:
+            self.stupidity = len(directions_to_left_corner)
+            return directions_to_left_corner
+        else:
+            self.stupidity = 6
+            return directions_to_pacman
