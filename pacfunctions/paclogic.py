@@ -1,5 +1,5 @@
 from copy import deepcopy
-
+from pygame.constants import *
 
 with open("pacfunctions/map.txt") as file:
     path_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
@@ -57,12 +57,22 @@ def valid_coord(point):
 def valid_value(point):
     return path_array[point[0]][point[1]] == 0
 
+def change_to_direction(point_from, next_point):
+    if point_from[0] < next_point[0]:
+        return K_DOWN
+    elif point_from[1] < next_point[1]:
+        return K_RIGHT
+    elif point_from[0] > next_point[0]:
+        return K_UP
+    elif point_from[1] > next_point[1]:
+        return K_LEFT
 
 def to_path_array():
-
     for y in range(len(path_array)):
         for x in range(len(path_array[0])):
             if path_array_copy[y][x] != 7 and path_array_copy[y][x] != 0:
                 path_array[y][x] = '*'
             else:
                 path_array[y][x] = 0
+
+

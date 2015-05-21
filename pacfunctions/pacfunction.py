@@ -9,12 +9,15 @@ def get_next_directions(point_from, point_to):
         directions.append(change_to_direction(shortest_way_list[n], shortest_way_list[n+1]))
     return directions
 
-def change_to_direction(point_from, next_point):
-    if point_from[0] < next_point[0]:
-        return K_DOWN
-    elif point_from[1] < next_point[1]:
-        return K_RIGHT
-    elif point_from[0] > next_point[0]:
-        return K_UP
-    elif point_from[1] > next_point[1]:
-        return K_LEFT
+def add_points(point, second_point):
+    return point[0] + second_point[0], point[1] + second_point[1]
+
+def next_point_in_direction(point, direction):
+    if direction == K_UP:
+        return add_points(point, (0, - 1))
+    elif direction == K_RIGHT:
+        return add_points(point, (1, 0))
+    elif direction == K_DOWN:
+        return add_points(point, (0, 1))
+    elif direction == K_LEFT:
+        return add_points(point, (- 1, 1))

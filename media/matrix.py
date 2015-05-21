@@ -16,6 +16,9 @@ class RectMatrix:
     def is_dot_at_field(self, map_point):
         return self.matrix[map_point[0]][map_point[1]][1] == 7
 
+    def is_wall_at_field(self, map_point):
+        return 0 < self.matrix[map_point[0]][map_point[1]][1] < 7
+
     def get_map_point(self, rect):
         for y in range(len(self.matrix)):
             for x in range(len(self.matrix[0])):

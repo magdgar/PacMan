@@ -8,6 +8,7 @@ import media.sprites
 from objects.hero import Hero, RECT_MATRIX
 from game_engine.gameengine import BG_MATRIX
 from media.dirtyrect import PacDirtyRect
+from pacfunctions.pacfunction import next_point_in_direction
 
 
 class PacMan(Hero):
@@ -42,3 +43,8 @@ class PacMan(Hero):
     def eat_dot(self):
         RECT_MATRIX.eat_dot(self.map_point)
 
+    def pac_man_direction_point(self):
+        pac_point = self.map_point
+        while not RECT_MATRIX.is_wall_at_field(next_point_in_direction(pac_point, self.direction)):
+            pac_point = next_point_in_direction(pac_point, self.direction)
+        return pac_point

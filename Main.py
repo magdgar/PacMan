@@ -2,15 +2,15 @@ import ctypes
 
 import pygame
 from pygame.rect import Rect
+from objects.inky import Inky
 
 from objects.pacman import PacMan
 from objects.blinky import Blinky
-from objects.pinky import Pinky
-from objects.inky import Inky
 from objects.clyde import Clyde
 import gameloop.gameloop
 import background.background
 import game_engine.gameengine
+from objects.pinky import Pinky
 import painter.painter
 
 user32 = ctypes.windll.user32
@@ -32,9 +32,7 @@ mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
 pygame.display.update()
 # pygame.image.save(window_surface, "resources/screenshot_dot.jpeg")
-print([item for sublist in [[1], [1, 2, 3]] for item in sublist])
-print(Rect(100, 100, 20, 20).contains(105, 105, 10, 10))
-#print(get_next_directions((1, 1), (11, 12)))
+
 
 while True:
     game_loop.perform_one_cycle(pygame.event.get())
