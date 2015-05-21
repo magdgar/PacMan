@@ -1,6 +1,7 @@
 import ctypes
 
 import pygame
+from pygame.constants import K_UP
 from pygame.rect import Rect
 from objects.inky import Inky
 
@@ -11,6 +12,7 @@ import gameloop.gameloop
 import background.background
 import game_engine.gameengine
 from objects.pinky import Pinky
+from pacfunctions.pacfunction import negative_direction
 import painter.painter
 
 user32 = ctypes.windll.user32
@@ -20,7 +22,7 @@ pygame.init()
 pygame.display.set_caption('Pac Man!')
 
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
-pac_man = PacMan(13, 21)
+pac_man = PacMan(1, 1)
 blinky = Blinky(13, 11)
 pinky = Pinky(15, 14)
 inky = Inky(21, 20)
@@ -32,7 +34,7 @@ mainClock = pygame.time.Clock()
 background.background.paint_whole_background(window_surface)
 pygame.display.update()
 # pygame.image.save(window_surface, "resources/screenshot_dot.jpeg")
-
+negative_direction(K_UP)
 
 while True:
     game_loop.perform_one_cycle(pygame.event.get())

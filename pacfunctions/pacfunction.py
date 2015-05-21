@@ -14,10 +14,22 @@ def add_points(point, second_point):
 
 def next_point_in_direction(point, direction):
     if direction == K_UP:
-        return add_points(point, (0, - 1))
+        return add_points(point, (-1, 0))
     elif direction == K_RIGHT:
-        return add_points(point, (1, 0))
-    elif direction == K_DOWN:
         return add_points(point, (0, 1))
+    elif direction == K_DOWN:
+        return add_points(point, (1, 0))
     elif direction == K_LEFT:
-        return add_points(point, (- 1, 1))
+        return add_points(point, (0, -1))
+
+
+def negative_direction(direction):
+    if direction == K_UP:
+        return K_DOWN
+    elif direction == K_RIGHT:
+        return K_LEFT
+    elif direction == K_DOWN:
+        return K_UP
+    elif direction == K_LEFT:
+        return K_RIGHT
+

@@ -1,4 +1,6 @@
+from pygame.constants import *
 from pygame.rect import Rect
+from pacfunctions.pacfunction import add_points, negative_direction
 
 
 class RectMatrix:
@@ -39,4 +41,15 @@ class RectMatrix:
             for x in range(len(self.matrix[0])):
                 if self.matrix[y][x][0].contains(rect):
                     return self.matrix[y][x][0]
+
+    def get_proper_random_direction(self, point, direction):
+        if not self.is_wall_at_field(add_points(point, (-1, 0))) and K_UP != negative_direction(direction):
+            return K_UP
+        elif not self.is_wall_at_field(add_points(point, (0, 1))) and K_RIGHT != negative_direction(direction):
+            return K_RIGHT
+        elif not self.is_wall_at_field(add_points(point, (1, 0))) and K_DOWN != negative_direction(direction):
+            return K_DOWN
+        elif not self.is_wall_at_field(add_points(point, (0, -1))) and K_LEFT != negative_direction(direction):
+            return K_LEFT
+
 

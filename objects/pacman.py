@@ -1,3 +1,4 @@
+from copy import deepcopy
 import sys
 
 import pygame
@@ -43,8 +44,16 @@ class PacMan(Hero):
     def eat_dot(self):
         RECT_MATRIX.eat_dot(self.map_point)
 
-    def pac_man_direction_point(self):
+    def predicted_pac_man_point(self, steps_to_predict):
         pac_point = self.map_point
-        while not RECT_MATRIX.is_wall_at_field(next_point_in_direction(pac_point, self.direction)):
-            pac_point = next_point_in_direction(pac_point, self.direction)
+        pac_direction = deepcopy(self.direction)
+        while steps_to_predict > 0:
+
+            if not RECT_MATRIX.is_wall_at_field(next_point_in_direction(pac_point, pac_direction)):
+                pac_point = next_point_in_direction(pac_point, pac_direction)
+            else:
+                pac_direction = RECT_MATRIX.get_proper_random_direction(pac_point, pac_direction)
+                print(pac_direction)
+                pac_point = next_point_in_direction(pac_point, pac_direction)
+            steps_to_predict -= 1
         return pac_point
