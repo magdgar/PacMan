@@ -12,8 +12,8 @@ class Hero:
         self.y = y * 20 - 3
         self.speed = 2
         self.area_rect = Rect(self.x + 3, self.y + 3, 20, 20)
-        self.direction = K_DOWN
-        self.new_direction = K_DOWN
+        self.direction = K_RIGHT
+        self.new_direction = K_RIGHT
         self.movements = {K_UP: (0, -self.speed), K_RIGHT: (self.speed, 0),
                           K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0)}
         add_object(self)
