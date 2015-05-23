@@ -11,11 +11,14 @@ from game_engine.gameengine import BG_MATRIX
 from media.dirtyrect import PacDirtyRect
 from pacfunctions.pacfunction import next_point_in_direction
 
-
 class PacMan(Hero):
+
     def __init__(self, x, y):
         super().__init__(x, y)
         self.animations = media.sprites.PacManAnim
+        self.react_cases = {"DEATH": self.die, "RESPAWN" : self.respawn}
+        self.alive = True
+        self.lives_left = 3
         for key, animation in self.animations.items():
             animation.play()
 
@@ -53,7 +56,16 @@ class PacMan(Hero):
                 pac_point = next_point_in_direction(pac_point, pac_direction)
             else:
                 pac_direction = RECT_MATRIX.get_proper_random_direction(pac_point, pac_direction)
-                print(pac_direction)
                 pac_point = next_point_in_direction(pac_point, pac_direction)
             steps_to_predict -= 1
         return pac_point
+
+    def die(self):
+        for key, animation in self.animations.items():
+            animation.stop()
+        #self.animations = media.sprites.DeathAnim
+    def respawn(self):
+        self.alive = True
+        for key, animation in self.animations.items():
+            animation.play()
+

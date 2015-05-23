@@ -1,12 +1,14 @@
 from pygame.constants import *
 from pygame.rect import Rect
+from events.eventobserver import EventObserver
 from game_engine.gameengine import *
 from media.matrix import RectMatrix
 
 RECT_MATRIX = RectMatrix(BG_MATRIX) #static field to all hero object
-class Hero:
+class Hero(EventObserver):
 
     def __init__(self, x, y):
+        super().__init__()
         self.map_point = (y, x) #cooridnates on map.txt
         self.x = x * 20 - 3 # coordinates used to paint object
         self.y = y * 20 - 3

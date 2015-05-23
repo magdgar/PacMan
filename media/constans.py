@@ -1,0 +1,2 @@
+FIELD_SIZE = 20
+

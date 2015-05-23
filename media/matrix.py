@@ -2,11 +2,19 @@ from pygame.constants import *
 from pygame.rect import Rect
 from pacfunctions.pacfunction import add_points, negative_direction
 
-
 class RectMatrix:
     def __init__(self, map_array):
         self.matrix = [[[Rect(x * 20, y * 20, 20, 20), map_array[y][x]]
                         for x in range(len(map_array[0]))] for y in range(len(map_array))]
+        self.remain_dots = self.count_dots()
+
+    def count_dots(self):
+        dot_counter = 0
+        for y in range(len(self.matrix)):
+            for x in range(len(self.matrix[0])):
+                if self.matrix[y][x][1] == 7:
+                    dot_counter += 1
+        return dot_counter
 
     def is_at_direction_change_place(self, rect):
         for y in range(len(self.matrix)):
@@ -28,7 +36,12 @@ class RectMatrix:
                     return y, x
 
     def eat_dot(self, map_point):
+        if self.matrix[map_point[0]][map_point[1]][1] == 7:
+            self.remain_dots -= 1
         self.matrix[map_point[0]][map_point[1]][1] = 0
+
+    def is_game_won(self):
+        return self.remain_dots == 0
 
     def is_this_the_wall(self, rect, alter):
         for y in range(len(self.matrix)):
