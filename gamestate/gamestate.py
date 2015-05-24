@@ -11,7 +11,7 @@ class GameState(EventObserver):
         self.lives_left = 3
 
     def pacman_die(self):
-        print("JESTEM TUTAJ")
+        # print("JESTEM TUTAJ")
         self.lives_left -= 1
         if self.lives_left == 0:
             add_event("GAME_OVER")

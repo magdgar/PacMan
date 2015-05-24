@@ -64,6 +64,7 @@ class PacMan(Hero):
         for key, animation in self.animations.items():
             animation.stop()
         #self.animations = media.sprites.DeathAnim
+
     def respawn(self):
         self.alive = True
         for key, animation in self.animations.items():

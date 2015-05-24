@@ -8,7 +8,6 @@ class GameLoop:
         self.painter = painter.painter.Painter(window_surface)
         self.game_state = GameState()
 
-
     def perform_one_cycle(self, events):
         self.game_engine.simulate_world(events)
         self.painter.paint_objects()
