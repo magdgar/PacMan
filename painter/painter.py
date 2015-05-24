@@ -25,5 +25,8 @@ class Painter(EventObserver):
         clear_dirty_rect()
 
     def paint_game_over(self):
-        pygame.Surface.blit(self.window_surface, pygame.image.load('C:/Users/Maciek/PacMan/resources/inky_down_1.png'), (100, 100))
+        pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (200, 260))
+        for object in get_objects():
+            for key, animation in object.animations.items():
+                animation.stop()
         pygame.display.update()

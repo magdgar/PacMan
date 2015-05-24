@@ -17,6 +17,7 @@ class Blinky(Ghost):
             if self.change_direction_counter % self.stupidity == 0:
                 self.change_direction_counter = 1
                 self.new_directions = get_next_directions(self.map_point, get_object(0).map_point)
+                # self.has_catched_pacman(self.new_directions)
                 self.direction = self.new_directions[0]
             else:
                 if self.change_direction_counter < len(self.new_directions):
