@@ -1,5 +1,5 @@
 from objects.Container import get_objects
-GAME_EVENTS = {"DEATH": 80, "GAME_OVER": 10, "RESPAWN" : 1}
+GAME_EVENTS = {"DEATH": 60, "GAME_OVER": 10, "RESPAWN" : 1}
 EVENTS = []
 
 

@@ -10,20 +10,18 @@ from objects.clyde import Clyde
 from objects.Container import del_objects
 from objects.pacman import PacMan
 from objects.pinky import Pinky
-from painter.painter import Painter
-with open("resources/map.txt") as file:
-    array2d = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 class Game(EventObserver):
     def __init__(self, window_surface):
         super().__init__()
         self.react_cases = {"RESPAWN" : self.respawn}
         self.window_surface = window_surface
-        reset_objects()
         self.paused = False
         self.game_state = GameState()
         self.game_loop = GameLoop(window_surface, GameEngine(window_surface), self)
         self.mainClock = pygame.time.Clock()
+
+        reset_objects()
         self.start_game()
 
     def start_game(self):
@@ -33,6 +31,7 @@ class Game(EventObserver):
 
     def respawn(self):
         reset_objects()
+
 
 def reset_objects():
     del_objects()
