@@ -33,3 +33,7 @@ def negative_direction(direction):
     elif direction == K_LEFT:
         return K_RIGHT
 
+def as_a_grid(alist, blist):
+    for i in range(len(alist)):
+        for j in range(len(alist[i])):
+            yield(i, j)

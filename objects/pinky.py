@@ -1,6 +1,6 @@
 from pygame.constants import K_DOWN, K_UP
 from objects.ghost import Ghost
-from objects.container import get_object
+from objects.Container import get_object
 from pacfunctions.pacfunction import get_next_directions, next_point_in_direction
 import media
 from objects.hero import Hero, RECT_MATRIX

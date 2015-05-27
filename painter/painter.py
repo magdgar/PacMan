@@ -1,9 +1,10 @@
 import pygame
+from background.background import paint_whole_background
 from events.eventobserver import EventObserver
 
 from media.dirtyrect import *
 import background
-from objects.container import *
+from objects.Container import *
 
 BGCOLOR = (0, 0, 0)
 
@@ -14,6 +15,8 @@ class Painter(EventObserver):
         self.react_cases = {"GAME_OVER": self.paint_game_over}
         self.window_surface = window_surface
         self.window_surface.fill(BGCOLOR)
+        paint_whole_background(window_surface)
+        pygame.display.update()
 
     def paint_objects(self):
         for pac_dirty_rect in DIRTY_RECT:

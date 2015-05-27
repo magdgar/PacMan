@@ -1,6 +1,7 @@
 from pygame.constants import *
-from pygame.rect import Rect
-from pacfunctions.pacfunction import add_points, negative_direction
+from pygame.rect import *
+from pacfunctions.pacfunction import add_points, negative_direction, as_a_grid
+
 
 class RectMatrix:
     def __init__(self, map_array):
@@ -10,17 +11,15 @@ class RectMatrix:
 
     def count_dots(self):
         dot_counter = 0
-        for y in range(len(self.matrix)):
-            for x in range(len(self.matrix[0])):
-                if self.matrix[y][x][1] == 7:
-                    dot_counter += 1
+        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+            if self.matrix[y][x][1] == 7:
+                dot_counter += 1
         return dot_counter
 
     def is_at_direction_change_place(self, rect):
-        for y in range(len(self.matrix)):
-            for x in range(len(self.matrix[0])):
-                if self.matrix[y][x][0].contains(rect):
-                    return True
+        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+            if self.matrix[y][x][0].contains(rect):
+                return True
         return False
 
     def is_dot_at_field(self, map_point):
@@ -30,10 +29,9 @@ class RectMatrix:
         return 0 < self.matrix[map_point[0]][map_point[1]][1] < 7
 
     def get_map_point(self, rect):
-        for y in range(len(self.matrix)):
-            for x in range(len(self.matrix[0])):
-                if self.matrix[y][x][0].contains(rect):
-                    return y, x
+        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+            if self.matrix[y][x][0].contains(rect):
+                return y, x
 
     def eat_dot(self, map_point):
         if self.matrix[map_point[0]][map_point[1]][1] == 7:
@@ -43,17 +41,16 @@ class RectMatrix:
     def is_game_won(self):
         return self.remain_dots == 0
 
+
     def is_this_the_wall(self, rect, alter):
-        for y in range(len(self.matrix)):
-            for x in range(len(self.matrix[0])):
-                if self.matrix[y][x][0].contains(rect):
-                    return 0 < self.matrix[y + alter[1]][x + alter[0]][1] < 7
+        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+            if self.matrix[y][x][0].contains(rect):
+                return 0 < self.matrix[y + alter[1]][x + alter[0]][1] < 7
 
     def get_rect(self, rect):
-        for y in range(len(self.matrix)):
-            for x in range(len(self.matrix[0])):
-                if self.matrix[y][x][0].contains(rect):
-                    return self.matrix[y][x][0]
+        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+            if self.matrix[y][x][0].contains(rect):
+                return self.matrix[y][x][0]
 
     def get_proper_random_direction(self, point, direction):
         if not self.is_wall_at_field(add_points(point, (-1, 0))) and K_UP != negative_direction(direction):

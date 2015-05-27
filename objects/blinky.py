@@ -1,5 +1,5 @@
 from objects.ghost import Ghost
-from objects.container import get_object
+from objects.Container import get_object
 from objects.hero import RECT_MATRIX
 from pacfunctions.pacfunction import get_next_directions
 import media

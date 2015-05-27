@@ -16,10 +16,24 @@ PacManAnimDown = media.pyganim.PygAnimation([('resources/PacMan4.png', 0.1),
                                              ('resources/PacMan6.png', 0.1),
                                              ('resources/PacMan5.png', 0.1)])
 
+PacManDeathAnim = media.pyganim.PygAnimation([('resources/pac_death_0.png', 0.1),
+                                              ('resources/pac_death_1.png', 0.1),
+                                              ('resources/pac_death_2.png', 0.1),
+                                              ('resources/pac_death_3.png', 0.1),
+                                              ('resources/pac_death_4.png', 0.1),
+                                              ('resources/pac_death_5.png', 0.1),
+                                              ('resources/pac_death_6.png', 0.1),
+                                              ('resources/pac_death_7.png', 0.1),
+                                              ('resources/pac_death_8.png', 0.1),
+                                              ('resources/pac_death_9.png', 0.1),
+                                              ('resources/pac_death_10.png', 0.1)])
+
+
+
 PacManAnimTop = PacManAnimDown.getCopy()
 PacManAnimTop.flip(False, True)
 PacManAnimTop.makeTransformsPermanent()
-PacManAnim = {K_UP: PacManAnimTop, K_RIGHT: PacManAnimRight, K_DOWN: PacManAnimDown, K_LEFT: PacManAnimLeft}
+PacManAnim = {K_UP: PacManAnimTop, K_RIGHT: PacManAnimRight, K_DOWN: PacManAnimDown, K_LEFT: PacManAnimLeft, K_DELETE : PacManDeathAnim}
 
 BlinkyAnimTop = media.pyganim.PygAnimation([('resources/blinky_up_1.png', 0.1),
                                             ('resources/blinky_up_2.png', 0.1)])

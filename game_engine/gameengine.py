@@ -1,4 +1,6 @@
-from objects.container import *
+from pygame.rect import Rect
+from media.dirtyrect import add_dirty_rect, PacDirtyRect
+from objects.Container import *
 
 with open("resources/map.txt") as file:
     BG_MATRIX = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
@@ -10,5 +12,7 @@ class GameEngine:
     @staticmethod
     def simulate_world(events):
         for hero in get_objects():
-            hero.move_hero([events])
+            if hero.active:
+                hero.move_hero([events])
+            add_dirty_rect(PacDirtyRect(Rect(hero.x - 2, hero.y - 2, 30, 30), hero.is_dot))
 

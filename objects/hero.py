@@ -1,7 +1,7 @@
 from pygame.constants import *
 from pygame.rect import Rect
 from events.eventobserver import EventObserver
-from game_engine.gameengine import *
+from game_engine.gameengine import BG_MATRIX, add_object
 from media.matrix import RectMatrix
 
 RECT_MATRIX = RectMatrix(BG_MATRIX) #static field to all hero object
@@ -13,6 +13,7 @@ class Hero(EventObserver):
         self.x = x * 20 - 3 # coordinates used to paint object
         self.y = y * 20 - 3
         self.speed = 2
+        self.active = True
         self.area_rect = Rect(self.x + 3, self.y + 3, 20, 20)
         self.direction = K_RIGHT
         self.new_direction = K_RIGHT

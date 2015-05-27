@@ -6,6 +6,7 @@ from pygame.locals import *
 
 from media.dirtyrect import add_dirty_rect
 import media.sprites
+from objects.Container import get_ghosts
 from objects.hero import Hero, RECT_MATRIX
 from game_engine.gameengine import BG_MATRIX
 from media.dirtyrect import PacDirtyRect
@@ -16,15 +17,16 @@ class PacMan(Hero):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.animations = media.sprites.PacManAnim
-        self.react_cases = {"DEATH": self.die, "RESPAWN" : self.respawn}
+        self.react_cases = {"DEATH": self.die}
         self.alive = True
+        self.is_dot = False
         self.lives_left = 3
         for key, animation in self.animations.items():
             animation.play()
 
     def move(self):
         super().move()
-        add_dirty_rect(PacDirtyRect(Rect(self.x - 2, self.y - 2, 30, 30), False))
+       # add_dirty_rect(PacDirtyRect(Rect(self.x - 2, self.y - 2, 30, 30), self.is_dot))
 
     def move_hero(self, arguments):
         events = arguments[0]
@@ -61,12 +63,7 @@ class PacMan(Hero):
         return pac_point
 
     def die(self):
-        for key, animation in self.animations.items():
-            animation.stop()
+        self.direction = K_DELETE
+        self.active = False
         #self.animations = media.sprites.DeathAnim
-
-    def respawn(self):
-        self.alive = True
-        for key, animation in self.animations.items():
-            animation.play()
 

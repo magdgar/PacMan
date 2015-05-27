@@ -1,7 +1,7 @@
 from pygame.constants import *
 from pygame.rect import Rect
 from events.eventhandler import add_event
-from objects.container import get_object
+from objects.Container import get_object, get_ghosts
 from pacfunctions.pacfunction import get_next_directions
 from media.dirtyrect import add_dirty_rect, PacDirtyRect
 from objects.hero import Hero, RECT_MATRIX
@@ -22,7 +22,6 @@ class Ghost(Hero):
     def move(self):
         super().move()
         self.check_if_catched()
-        add_dirty_rect(PacDirtyRect(Rect(self.x, self.y, 26, 26), self.is_dot))
 
     def is_dot_at_field(self):
         return RECT_MATRIX.is_dot_at_field(self.map_point)
@@ -31,4 +30,7 @@ class Ghost(Hero):
         if self.area_rect.colliderect(get_object(0).area_rect):
             if get_object(0).alive:
                 get_object(0).alive = False
+                get_object(0).active = False
+                for ghost in get_ghosts():
+                    ghost.active = False
                 add_event("DEATH")

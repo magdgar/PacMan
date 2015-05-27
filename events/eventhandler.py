@@ -1,5 +1,5 @@
-from objects.container import get_objects
-GAME_EVENTS = {"DEATH":10, "GAME_OVER":10, "RESPAWN" : 1}
+from objects.Container import get_objects
+GAME_EVENTS = {"DEATH": 80, "GAME_OVER": 10, "RESPAWN" : 1}
 EVENTS = []
 
 
@@ -14,4 +14,6 @@ def notify_observers(event_observers):
             event_observer.react(event[0])
         event[1] -= 1
         if event[1] == 0:
+            if(event[0] == "DEATH"):
+                add_event("RESPAWN")
             EVENTS.remove(event)
