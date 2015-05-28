@@ -1,7 +1,7 @@
+"contains basic variables used in one gameplay"
 from events.eventhandler import add_event
 from events.eventobserver import EventObserver
 from objects.Container import get_objects, get_object
-
 
 class GameState(EventObserver):
 

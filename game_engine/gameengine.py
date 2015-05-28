@@ -1,3 +1,6 @@
+"""responsible for game logic"""
+
+
 from pygame.rect import Rect
 from media.dirtyrect import add_dirty_rect, PacDirtyRect
 from objects.Container import *
@@ -11,9 +14,10 @@ class GameEngine:
         self.window_surface = window_surface
 
     @staticmethod
-    def simulate_world(events):
+    def simulate_world(key_events):
+        """responsible for invoking logic each frame"""
         for hero in get_objects():
             if hero.active:
-                hero.move_hero([events])
+                hero.move_hero([key_events])
             add_dirty_rect(PacDirtyRect(Rect(hero.x - 2, hero.y - 2, 30, 30), hero.is_dot))
 

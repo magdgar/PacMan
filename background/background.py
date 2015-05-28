@@ -1,5 +1,4 @@
 import pygame
-from media.constans import ACTUAL_LVL, ACTUAL_SCREENSCHOT, ACTUAL_DOT_SCREENSCHOT
 
 blank_piece = pygame.image.load('resources/0.png')
 horizontal_wall = pygame.image.load('resources/1.png')
@@ -9,14 +8,14 @@ right_down_corner = pygame.image.load('resources/4.png')
 left_down_corner = pygame.image.load('resources/5.png')
 up_left_corner = pygame.image.load('resources/6.png')
 dot = pygame.image.load('resources/dot.png')
-background_image = pygame.image.load(ACTUAL_SCREENSCHOT)
-background_image_dot = pygame.image.load(ACTUAL_DOT_SCREENSCHOT)
+background_image = pygame.image.load('resources/screenshot.jpeg')
+background_image_dot = pygame.image.load('resources/screenshot_dot.jpeg')
 
 walls_dict = {1: horizontal_wall, 2: vertical_wall, 3: up_right_wall,
               4: right_down_corner, 5: left_down_corner, 6: up_left_corner,
               7: dot, 0: blank_piece}
 
-with open(ACTUAL_LVL) as file:
+with open("resources/map.txt") as file:
     array2d = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 
