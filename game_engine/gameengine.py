@@ -1,8 +1,9 @@
 from pygame.rect import Rect
 from media.dirtyrect import add_dirty_rect, PacDirtyRect
 from objects.Container import *
+from media.constans import ACTUAL_LVL
 
-with open("resources/map.txt") as file:
+with open(ACTUAL_LVL) as file:
     BG_MATRIX = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 class GameEngine:

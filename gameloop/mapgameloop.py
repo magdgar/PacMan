@@ -8,7 +8,7 @@ from background.background import *
 POSSIBLE_MAP_KEYS = [K_0, K_1, K_2, K_3, K_4, K_5, K_6, K_7]
 MAP_DICT = {K_0: 0, K_1: 1, K_2: 2, K_3: 3, K_4: 4, K_5: 5, K_6: 6, K_7: 7}
 
-with open("resources/map.txt") as file:
+with open(ACTUAL_LVL) as file:
     array2d = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 class GameLoop:

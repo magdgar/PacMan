@@ -10,7 +10,6 @@ class Clyde(Ghost):
         super().__init__(x, y, media.sprites.ClydeAnim)
 
     def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
-
         if self.in_place_to_change_direction():
             self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()

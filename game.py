@@ -10,6 +10,7 @@ from objects.clyde import Clyde
 from objects.Container import del_objects
 from objects.pacman import PacMan
 from objects.pinky import Pinky
+from objects.inky import Inky
 
 class Game(EventObserver):
     def __init__(self, window_surface):
@@ -37,6 +38,7 @@ def reset_objects():
     del_objects()
     PacMan(1, 1)
     Blinky(11, 13)
-    Pinky(13, 13)
-    Clyde(16, 13)
+    # Pinky(13, 13)
+    # Clyde(16, 13)
+    # Inky(6, 21)
 

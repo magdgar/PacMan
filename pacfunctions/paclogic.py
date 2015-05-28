@@ -1,7 +1,7 @@
 from copy import deepcopy
 from pygame.constants import *
 
-with open("pacfunctions/map.txt") as file:
+with open("D:/Projects/Python/PacMan/pacfunctions/map.txt") as file:
     path_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
     path_array_copy = deepcopy(path_array)
 
