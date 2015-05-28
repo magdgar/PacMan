@@ -32,6 +32,7 @@ class Painter(EventObserver):
         pygame.display.update()
 
     def paint_game_over(self):
+        pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (200, 260))
         for object in get_objects():
             for key, animation in object.animations.items():
                 animation.stop()

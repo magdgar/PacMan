@@ -7,6 +7,6 @@ LEVEL_MAP = {"CLASSIC": "resources/levels/map.txt", "Lvl1": "resources/levels/le
 LEVEL_SCREENSCHOT = {"CLASSIC": "resources/levels/map.jpeg", "Lvl1": "resources/levels/level1.jpeg"}
 LEVEL_DOT_SCREENSCHOT = {"CLASSIC": "resources/levels/map_dot.jpeg", "Lvl1": "resources/levels/level1_dot.jpeg"}
 
-ACTUAL_LVL = LEVEL_MAP.get("Lvl1")
-ACTUAL_SCREENSCHOT = LEVEL_SCREENSCHOT.get("Lvl1")
-ACTUAL_DOT_SCREENSCHOT = LEVEL_DOT_SCREENSCHOT.get("Lvl1")
+ACTUAL_LVL = LEVEL_MAP.get("CLASSIC")
+ACTUAL_SCREENSCHOT = LEVEL_SCREENSCHOT.get("CLASSIC")
+ACTUAL_DOT_SCREENSCHOT = LEVEL_DOT_SCREENSCHOT.get("CLASSIC")
