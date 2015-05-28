@@ -1,7 +1,7 @@
+
+
 import sys
-
 from pygame.locals import *
-
 from background.background import *
 
 

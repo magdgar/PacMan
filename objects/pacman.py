@@ -29,8 +29,8 @@ class PacMan(Hero):
        # add_dirty_rect(PacDirtyRect(Rect(self.x - 2, self.y - 2, 30, 30), self.is_dot))
 
     def move_hero(self, arguments):
-        events = arguments[0]
-        for event in events:
+        key_events = arguments[0]
+        for event in key_events:
             if event.type == KEYDOWN:
                 self.new_direction = event.key #jesli klawisz wcisniety to pobierz kierunek do zmian
             elif event.type == QUIT:
@@ -63,6 +63,9 @@ class PacMan(Hero):
         return pac_point
 
     def die(self):
+        #for key, val in self.animations.items():
+        #    val.rewind()
+        #    val.play()
         self.direction = K_DELETE
         self.active = False
         #self.animations = media.sprites.DeathAnim
