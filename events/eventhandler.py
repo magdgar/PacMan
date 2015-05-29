@@ -6,7 +6,6 @@ GAME_EVENTS = {"DEATH": 60, "GAME_OVER": 10, "RESPAWN" : 1}
 #acvtie events
 EVENTS = []
 
-
 def add_event(event):
     """function called when events occurs"""
     EVENTS.append([event, GAME_EVENTS[event]])

@@ -8,8 +8,10 @@ import media
 class Blinky(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.BlinkyAnim)
+        self.corner_points = [(1, 1), (1, 12), (5, 12), (5, 1)]
+        self.house_time = 250
 
-    def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
+    def chase_move(self): #sprawa z argumentami do przemyslenia
 
         if self.in_place_to_change_direction():
             self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
@@ -25,4 +27,4 @@ class Blinky(Ghost):
                 else:
                     self.direction = self.get_proper_random_direction()
                 self.change_direction_counter += 1
-        super().move()
+

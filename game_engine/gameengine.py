@@ -10,6 +10,7 @@ with open(ACTUAL_LVL) as file:
     BG_MATRIX = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 class GameEngine:
+    """class responsible for invoking low-level logic"""
     def __init__(self, window_surface):
         self.window_surface = window_surface
 

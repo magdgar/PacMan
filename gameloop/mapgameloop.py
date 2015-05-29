@@ -15,7 +15,7 @@ class GameLoop:
     def __init__(self, window_surface):
         self.window_surface = window_surface
         self.current_paint_item = MAP_DICT[K_1]
-        self.map_array = array2d
+        self.map_array = ARRAY_2D
         #self.reload_map()
 
     def handle_map_event(self, events):

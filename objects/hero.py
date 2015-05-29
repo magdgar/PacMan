@@ -18,16 +18,20 @@ class Hero(EventObserver):
         self.direction = K_RIGHT
         self.new_direction = K_RIGHT
         self.movements = {K_UP: (0, -self.speed), K_RIGHT: (self.speed, 0),
-                          K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0)}
+                          K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0),
+                          K_DELETE : (0, 0)}
+
         add_object(self)
 
     def move_hero(self, arguments): #od logiki TODO
         pass
 
+
     def move(self):
         self.x += self.movements[self.direction][0]
         self.y += self.movements[self.direction][1]
         self.area_rect.move_ip(self.movements[self.direction][0], self.movements[self.direction][1])
+
 
     def go_back(self):
         self.x -= self.movements[self.direction][0]

@@ -9,9 +9,10 @@ from objects.hero import Hero, RECT_MATRIX
 class Pinky(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.PinkyAnim)
+        self.corner_points = [(27, 15), (27, 26), (24, 26), (24, 15)]
+        self.house_time = 500
 
-    def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
-
+    def chase_move(self): #sprawa z argumentami do przemyslenia
         if self.in_place_to_change_direction():
             self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()
@@ -22,7 +23,5 @@ class Pinky(Ghost):
                 self.direction = shortes_direction[0]
             else:
                 self.direction = predicted_direction[0]
-
-        super().move()
 
 

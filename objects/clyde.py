@@ -8,8 +8,10 @@ from objects.ghost import Ghost
 class Clyde(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.ClydeAnim)
+        self.house_time = 750
+        self.corner_points = [(27, 1), (27, 12), (24, 12), (24, 6)]
 
-    def move_hero(self, arguments): #sprawa z argumentami do przemyslenia
+    def chase_move(self): #sprawa z argumentami do przemyslenia
         if self.in_place_to_change_direction():
             self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()
@@ -23,7 +25,6 @@ class Clyde(Ghost):
                 else:
                     self.direction = self.get_proper_random_direction()
                 self.change_direction_counter += 1
-        super().move()
 
     def get_directions(self):
         directions_to_pacman = get_next_directions(self.map_point, get_object(0).map_point)

@@ -38,7 +38,7 @@ def reset_objects():
     del_objects()
     PacMan(1, 1)
     Blinky(11, 13)
-    # Pinky(13, 13)
-    # Clyde(16, 13)
+    Pinky(13, 13)
+    Clyde(15, 13)
     # Inky(6, 21)
 
