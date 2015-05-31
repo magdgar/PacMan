@@ -37,7 +37,7 @@ class Ghost(Hero):
 
     def move_hero(self, arguments):
         self.move_hero_function()
-        super().move()
+        self.move()
 
     def chase_move(self):
         pass

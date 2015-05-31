@@ -55,3 +55,12 @@ class Hero(EventObserver):
     def is_this_the_wall(self, direction):
         return RECT_MATRIX.is_this_the_wall(self.area_rect, (int(self.movements[direction][0]/self.speed),
                                                              int(self.movements[direction][1]/self.speed)))
+
+    def teleport(self, map_point):
+        self.map_point = map_point #cooridnates on map.txt
+        self.x = map_point[1] * 20 - 3 # coordinates used to paint object
+        self.y = map_point[0] * 20 - 3
+        self.area_rect = Rect(self.x + 3, self.y + 3, 20, 20)
+
+
+

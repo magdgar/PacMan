@@ -9,7 +9,7 @@ class Clyde(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.ClydeAnim)
         self.house_time = 750
-        self.corner_points = [(27, 1), (27, 12), (24, 12), (24, 6)]
+        self.corner_points = [(27, 2), (27, 13), (24, 13), (24, 7)]
 
     def chase_move(self): #sprawa z argumentami do przemyslenia
         if self.in_place_to_change_direction():

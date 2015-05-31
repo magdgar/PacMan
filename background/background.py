@@ -24,14 +24,20 @@ with open(ACTUAL_LVL) as file:
     ARRAY_2D = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
 
-def paint_whole_background(window_surface, map_array=ARRAY_2D):
+def paint_whole_background(window_surface,  with_dots=False,  map_array=ARRAY_2D):
     """with given array paints background on whole window"""
 
     for y in range(len(map_array)):
         for x in range(len(map_array[0])):
             if 8 > map_array[y][x] >= 0:
                 window_surface.fill((0, 0, 0), (x * 20, y * 20, 20, 20))
-                window_surface.blit(WALLS_DICT[map_array[y][x]], (x * 20, y * 20))
+                if with_dots:
+                    window_surface.blit(WALLS_DICT[map_array[y][x]], (x * 20, y * 20))
+                else:
+                    if map_array[y][x] == 7:
+                        window_surface.blit(WALLS_DICT[0], (x * 20, y * 20))
+                    else:
+                        window_surface.blit(WALLS_DICT[map_array[y][x]], (x * 20, y * 20))
 
 
 def repaint_fragment_of_background(window_surface, rect, is_dot):

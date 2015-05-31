@@ -8,7 +8,7 @@ import media
 class Blinky(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.BlinkyAnim)
-        self.corner_points = [(1, 1), (1, 12), (5, 12), (5, 1)]
+        self.corner_points = [(1, 2), (1, 13), (5, 13), (5, 2)]
         self.house_time = 250
 
     def chase_move(self): #sprawa z argumentami do przemyslenia

@@ -1,7 +1,6 @@
 
 
 GAME_OBJECTS = []
-PAC_MAN = None
 GHOSTS = []
 
 def add_object(new_object):

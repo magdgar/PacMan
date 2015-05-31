@@ -3,7 +3,7 @@ import pygame
 from game import Game
 
 user32 = ctypes.windll.user32
-WIDTH = 560
+WIDTH = 600
 HEIGHT = 580
 
 pygame.display.set_caption('Pac Man!')

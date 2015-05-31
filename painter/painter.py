@@ -5,6 +5,7 @@ from events.eventobserver import EventObserver
 from media.dirtyrect import *
 import background
 from objects.Container import *
+from objects.hero import RECT_MATRIX
 
 BGCOLOR = (0, 0, 0)
 
@@ -12,10 +13,12 @@ BGCOLOR = (0, 0, 0)
 class Painter(EventObserver):
     def __init__(self, window_surface):
         super().__init__()
-        self.react_cases = {"GAME_OVER": self.paint_game_over, "RESPAWN" : self.repaint_background}
+        self.react_cases = {"GAME_OVER": self.paint_game_over, "REPAINT" : self.repaint_background_with_dots}
         self.window_surface = window_surface
         self.window_surface.fill(BGCOLOR)
-        paint_whole_background(window_surface)
+        self.save_screenshot(window_surface)
+        #paint_whole_background(window_surface)
+
         pygame.display.update()
 
     def paint_objects(self):
@@ -27,13 +30,28 @@ class Painter(EventObserver):
             pygame.display.update(pac_dirty_rect.dirty_rect)
         clear_dirty_rect()
 
-    def repaint_background(self):
+    def repaint_background(self, with_dots=True):
         paint_whole_background(self.window_surface)
         pygame.display.update()
 
+    def repaint_background_with_dots(self):
+        paint_whole_background(self.window_surface, True, RECT_MATRIX.map_array)
+        pygame.display.update()
+
     def paint_game_over(self):
-        pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (200, 260))
+        pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (220, 260))
         for object in get_objects():
             for key, animation in object.animations.items():
                 animation.stop()
         pygame.display.update()
+
+
+    def save_screenshot(self, window_surface):
+        paint_whole_background(window_surface, False)
+        pygame.display.update()
+        pygame.image.save(window_surface, "resources/levels/map.jpeg")
+
+        paint_whole_background(window_surface, True)
+        pygame.display.update()
+        pygame.image.save(window_surface, "resources/levels/map_dot.jpeg")
+

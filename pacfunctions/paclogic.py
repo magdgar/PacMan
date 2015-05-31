@@ -1,7 +1,8 @@
 from copy import deepcopy
 from pygame.constants import *
+import sys
 
-with open("D:/Projects/Python/PacMan/pacfunctions/map.txt") as file:
+with open("pacfunctions/map.txt") as file:
     path_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
     path_array_copy = deepcopy(path_array)
 
@@ -10,6 +11,9 @@ def shortest_way(place_from, place_to, road_value=0):
     to_path_array()
     point_neighbours = neighbours(place_from)
     while place_to not in point_neighbours:
+        if road_value > 50:
+            to_path_array()
+            return [neighbours(place_from)[0], neighbours(neighbours(place_from)[0])[0]]
         road_value += 1
         increse(point_neighbours, road_value)
         point_neighbours = list(set([point for points in list(map(neighbours, point_neighbours)) for point in points]))
@@ -70,9 +74,16 @@ def change_to_direction(point_from, next_point):
 def to_path_array():
     for y in range(len(path_array)):
         for x in range(len(path_array[0])):
-            if path_array_copy[y][x] != 7 and path_array_copy[y][x] != 0:
+            if path_array_copy[y][x] != 7 and path_array_copy[y][x] != 0 and path_array_copy[y][x] != 8:
                 path_array[y][x] = '*'
             else:
                 path_array[y][x] = 0
+
+def print_path_array(place_from=(0, 0), place_to=(0, 0)):
+    print('\n'.join([''.join(['{:2}'.format(item) for item in row])
+      for row in path_array]))
+    print(place_from)
+    print(place_to)
+
 
 

@@ -3,6 +3,7 @@ import sys
 
 import pygame
 from pygame.locals import *
+from events.eventhandler import add_event
 
 from media.dirtyrect import add_dirty_rect
 import media.sprites
@@ -32,18 +33,19 @@ class PacMan(Hero):
         key_events = arguments[0]
         for event in key_events:
             if event.type == KEYDOWN:
-                self.new_direction = event.key #jesli klawisz wcisniety to pobierz kierunek do zmian
+                self.new_direction = event.key
             elif event.type == QUIT:
                 pygame.quit()
                 sys.exit()
         if self.in_place_to_change_direction():
-            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)# na podstawie swojego rect znajdz wspolrzedne mapowe
+            self.tunel_teleportation()
+            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
             self.eat_dot()
             if not self.is_this_the_wall(self.new_direction):
-                self.direction = self.new_direction #zmie? kierunek tylko gdy nowy nie jest w kierunku sciany
+                self.direction = self.new_direction
 
             if self.is_this_the_wall(self.direction):
-                self.go_back() #jesli o pole w obecnym kierunku mamy sciane to cofnij sie
+                self.go_back()
         self.move()
 
     def eat_dot(self):
@@ -59,8 +61,18 @@ class PacMan(Hero):
             else:
                 pac_direction = RECT_MATRIX.get_proper_random_direction(pac_point, pac_direction)
                 pac_point = next_point_in_direction(pac_point, pac_direction)
+            print(steps_to_predict)
             steps_to_predict -= 1
         return pac_point
+
+    def tunel_teleportation(self):
+        if self.map_point in RECT_MATRIX.teleport_points:
+            if self.map_point[1] == 28 and self.direction == K_RIGHT:
+                self.teleport((13, 0))
+            elif self.map_point[1] == 1 and self.direction == K_LEFT:
+                self.teleport((13, 28))
+            add_event("REPAINT")
+
 
     def die(self):
         #for key, val in self.animations.items():
@@ -68,5 +80,5 @@ class PacMan(Hero):
         #    val.play()
         self.direction = K_DELETE
         self.active = False
-        #self.animations = media.sprites.DeathAnim
+        #self.animations = media.sprites.PacManDeathAnim
 

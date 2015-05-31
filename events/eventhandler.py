@@ -2,7 +2,7 @@
 
 from objects.Container import get_objects
 #dictionary with all possible events as keys and length in frames
-GAME_EVENTS = {"DEATH": 60, "GAME_OVER": 10, "RESPAWN" : 1}
+GAME_EVENTS = {"DEATH": 60, "GAME_OVER": 200, "RESPAWN" : 1, "REPAINT" : 1, "EXIT" : 1}
 #acvtie events
 EVENTS = []
 
@@ -21,6 +21,8 @@ def notify_observers(event_observers):
         if event[1] == 0:
             if(event[0] == "DEATH"):
                 add_event("RESPAWN")
+            if(event[0] == "GAME_OVER"):
+                add_event("EXIT")
             #when event time is zero remove event from list
             EVENTS.remove(event)
 
