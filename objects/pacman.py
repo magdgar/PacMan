@@ -61,7 +61,6 @@ class PacMan(Hero):
             else:
                 pac_direction = RECT_MATRIX.get_proper_random_direction(pac_point, pac_direction)
                 pac_point = next_point_in_direction(pac_point, pac_direction)
-            print(steps_to_predict)
             steps_to_predict -= 1
         return pac_point
 
