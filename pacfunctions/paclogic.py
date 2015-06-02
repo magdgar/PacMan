@@ -48,6 +48,11 @@ def neighbours(point):
     return [valid_point for valid_point in [(point[0], point[1] - 1), (point[0] - 1, point[1]),
                                             (point[0], point[1] + 1), (point[0] + 1, point[1])] if valid(valid_point)]
 
+def all_neighbours(point):
+    return [valid_point for valid_point in [(point[0]-1, point[1]-1), (point[0]-1, point[1]-1), (point[0]-1, point[1]), (point[0]-1, point[1]+1),
+                                            (point[0], point[1] - 1), (point[0], point[1] + 1),
+                                            (point[0]+1, point[1]-1), (point[0]+1, point[1]), (point[0]+1, point[1]+1)]
+            if valid(valid_point)]
 
 def valid(point):
     return valid_coord(point) and valid_value(point)

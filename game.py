@@ -47,8 +47,8 @@ class Game(EventObserver):
 def reset_objects():
     del_objects()
     PacMan(2, 1)
-    Blinky(11, 13)
-    Pinky(13, 13)
+    Blinky(13, 11)
+    Pinky(11, 13)
+    Inky(13, 13)
     Clyde(15, 13)
-    # Inky(6, 21)
 
