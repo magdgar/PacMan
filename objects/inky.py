@@ -1,3 +1,4 @@
+from functools import wraps
 from random import randint
 from objects.Container import get_object
 from objects.ghost import Ghost
@@ -31,7 +32,6 @@ class Inky(Ghost):
                 else:
                     self.direction = self.get_proper_random_direction()
                 self.change_direction_counter += 1
-        super().move()
 
     @staticmethod
     def get_proper_target():
@@ -57,6 +57,6 @@ class Inky(Ghost):
         neighbours = all_neighbours(res)
         len = neighbours.__len__()
         if len == 0:
-            return (pacman.map_point[0], pacman.map_point[1])
+            return pacman.map_point
         else:
             return neighbours.pop(randint(0, len-1))
