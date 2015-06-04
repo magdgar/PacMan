@@ -20,6 +20,9 @@ def get_object(i):
 
 def get_ghosts():
     return GHOSTS
+
+def get_ghost(i):
+    return GHOSTS[i]
 def get_pacmans():
     return PAC_MANS
 def get_pacman(i):
