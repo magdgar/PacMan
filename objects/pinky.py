@@ -16,7 +16,7 @@ class Pinky(Ghost):
         if self.in_place_to_change_direction():
             self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()
-            predicted_directions = self.get_directions_to_closest_predicted_pacman
+            predicted_directions = self.get_directions_to_closest_predicted_pacman()
             shortes_directions = self.get_directions_to_closest_pacman()
 
             if len(shortes_directions) < 4:

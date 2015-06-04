@@ -4,9 +4,9 @@ GAME_OBJECTS = []
 PAC_MANS = []
 GHOSTS = []
 
-def add_object(new_object):
+def add_object(new_object, is_pac_man):
     GAME_OBJECTS.append(new_object)
-    if len(PAC_MANS) < 2:
+    if is_pac_man:
         PAC_MANS.append(new_object)
     else:
         GHOSTS.append(new_object)

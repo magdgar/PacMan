@@ -19,8 +19,9 @@ class GameEngine:
         """responsible for invoking logic each frame"""
         get_pacman(0).move_hero(key_events[0])
         add_dirty_rect(PacDirtyRect(Rect(get_pacman(0).x - 2, get_pacman(0).y - 2, 30, 30), get_pacman(0).is_dot))
-        get_pacman(1).move_hero(key_events[1])
-        add_dirty_rect(PacDirtyRect(Rect(get_pacman(1).x - 2, get_pacman(1).y - 2, 30, 30), get_pacman(1).is_dot))
+        if len(get_pacmans()) > 1:
+            get_pacman(1).move_hero(key_events[1])
+            add_dirty_rect(PacDirtyRect(Rect(get_pacman(1).x - 2, get_pacman(1).y - 2, 30, 30), get_pacman(1).is_dot))
         for ghost in get_ghosts():
             if ghost.active:
                 ghost.move_hero(key_events)

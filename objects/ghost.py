@@ -1,7 +1,7 @@
 from pygame.constants import *
 from pygame.rect import Rect
 from events.eventhandler import add_event
-from objects.Container import get_object, get_ghosts, get_pacmans, get_pacman
+from objects.Container import get_object, get_ghosts, get_pacmans, get_pacman, add_object
 from pacfunctions.pacfunction import get_next_directions
 from media.dirtyrect import add_dirty_rect, PacDirtyRect
 from objects.hero import Hero, RECT_MATRIX
@@ -30,6 +30,8 @@ class Ghost(Hero):
                                                     (round(get_object(0).y / 20), round(get_object(0).x / 20)))
         for key, animation in self.animations.items():
             animation.play()
+
+        add_object(self, False)
 
     def move(self):
         super().move()

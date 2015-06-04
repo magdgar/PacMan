@@ -37,7 +37,7 @@ class Game(EventObserver):
             for event in pygame.event.get():
                if event.type == KEYDOWN:
                    self.current_key = event.key
-            self.game_loop.perform_one_cycle(self.current_key)
+            self.game_loop.perform_one_cycle([self.current_key])
             self.mainClock.tick(60)
 
     def respawn(self):
@@ -54,7 +54,6 @@ class Game(EventObserver):
     def reset_objects(self):
         del_objects()
         PacMan(2, 1)
-        PacMan(27, 1)
         Blinky(13, 11)
         Pinky(11, 13)
         Inky(13, 13)
@@ -68,10 +67,9 @@ class ServerGame(Game):
         self.enemy_key  = K_LEFT
         self.connection = None
         self.start_server()
-        self.start_game()
 
     def start_server(self):
-        self.serversocket.bind(('localhost', 4444))
+        self.serversocket.bind(('25.122.171.23', 4444))
         self.serversocket.listen(1)
         self.connection, address = self.serversocket.accept()
         th = Thread(target=self.recive_data)
@@ -117,10 +115,9 @@ class ClientGame(Game):
         self.current_key = K_LEFT
         self.enemy_key  = K_RIGHT
         self.start_client()
-        self.start_game()
 
     def start_client(self):
-        self.clientsocket.connect(('25.122.171.23', 4444))
+        self.clientsocket.connect(('localhost', 4444))
         th = Thread(target=self.recive_data)
         th.daemon = True
         th.start()

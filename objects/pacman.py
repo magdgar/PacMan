@@ -7,7 +7,7 @@ from events.eventhandler import add_event
 
 from media.dirtyrect import add_dirty_rect
 import media.sprites
-from objects.Container import get_ghosts
+from objects.Container import get_ghosts, add_object
 from objects.hero import Hero, RECT_MATRIX
 from game_engine.gameengine import BG_MATRIX
 from media.dirtyrect import PacDirtyRect
@@ -24,6 +24,7 @@ class PacMan(Hero):
         self.lives_left = 3
         for key, animation in self.animations.items():
             animation.play()
+        add_object(self, True)
 
     def move(self):
         super().move()
