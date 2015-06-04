@@ -84,7 +84,7 @@ class ServerGame(Game):
                    self.current_key = event.key
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
             self.send_data()
-            self.mainClock.tick(45)
+            self.mainClock.tick(50)
 
     def send_data(self):
         try:
@@ -145,7 +145,7 @@ class ClientGame(Game):
                if event.type == KEYDOWN:
                    self.clientsocket.send(str(event.key).encode())
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
-            self.mainClock.tick(45)
+            self.mainClock.tick(50)
     def reset_objects(self):
         del_objects()
         PacMan(27, 1)
