@@ -27,7 +27,7 @@ class Clyde(Ghost):
                 self.change_direction_counter += 1
 
     def get_directions(self):
-        directions_to_pacman = get_next_directions(self.map_point, get_object(0).map_point)
+        directions_to_pacman = self.get_directions_to_closest_pacman()
         directions_to_left_corner = get_next_directions(self.map_point, (27, 2))
         if len(directions_to_pacman) <= 8:
             self.stupidity = len(directions_to_left_corner)

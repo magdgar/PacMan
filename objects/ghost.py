@@ -1,7 +1,7 @@
 from pygame.constants import *
 from pygame.rect import Rect
 from events.eventhandler import add_event
-from objects.Container import get_object, get_ghosts
+from objects.Container import get_object, get_ghosts, get_pacmans, get_pacman
 from pacfunctions.pacfunction import get_next_directions
 from media.dirtyrect import add_dirty_rect, PacDirtyRect
 from objects.hero import Hero, RECT_MATRIX
@@ -76,15 +76,25 @@ class Ghost(Hero):
         if self.house_time == 0:
             self.change_move_hero_function(SCATTER)
 
+    def get_directions_to_closest_pacman(self):
+        if len(get_pacmans()) == 1:
+            self.new_directions = get_next_directions(self.map_point, get_pacman(0).map_point)
+        else:
+            directions_to_player = get_next_directions(self.map_point, get_pacman(0).map_point)
+            directions_to_enemy = get_next_directions(self.map_point, get_pacman(1).map_point)
+            self.new_directions = directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy
+        return self.new_directions
+
 
     def is_dot_at_field(self):
         return RECT_MATRIX.is_dot_at_field(self.map_point)
 
     def check_if_catched(self):
-        if self.area_rect.colliderect(get_object(0).area_rect):
-            if get_object(0).alive:
-                get_object(0).alive = False
-                get_object(0).active = False
-                for ghost in get_ghosts():
-                    ghost.active = False
-                add_event("DEATH")
+        for pac_man in get_pacmans():
+            if self.area_rect.colliderect(pac_man.area_rect):
+                if pac_man.alive:
+                    pac_man.alive = False
+                    pac_man.active = False
+                    for ghost in get_ghosts():
+                        ghost.active = False
+                    add_event("DEATH")

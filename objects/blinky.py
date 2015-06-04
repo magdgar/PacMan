@@ -1,5 +1,5 @@
 from objects.ghost import Ghost
-from objects.Container import get_object
+from objects.Container import get_object, get_pacmans, get_pacman
 from objects.hero import RECT_MATRIX
 from pacfunctions.pacfunction import get_next_directions
 import media
@@ -18,7 +18,7 @@ class Blinky(Ghost):
             self.is_dot = self.is_dot_at_field()
             if self.change_direction_counter % self.stupidity == 0:
                 self.change_direction_counter = 1
-                self.new_directions = get_next_directions(self.map_point, get_object(0).map_point)
+                self.new_directions = self.get_directions_to_closest_pacman()
                 # self.has_catched_pacman(self.new_directions)
                 self.direction = self.new_directions[0]
             else:
