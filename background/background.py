@@ -1,5 +1,4 @@
 """logic and graphics required to handle background paining"""
-
 import pygame
 from media.constans import ACTUAL_SCREENSCHOT, ACTUAL_DOT_SCREENSCHOT, ACTUAL_LVL
 

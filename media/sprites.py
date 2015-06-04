@@ -26,7 +26,7 @@ PacManDeathAnim = media.pyganim.PygAnimation([('resources/pacman/death_1.png', 0
                                               ('resources/pacman/death_8.png', 0.1),
                                               ('resources/pacman/death_9.png', 0.1),
                                               ('resources/pacman/death_10.png', 0.1),
-                                              ('resources/pacman/death_11.png', 0.4)])
+                                              ('resources/pacman/death_11.png', 0.1)])
 
 
 PacManAnimTop = PacManAnimDown.getCopy()
