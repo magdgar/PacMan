@@ -7,7 +7,7 @@ from events.eventhandler import add_event
 
 from media.dirtyrect import add_dirty_rect
 import media.sprites
-from objects.Container import get_ghosts
+from objects.Container import get_ghosts, add_object
 from objects.hero import Hero, RECT_MATRIX
 from game_engine.gameengine import BG_MATRIX
 from media.dirtyrect import PacDirtyRect
@@ -24,19 +24,14 @@ class PacMan(Hero):
         self.lives_left = 3
         for key, animation in self.animations.items():
             animation.play()
+        add_object(self, True)
 
     def move(self):
         super().move()
        # add_dirty_rect(PacDirtyRect(Rect(self.x - 2, self.y - 2, 30, 30), self.is_dot))
 
-    def move_hero(self, arguments):
-        key_events = arguments[0]
-        for event in key_events:
-            if event.type == KEYDOWN:
-                self.new_direction = event.key
-            elif event.type == QUIT:
-                pygame.quit()
-                sys.exit()
+    def move_hero(self, key):
+        self.new_direction = key
         if self.in_place_to_change_direction():
             self.tunel_teleportation()
             self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
@@ -74,9 +69,6 @@ class PacMan(Hero):
 
 
     def die(self):
-        #for key, val in self.animations.items():
-        #    val.rewind()
-        #    val.play()
         self.direction = K_DELETE
         self.active = False
         #self.animations = media.sprites.PacManDeathAnim

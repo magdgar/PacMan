@@ -21,7 +21,7 @@ class Hero(EventObserver):
                           K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0),
                           K_DELETE : (0, 0)}
 
-        add_object(self)
+
 
     def move_hero(self, arguments): #od logiki TODO
         pass

@@ -1,5 +1,8 @@
+import socket
 import pygame
 import sys
+from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT
+from pygame.threads import Thread
 from background import background
 from background.background import paint_whole_background
 from events.eventhandler import add_event
@@ -17,6 +20,8 @@ from objects.inky import Inky
 class Game(EventObserver):
     def __init__(self, window_surface):
         super().__init__()
+        self.current_key = K_LEFT
+        self.current_enemy_key = K_RIGHT
         self.react_cases = {"RESPAWN" : self.respawn, "GAMEOVER" : self.delete_ghost, "EXIT" : self.exit}
         self.game_on = True
         self.window_surface = window_surface
@@ -25,17 +30,19 @@ class Game(EventObserver):
         self.game_loop = GameLoop(window_surface, GameEngine(window_surface), self)
         self.mainClock = pygame.time.Clock()
 
-        reset_objects()
-        self.start_game()
+        self.reset_objects()
 
     def start_game(self):
         while self.game_on:
-           self.game_loop.perform_one_cycle(pygame.event.get())
-           self.mainClock.tick(60)
+            for event in pygame.event.get():
+               if event.type == KEYDOWN:
+                   self.current_key = event.key
+            self.game_loop.perform_one_cycle([self.current_key])
+            self.mainClock.tick(60)
 
     def respawn(self):
         if self.game_state.lives_left != 0:
-            reset_objects()
+            self.reset_objects()
             add_event("REPAINT")
 
     def delete_ghost(self):
@@ -44,11 +51,111 @@ class Game(EventObserver):
     def exit(self):
         self.game_on = False
 
-def reset_objects():
-    del_objects()
-    PacMan(2, 1)
-    Blinky(13, 11)
-    Pinky(11, 13)
-    Inky(13, 13)
-    Clyde(15, 13)
+    def reset_objects(self):
+        del_objects()
+        PacMan(2, 1)
+        Blinky(13, 11)
+        Pinky(11, 13)
+        Inky(13, 13)
+        Clyde(15, 13)
+
+class ServerGame(Game):
+    def __init__(self, window_surface):
+        super().__init__(window_surface)
+        self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.current_key = K_RIGHT
+        self.enemy_key  = K_LEFT
+        self.connection = None
+        self.start_server()
+
+    def start_server(self):
+        self.serversocket.bind(('25.122.171.23', 4444))
+        self.serversocket.listen(1)
+        self.connection, address = self.serversocket.accept()
+        th = Thread(target=self.recive_data)
+        th.daemon = True
+        th.start()
+
+    def start_game(self):
+        while self.game_on:
+            for event in pygame.event.get():
+               if event.type == KEYDOWN:
+                   self.current_key = event.key
+            self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
+            self.send_data()
+            self.mainClock.tick(45)
+
+    def send_data(self):
+        try:
+            self.connection.send((str(self.enemy_key) + str(self.current_key)).encode())
+        except:
+            print("ERR")
+            pass
+
+    def recive_data(self):
+        while True:
+            try:
+                self.enemy_key = int(self.connection.recv(1024).decode())
+            except:
+                print("ERR")
+                pass
+    def reset_objects(self):
+        del_objects()
+        PacMan(2, 1)
+        PacMan(27, 1)
+        Blinky(13, 11)
+        Pinky(11, 13)
+        Inky(13, 13)
+        Clyde(15, 13)
+
+class ClientGame(Game):
+    def __init__(self, window_surface):
+        super().__init__(window_surface)
+        self.clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.current_key = K_LEFT
+        self.enemy_key  = K_RIGHT
+        self.start_client()
+
+    def start_client(self):
+        self.clientsocket.connect(('localhost', 4444))
+        th = Thread(target=self.recive_data)
+        th.daemon = True
+        th.start()
+
+    def send_data(self):
+        try:
+            self.clientsocket.send(str(self.current_key).encode())
+        except:
+            print("ERR")
+            pass
+
+    def recive_data(self):
+        while True:
+            try:
+                self.current_key, self.enemy_key = parse_to_keys(self.clientsocket.recv(1024).decode())
+            except:
+                print("ERR")
+                pass
+
+
+    def start_game(self):
+        while self.game_on:
+            for event in pygame.event.get():
+               if event.type == KEYDOWN:
+                   self.clientsocket.send(str(event.key).encode())
+            self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
+            self.mainClock.tick(45)
+    def reset_objects(self):
+        del_objects()
+        PacMan(27, 1)
+        PacMan(2, 1)
+        Blinky(13, 11)
+        Pinky(11, 13)
+        Inky(13, 13)
+        Clyde(15, 13)
+
+
+
+def parse_to_keys(server_response):
+    return int(server_response[:3]), int(server_response[-3:])
 

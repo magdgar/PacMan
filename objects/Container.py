@@ -1,11 +1,14 @@
-
+from media.sprites import PacManAnim
 
 GAME_OBJECTS = []
+PAC_MANS = []
 GHOSTS = []
 
-def add_object(new_object):
+def add_object(new_object, is_pac_man):
     GAME_OBJECTS.append(new_object)
-    if len(GAME_OBJECTS) > 0:
+    if is_pac_man:
+        PAC_MANS.append(new_object)
+    else:
         GHOSTS.append(new_object)
 
 def get_objects():
@@ -17,10 +20,13 @@ def get_object(i):
 
 def get_ghosts():
     return GHOSTS
-
-
+def get_pacmans():
+    return PAC_MANS
+def get_pacman(i):
+    return PAC_MANS[i]
 def del_objects():
     del GAME_OBJECTS[:]
+    del PAC_MANS[:]
     del GHOSTS[:]
 
 
