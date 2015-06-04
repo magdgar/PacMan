@@ -69,9 +69,10 @@ class ServerGame(Game):
         self.start_server()
 
     def start_server(self):
-        self.serversocket.bind(('localhost', 4444))
+        self.serversocket.bind(('', 4444))
         self.serversocket.listen(1)
         self.connection, address = self.serversocket.accept()
+        print("connected from " + str(address))
         th = Thread(target=self.recive_data)
         th.daemon = True
         th.start()
