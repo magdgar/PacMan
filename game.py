@@ -120,7 +120,7 @@ class ClientGame(Game):
         self.start_game()
 
     def start_client(self):
-        self.clientsocket.connect(('localhost', 4444))
+        self.clientsocket.connect(('25.122.171.23', 4444))
         th = Thread(target=self.recive_data)
         th.daemon = True
         th.start()
