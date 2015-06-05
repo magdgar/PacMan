@@ -10,7 +10,7 @@ class Pinky(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.PinkyAnim)
         self.corner_points = [(27, 16), (27, 27), (24, 27), (24, 16)]
-        self.house_time = 10000#400
+        self.house_time = 400
 
     def chase_move(self): #sprawa z argumentami do przemyslenia
         if self.in_place_to_change_direction():
