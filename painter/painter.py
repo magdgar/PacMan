@@ -14,7 +14,7 @@ BGCOLOR = (0, 0, 0)
 class Painter(EventObserver):
     def __init__(self, window_surface):
         super().__init__()
-        self.react_cases = {"GAME_OVER": self.paint_game_over, "REPAINT": self.repaint_background_with_dots}
+        self.react_cases = {"GAME_OVER": self.paint_game_over, "REPAINT": self.repaint_background_with_dots, "WON": self.paint_game_won}
         self.window_surface = window_surface
         self.window_surface.fill(BGCOLOR)
         self.save_screenshot(window_surface)
@@ -43,6 +43,14 @@ class Painter(EventObserver):
 
     def paint_game_over(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (220, 260))
+        self.dynamic_images.erase_live()
+        for object in get_objects():
+            for key, animation in object.animations.items():
+                animation.stop()
+        pygame.display.update()
+
+    def paint_game_won(self):
+        pygame.Surface.blit(self.window_surface, pygame.image.load('resources/won.png'), (0, 0))
         self.dynamic_images.erase_live()
         for object in get_objects():
             for key, animation in object.animations.items():

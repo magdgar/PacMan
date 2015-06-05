@@ -23,10 +23,13 @@ def get_ghosts():
 
 def get_ghost(i):
     return GHOSTS[i]
+
 def get_pacmans():
     return PAC_MANS
+
 def get_pacman(i):
     return PAC_MANS[i]
+
 def del_objects():
     del GAME_OBJECTS[:]
     del PAC_MANS[:]

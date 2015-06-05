@@ -2,6 +2,7 @@ from pygame.constants import *
 from pygame.rect import *
 from pacfunctions.pacfunction import add_points, negative_direction, as_a_grid
 from pacfunctions.paclogic import valid
+from events.eventhandler import add_event
 
 class RectMatrix:
     def __init__(self, map_array):
@@ -42,6 +43,8 @@ class RectMatrix:
         self.map_array[map_point[0]][map_point[1]] = 0
         if self.matrix[map_point[0]][map_point[1]][1] == 7:
             self.remain_dots -= 1
+            if self.remain_dots == 0 :
+                add_event("WON")
         self.matrix[map_point[0]][map_point[1]][1] = 0
 
     def is_game_won(self):

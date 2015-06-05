@@ -1,6 +1,7 @@
 import socket
 import pygame
 from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT
+from pygame.rect import Rect
 from pygame.threads import Thread
 from events.eventhandler import add_event
 from events.eventobserver import EventObserver
@@ -13,6 +14,7 @@ from objects.Container import del_objects
 from objects.pacman import PacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
+from objects.Container import get_objects, get_object
 
 class Game(EventObserver):
     def __init__(self, window_surface):
@@ -20,7 +22,7 @@ class Game(EventObserver):
         self.score = 0
         self.current_key = K_LEFT
         self.current_enemy_key = K_RIGHT
-        self.react_cases = {"RESPAWN": self.respawn, "GAMEOVER": self.delete_ghost, "EXIT": self.exit}
+        self.react_cases = {"RESPAWN": self.respawn, "GAMEOVER": self.delete_ghost, "EXIT": self.exit, "WON": self.game_won}
         self.game_on = True
         self.window_surface = window_surface
         self.paused = False
@@ -39,6 +41,12 @@ class Game(EventObserver):
 
     def add_points(self, number):
         self.score += number
+
+    def game_won(self):
+        get_object(0).active = False
+        for object in get_objects():
+            for key, animation in object.animations.items():
+                animation.pause()
 
     def respawn(self):
         if self.game_state.lives_left != 0:

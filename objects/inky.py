@@ -12,7 +12,7 @@ from pacfunctions.paclogic import all_neighbours
 class Inky(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.InkyAnim)
-        self.house_time = 250
+        self.house_time = 10000#800
         self.corner_points = [(27, 27), (27, 16), (24, 16), (24, 22)]
 
     def chase_move(self):  # sprawa z argumentami do przemyslenia
