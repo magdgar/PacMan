@@ -38,12 +38,12 @@ class Painter(EventObserver):
 
     def repaint_background_with_dots(self):
         paint_whole_background(self.window_surface, True, RECT_MATRIX.map_array)
-        self.dynamic_images.errase_live()
+        self.dynamic_images.erase_live()
         pygame.display.update()
 
     def paint_game_over(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (220, 260))
-        self.dynamic_images.errase_live()
+        self.dynamic_images.erase_live()
         for object in get_objects():
             for key, animation in object.animations.items():
                 animation.stop()

@@ -100,6 +100,7 @@ class ServerGame(Game):
             except:
                 print("ERR")
                 pass
+
     def reset_objects(self):
         del_objects()
         PacMan(2, 1)
@@ -138,7 +139,6 @@ class ClientGame(Game):
                 print("ERR")
                 pass
 
-
     def start_game(self):
         while self.game_on:
             for event in pygame.event.get():
@@ -146,6 +146,7 @@ class ClientGame(Game):
                    self.clientsocket.send(str(event.key).encode())
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
             self.mainClock.tick(50)
+
     def reset_objects(self):
         del_objects()
         PacMan(27, 1)
@@ -154,8 +155,6 @@ class ClientGame(Game):
         Pinky(11, 13)
         Inky(13, 13)
         Clyde(15, 13)
-
-
 
 def parse_to_keys(server_response):
     return int(server_response[:3]), int(server_response[-3:])
