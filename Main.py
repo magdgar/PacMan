@@ -4,11 +4,11 @@ from game import Game, ServerGame, ClientGame
 
 user32 = ctypes.windll.user32
 WIDTH = 600
-HEIGHT = 620
+HEIGHT = 640
 
 pygame.display.set_caption('Pac Man!')
 window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 
 if __name__ == "__main__":
-    ClientGame(window_surface).start_game()
+    GAME = Game(window_surface).start_game()
 

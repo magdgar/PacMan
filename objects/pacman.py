@@ -1,16 +1,9 @@
 from copy import deepcopy
-import sys
-
-import pygame
 from pygame.locals import *
 from events.eventhandler import add_event
-
-from media.dirtyrect import add_dirty_rect
 import media.sprites
 from objects.Container import get_ghosts, add_object
 from objects.hero import Hero, RECT_MATRIX
-from game_engine.gameengine import BG_MATRIX
-from media.dirtyrect import PacDirtyRect
 from pacfunctions.pacfunction import next_point_in_direction
 
 class PacMan(Hero):
@@ -21,7 +14,6 @@ class PacMan(Hero):
         self.react_cases = {"DEATH": self.die}
         self.alive = True
         self.is_dot = False
-        self.lives_left = 3
         for key, animation in self.animations.items():
             animation.play()
         add_object(self, True)
@@ -67,9 +59,7 @@ class PacMan(Hero):
                 self.teleport((13, 28))
             add_event("REPAINT")
 
-
     def die(self):
         self.direction = K_DELETE
         self.active = False
-        #self.animations = media.sprites.PacManDeathAnim
 

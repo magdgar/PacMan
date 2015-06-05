@@ -1,10 +1,7 @@
 import socket
 import pygame
-import sys
 from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT
 from pygame.threads import Thread
-from background import background
-from background.background import paint_whole_background
 from events.eventhandler import add_event
 from events.eventobserver import EventObserver
 from game_engine.gameengine import GameEngine
@@ -20,16 +17,16 @@ from objects.inky import Inky
 class Game(EventObserver):
     def __init__(self, window_surface):
         super().__init__()
+        self.score = 0
         self.current_key = K_LEFT
         self.current_enemy_key = K_RIGHT
-        self.react_cases = {"RESPAWN" : self.respawn, "GAMEOVER" : self.delete_ghost, "EXIT" : self.exit}
+        self.react_cases = {"RESPAWN": self.respawn, "GAMEOVER": self.delete_ghost, "EXIT": self.exit}
         self.game_on = True
         self.window_surface = window_surface
         self.paused = False
         self.game_state = GameState()
         self.game_loop = GameLoop(window_surface, GameEngine(window_surface), self)
         self.mainClock = pygame.time.Clock()
-
         self.reset_objects()
 
     def start_game(self):
@@ -39,6 +36,9 @@ class Game(EventObserver):
                    self.current_key = event.key
             self.game_loop.perform_one_cycle([self.current_key])
             self.mainClock.tick(60)
+
+    def add_points(self, number):
+        self.score += number
 
     def respawn(self):
         if self.game_state.lives_left != 0:

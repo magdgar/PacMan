@@ -2,7 +2,7 @@ import pygame
 from background.background import paint_whole_background, repaint_fragment_of_background
 from events.eventobserver import EventObserver
 from background.dynamic_images import DynamicImages
-
+from pygame.rect import Rect
 from media.dirtyrect import *
 import background
 from objects.Container import *
@@ -18,7 +18,7 @@ class Painter(EventObserver):
         self.window_surface = window_surface
         self.window_surface.fill(BGCOLOR)
         self.save_screenshot(window_surface)
-        self.di = DynamicImages(window_surface)
+        self.dynamic_images = DynamicImages(window_surface)
         #paint_whole_background(window_surface)
 
         pygame.display.update()
@@ -38,11 +38,12 @@ class Painter(EventObserver):
 
     def repaint_background_with_dots(self):
         paint_whole_background(self.window_surface, True, RECT_MATRIX.map_array)
-        self.di.paint()
+        self.dynamic_images.errase_live()
         pygame.display.update()
 
     def paint_game_over(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (220, 260))
+        self.dynamic_images.errase_live()
         for object in get_objects():
             for key, animation in object.animations.items():
                 animation.stop()

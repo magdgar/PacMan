@@ -3,7 +3,6 @@ from pygame.rect import *
 from pacfunctions.pacfunction import add_points, negative_direction, as_a_grid
 from pacfunctions.paclogic import valid
 
-
 class RectMatrix:
     def __init__(self, map_array):
         self.matrix = [[[Rect(x * 20, y * 20, 20, 20), map_array[y][x]]
