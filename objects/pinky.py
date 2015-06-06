@@ -9,7 +9,7 @@ from objects.hero import Hero, RECT_MATRIX
 class Pinky(Ghost):
     def __init__(self, x, y):
         super().__init__(x, y, media.sprites.PinkyAnim)
-        self.corner_points = [(27, 16), (27, 27), (24, 27), (24, 16)]
+        self.corner_points = [(1, 2),  (5, 2), (5, 7), (2, 7)]
         self.house_time = 400
 
     def chase_move(self): #sprawa z argumentami do przemyslenia
