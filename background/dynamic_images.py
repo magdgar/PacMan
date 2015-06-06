@@ -17,7 +17,10 @@ class DynamicImages:
         pygame.Surface.blit(self.window_surface, pygame.image.load(self.live), (100, 580))
         pygame.Surface.blit(self.window_surface, pygame.image.load(self.live), (70, 580))
         pygame.Surface.blit(self.window_surface, pygame.image.load(self.live), (40, 580))
-        pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[0]), (540, 580))
+        #pygame.Surface.blit(self.window_surface, pygame.image.load(self.live), (530, 580))
+        #pygame.Surface.blit(self.window_surface, pygame.image.load(self.live), (500, 580))
+        #pygame.Surface.blit(self.window_surface, pygame.image.load(self.live), (470, 580))
+        #pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[0]), (100, 620))
         #self.repaint_score()
 
     def erase_live(self):
@@ -26,7 +29,7 @@ class DynamicImages:
 
     def paint_numbers(self):
         for i in range(0, 10):
-            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[self.last_score]), (260 + i*30, 580))
+            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[self.last_score]), (260 + i*30, 620))
 
     def repaint_score(self):
         mod = 10
@@ -34,11 +37,12 @@ class DynamicImages:
         score = get_object(0).score
         print(score)
         while score >= mod:
-            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (540 - i*20, 580))
+            #pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (540 - i*20, 600))
+            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (100- i*20, 620))
             score -= score%mod
             score /= mod
             i += 1
-        pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (540 - i*20, 580))
+        pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (100 - i*20,620))
 
 
 
