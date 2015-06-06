@@ -12,6 +12,7 @@ class PacMan(Hero):
         super().__init__(x, y)
         self.animations = media.sprites.PacManAnim
         self.react_cases = {"DEATH": self.die}
+        self.score = 0
         self.alive = True
         self.is_dot = False
         for key, animation in self.animations.items():

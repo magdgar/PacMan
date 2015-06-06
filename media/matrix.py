@@ -1,5 +1,7 @@
 from pygame.constants import *
 from pygame.rect import *
+from media.constans import NUMBER_OF_DOTS
+from objects.Container import get_object
 from pacfunctions.pacfunction import add_points, negative_direction, as_a_grid
 from pacfunctions.paclogic import valid
 from events.eventhandler import add_event
@@ -43,7 +45,9 @@ class RectMatrix:
         self.map_array[map_point[0]][map_point[1]] = 0
         if self.matrix[map_point[0]][map_point[1]][1] == 7:
             self.remain_dots -= 1
-            if self.remain_dots == 0 :
+            get_object(0).score = NUMBER_OF_DOTS - self.remain_dots
+            add_event("EAT_DOT")
+            if self.remain_dots == 0:
                 add_event("WON")
         self.matrix[map_point[0]][map_point[1]][1] = 0
 

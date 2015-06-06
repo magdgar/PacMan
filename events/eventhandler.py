@@ -2,7 +2,7 @@
 
 from objects.Container import get_objects
 #dictionary with all possible events as keys and length in frames
-GAME_EVENTS = {"DEATH": 60, "GAME_OVER": 200, "RESPAWN": 1, "REPAINT": 1, "EXIT": 1, "WON": 300}
+GAME_EVENTS = {"DEATH": 60, "GAME_OVER": 200, "RESPAWN": 1, "REPAINT": 1, "EXIT": 1, "WON": 300, "EAT_DOT":1}
 #acvtie events
 EVENTS = []
 

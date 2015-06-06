@@ -14,13 +14,17 @@ BGCOLOR = (0, 0, 0)
 class Painter(EventObserver):
     def __init__(self, window_surface):
         super().__init__()
-        self.react_cases = {"GAME_OVER": self.paint_game_over, "REPAINT": self.repaint_background_with_dots, "WON": self.paint_game_won}
+        self.react_cases = {"GAME_OVER": self.paint_game_over, "REPAINT": self.repaint_background_with_dots, "WON": self.paint_game_won, "EAT_DOT": self.repaint_score}
         self.window_surface = window_surface
         self.window_surface.fill(BGCOLOR)
         self.save_screenshot(window_surface)
         self.dynamic_images = DynamicImages(window_surface)
         #paint_whole_background(window_surface)
 
+        pygame.display.update()
+
+    def repaint_score(self):
+        self.dynamic_images.repaint_score()
         pygame.display.update()
 
     def paint_objects(self):
