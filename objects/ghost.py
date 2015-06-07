@@ -1,10 +1,7 @@
 from pygame.constants import *
-from pygame.rect import Rect
-from events.eventhandler import add_event
-from objects.Container import get_object, get_ghosts, get_pacmans, get_pacman, add_object
+from events.eventconstans import DEATH
 from pacfunctions.pacfunction import get_next_directions
-from media.dirtyrect import add_dirty_rect, PacDirtyRect
-from objects.hero import Hero, RECT_MATRIX
+from objects.hero import Hero
 CHASE = 999
 SCATTER = 998
 SCARED = 997
@@ -12,8 +9,8 @@ HOUSE = 996
 FROZEN = 995
 
 class Ghost(Hero):
-    def __init__(self, x, y, anim):
-        super().__init__(x, y)
+    def __init__(self, x, y, anim, rect_martix, container, evenent_handler):
+        super().__init__(x, y, rect_martix, container, evenent_handler)
         self.corner_changer = 0
         self.house_time = 1
         self.scatter_time = 1000
@@ -27,11 +24,11 @@ class Ghost(Hero):
                                FROZEN : self.stand_still}
         self.move_hero_function = self.house_move
         self.new_directions = get_next_directions((round(self.y / 20), round(self.x / 20)),
-                                                    (round(get_object(0).y / 20), round(get_object(0).x / 20)))
+                                                    (round(self.container.pac_man.y / 20), round(self.container.pac_man.x / 20)))
         for key, animation in self.animations.items():
             animation.play()
 
-        add_object(self, False)
+        self.container.add_object(self)
 
     def move(self):
         super().move()
@@ -46,7 +43,7 @@ class Ghost(Hero):
 
     def scatter_move(self):
         if self.in_place_to_change_direction():
-            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
+            self.map_point = self.rect_matrix.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()
             self.new_directions = get_next_directions(self.map_point, self.corner_points[self.corner_changer])
             if len(self.new_directions) < 2:
@@ -59,6 +56,8 @@ class Ghost(Hero):
         self.scatter_time -= 1
         if self.scatter_time == 0:
             self.change_move_hero_function(CHASE)
+
+
 
     def scared_move(self):
         pass
@@ -79,24 +78,41 @@ class Ghost(Hero):
             self.change_move_hero_function(SCATTER)
 
     def get_directions_to_closest_pacman(self):
-        if len(get_pacmans()) == 1:
-            self.new_directions = get_next_directions(self.map_point, get_pacman(0).map_point)
+        if self.container.enemy_pac_man is None:
+            self.new_directions = get_next_directions(self.map_point, self.container.pac_man.map_point)
         else:
-            directions_to_player = get_next_directions(self.map_point, get_pacman(0).map_point)
-            directions_to_enemy = get_next_directions(self.map_point, get_pacman(1).map_point)
+            directions_to_player = get_next_directions(self.map_point, self.container.pac_man.map_point)
+            directions_to_enemy = get_next_directions(self.map_point, self.container.enemy_pac_man.map_point)
             self.new_directions = directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy
         return self.new_directions
 
 
     def is_dot_at_field(self):
-        return RECT_MATRIX.is_dot_at_field(self.map_point)
+        return self.rect_matrix.is_dot_at_field(self.map_point)
 
     def check_if_catched(self):
-        for pac_man in get_pacmans():
-            if self.area_rect.colliderect(pac_man.area_rect):
-                if pac_man.alive:
-                    pac_man.alive = False
-                    pac_man.active = False
-                    for ghost in get_ghosts():
-                        ghost.active = False
-                    add_event("DEATH")
+        if self.area_rect.colliderect(self.container.pac_man.area_rect):
+            if self.container.pac_man.alive:
+                self.container.pac_man.alive = False
+                self.container.pac_man.active = False
+                for ghost in self.container.ghosts:
+                    ghost.active = False
+                self.event_handler.add_event(DEATH)
+
+
+def stupidity_decorator(func):
+    def stupitidy(self, *args, **kwargs):
+        if self.in_place_to_change_direction():
+            self.map_point = self.rect_matrix.get_map_point(self.area_rect)
+            self.is_dot = self.is_dot_at_field()
+            if self.change_direction_counter % self.stupidity == 0:
+                self.change_direction_counter = 1
+                func(self, *args, **kwargs)
+                self.direction = self.new_directions[0]
+            else:
+                if self.change_direction_counter < len(self.new_directions):
+                    self.direction = self.new_directions[self.change_direction_counter]
+                else:
+                    self.direction = self.get_proper_random_direction()
+                self.change_direction_counter += 1
+    return stupitidy

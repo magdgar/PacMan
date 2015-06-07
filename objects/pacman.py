@@ -1,23 +1,23 @@
 from copy import deepcopy
 from pygame.locals import *
-from events.eventhandler import add_event
+from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON
+
 import media.sprites
-from objects.Container import get_ghosts, add_object
-from objects.hero import Hero, RECT_MATRIX
+from objects.hero import Hero
 from pacfunctions.pacfunction import next_point_in_direction
 
 class PacMan(Hero):
 
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, rect_martix, container, evenent_handler):
+        super().__init__(x, y, rect_martix, container, evenent_handler)
         self.animations = media.sprites.PacManAnim
-        self.react_cases = {"DEATH": self.die}
+        self.react_cases = {DEATH: self.die}
         self.score = 0
         self.alive = True
         self.is_dot = False
         for key, animation in self.animations.items():
             animation.play()
-        add_object(self, True)
+        self.container.add_object(self)
 
     def move(self):
         super().move()
@@ -27,7 +27,7 @@ class PacMan(Hero):
         self.new_direction = key
         if self.in_place_to_change_direction():
             self.tunel_teleportation()
-            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
+            self.map_point = self.rect_matrix.get_map_point(self.area_rect)
             self.eat_dot()
             if not self.is_this_the_wall(self.new_direction):
                 self.direction = self.new_direction
@@ -37,28 +37,32 @@ class PacMan(Hero):
         self.move()
 
     def eat_dot(self):
-        RECT_MATRIX.eat_dot(self.map_point)
+        if self.rect_matrix.eat_dot(self.map_point):
+            self.score += 1
+            self.event_handler.add_event(EAT_DOT)
+            if self.rect_matrix.count_dots() == 0:
+                self.event_handler.add_event(WON)
 
     def predicted_pac_man_point(self, steps_to_predict):
         pac_point = self.map_point
         pac_direction = deepcopy(self.direction)
         while steps_to_predict > 0:
 
-            if not RECT_MATRIX.is_wall_at_field(next_point_in_direction(pac_point, pac_direction)):
+            if not self.rect_matrix.is_wall_at_field(next_point_in_direction(pac_point, pac_direction)):
                 pac_point = next_point_in_direction(pac_point, pac_direction)
             else:
-                pac_direction = RECT_MATRIX.get_proper_random_direction(pac_point, pac_direction)
+                pac_direction = self.rect_matrix.get_proper_random_direction(pac_point, pac_direction)
                 pac_point = next_point_in_direction(pac_point, pac_direction)
             steps_to_predict -= 1
         return pac_point
 
     def tunel_teleportation(self):
-        if self.map_point in RECT_MATRIX.teleport_points:
+        if self.map_point in self.rect_matrix.teleport_points:
             if self.map_point[1] == 28 and self.direction == K_RIGHT:
                 self.teleport((13, 0))
             elif self.map_point[1] == 1 and self.direction == K_LEFT:
                 self.teleport((13, 28))
-            add_event("REPAINT")
+            self.event_handler.add_event(REPAINT)
 
     def die(self):
         self.direction = K_DELETE

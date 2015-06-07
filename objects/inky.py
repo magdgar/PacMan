@@ -1,41 +1,27 @@
 from random import randint
-from objects.Container import get_object, get_ghosts, get_ghost
-from objects.ghost import Ghost
+
+from objects.ghost import Ghost, stupidity_decorator
 from pacfunctions.pacfunction import get_next_directions
 import media
-from objects.hero import Hero, RECT_MATRIX
+from objects.hero import Hero
 from media.constans import MAP_X_DIMENTION, MAP_Y_DIMENTION
 from pygame.rect import Rect
 from pacfunctions.paclogic import all_neighbours
 
 
 class Inky(Ghost):
-    def __init__(self, x, y):
-        super().__init__(x, y, media.sprites.InkyAnim)
+    def __init__(self, x, y, rect_martix, container, evenent_handler):
+        super().__init__(x, y, media.sprites.InkyAnim, rect_martix, container, evenent_handler)
         self.house_time = 800
         self.corner_points = [(27, 27), (27, 16), (24, 16), (24, 22)]
 
+    @stupidity_decorator
     def chase_move(self):  # sprawa z argumentami do przemyslenia
+        self.new_directions = get_next_directions(self.map_point, self.get_proper_target())
 
-        if self.in_place_to_change_direction():
-            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
-            self.is_dot = self.is_dot_at_field()
-            if self.change_direction_counter % self.stupidity == 0:
-                self.change_direction_counter = 1
-                self.new_directions = get_next_directions(self.map_point, self.get_proper_target())
-                # self.has_catched_pacman(self.new_directions)
-                self.direction = self.new_directions[0]
-            else:
-                if self.change_direction_counter < len(self.new_directions):
-                    self.direction = self.new_directions[self.change_direction_counter]
-                else:
-                    self.direction = self.get_proper_random_direction()
-                self.change_direction_counter += 1
-
-    @staticmethod
-    def get_proper_target():
-        pacman = get_object(0)
-        blinky = get_ghost(0)
+    def get_proper_target(self):
+        pacman = self.container.pac_man
+        blinky = self.container.ghosts[0]
         x = blinky.map_point[1] - pacman.map_point[1]
         y = blinky.map_point[0] - pacman.map_point[0]
         target_x = pacman.map_point[1] - 2 * x
@@ -56,6 +42,6 @@ class Inky(Ghost):
         neighbours = all_neighbours(res)
         len = neighbours.__len__()
         if len == 0:
-            return (pacman.map_point[0], pacman.map_point[1])
+            return pacman.map_point
         else:
             return neighbours.pop(randint(0, len-1))

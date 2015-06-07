@@ -1,35 +1,25 @@
 from pygame.constants import K_DOWN, K_UP
-from objects.ghost import Ghost
-from objects.Container import get_object, get_pacmans, get_pacman
+from objects.ghost import Ghost, stupidity_decorator
+
 from pacfunctions.pacfunction import get_next_directions, next_point_in_direction
 import media
-from objects.hero import Hero, RECT_MATRIX
+from objects.hero import Hero
 
 
 class Pinky(Ghost):
-    def __init__(self, x, y):
-        super().__init__(x, y, media.sprites.PinkyAnim)
+    def __init__(self, x, y, rect_martix, container, evenent_handler):
+        super().__init__(x, y, media.sprites.PinkyAnim, rect_martix, container, evenent_handler)
         self.corner_points = [(1, 2),  (5, 2), (5, 7), (2, 7)]
         self.house_time = 400
 
+    @stupidity_decorator
     def chase_move(self): #sprawa z argumentami do przemyslenia
-        if self.in_place_to_change_direction():
-            self.map_point = RECT_MATRIX.get_map_point(self.area_rect)
-            self.is_dot = self.is_dot_at_field()
-            predicted_directions = self.get_directions_to_closest_predicted_pacman()
-            shortes_directions = self.get_directions_to_closest_pacman()
-
-            if len(shortes_directions) < 4:
-                self.direction = shortes_directions[0]
-            else:
-                self.direction = predicted_directions[0]
-
+        self.new_directions = self.get_directions_to_closest_predicted_pacman()
 
     def get_directions_to_closest_predicted_pacman(self):
-        if len(get_pacmans()) == 1:
-            self.new_directions = get_next_directions(self.map_point, get_pacman(0).predicted_pac_man_point(4))
+        if self.container.enemy_pac_man is None:
+            return get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(4))
         else:
-            directions_to_player = get_next_directions(self.map_point, get_pacman(0).predicted_pac_man_point(4))
-            directions_to_enemy = get_next_directions(self.map_point, get_pacman(1).predicted_pac_man_point(4))
-            self.new_directions = directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy
-        return self.new_directions
+            directions_to_player = get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(4))
+            directions_to_enemy = get_next_directions(self.map_point, self.container.enemy_pac_man.predicted_pac_man_point(4))
+            return directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy

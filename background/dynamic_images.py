@@ -3,14 +3,15 @@ from pygame.rect import Rect
 from background.background import repaint_fragment_of_background
 from events.eventobserver import EventObserver
 from media.constans import NUMBERS_DICT
-from objects.Container import get_object
 
 
 class DynamicImages:
 
-    def __init__(self, window_surface):
-        self.lives = 3
+    def __init__(self, window_surface, cointainer):
         self.window_surface = window_surface
+        self.cointainer = cointainer
+        self.lives = 3
+
         self.live = 'resources/live.png'
         self.window_surface = window_surface
         self.last_score = 10157
@@ -34,7 +35,7 @@ class DynamicImages:
     def repaint_score(self):
         mod = 10
         i = 0
-        score = get_object(0).score
+        score = self.cointainer.pac_man.score
         print(score)
         while score >= mod:
             #pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (540 - i*20, 600))

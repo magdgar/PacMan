@@ -1,13 +1,12 @@
 from pygame.constants import *
-from pygame.rect import *
-from media.constans import NUMBER_OF_DOTS
-from objects.Container import get_object
+from pygame.rect import Rect
 from pacfunctions.pacfunction import add_points, negative_direction, as_a_grid
 from pacfunctions.paclogic import valid
-from events.eventhandler import add_event
 
 class RectMatrix:
-    def __init__(self, map_array):
+    def __init__(self, path):
+        with open(path) as file:
+            map_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
         self.matrix = [[[Rect(x * 20, y * 20, 20, 20), map_array[y][x]]
                         for x in range(len(map_array[0]))] for y in range(len(map_array))]
         self.map_array = [[ map_array[y][x] for x in range(len(map_array[0]))] for y in range(len(map_array))]
@@ -17,13 +16,13 @@ class RectMatrix:
 
     def count_dots(self):
         dot_counter = 0
-        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+        for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][1] == 7:
                 dot_counter += 1
         return dot_counter
 
     def is_at_direction_change_place(self, rect):
-        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+        for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][0].contains(rect):
                 return True
         return False
@@ -37,7 +36,7 @@ class RectMatrix:
         return True
 
     def get_map_point(self, rect):
-        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+        for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][0].contains(rect):
                 return y, x
 
@@ -45,23 +44,21 @@ class RectMatrix:
         self.map_array[map_point[0]][map_point[1]] = 0
         if self.matrix[map_point[0]][map_point[1]][1] == 7:
             self.remain_dots -= 1
-            get_object(0).score = NUMBER_OF_DOTS - self.remain_dots
-            add_event("EAT_DOT")
-            if self.remain_dots == 0:
-                add_event("WON")
-        self.matrix[map_point[0]][map_point[1]][1] = 0
+            self.matrix[map_point[0]][map_point[1]][1] = 0
+            return True
+        return False
 
     def is_game_won(self):
         return self.remain_dots == 0
 
 
     def is_this_the_wall(self, rect, alter):
-        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+        for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][0].contains(rect):
                 return 0 < self.matrix[y + alter[1]][x + alter[0]][1] < 7
 
     def get_rect(self, rect):
-        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+        for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][0].contains(rect):
                 return self.matrix[y][x][0]
 
@@ -80,7 +77,7 @@ class RectMatrix:
 
     def find_teleport_points(self):
         teleport_points = []
-        for (y, x) in as_a_grid(self.matrix, self.matrix[0]):
+        for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][1] == 8:
                 teleport_points.append((y, x))
 

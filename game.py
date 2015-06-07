@@ -1,33 +1,34 @@
 import socket
 import pygame
+from events.eventconstans import *
 from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT
-from pygame.rect import Rect
 from pygame.threads import Thread
-from events.eventhandler import add_event
 from events.eventobserver import EventObserver
 from game_engine.gameengine import GameEngine
 from gameloop.gameloop import GameLoop
 from gamestate.gamestate import GameState
+from media.constans import LEVEL_MAP, ACTUAL_LVL
+from media.matrix import RectMatrix
 from objects.blinky import Blinky
 from objects.clyde import Clyde
-from objects.Container import del_objects
 from objects.pacman import PacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
-from objects.Container import get_objects, get_object
+
 
 class Game(EventObserver):
-    def __init__(self, window_surface):
-        super().__init__()
+    def __init__(self, window_surface, container, event_handler):
+        super().__init__(container, event_handler)
+        self.rect_matrix = RectMatrix(ACTUAL_LVL)
         self.score = 0
         self.current_key = K_LEFT
         self.current_enemy_key = K_RIGHT
-        self.react_cases = {"RESPAWN": self.respawn, "GAMEOVER": self.delete_ghost, "EXIT": self.exit, "WON": self.game_won}
+        self.react_cases = {RESPAWN: self.respawn, GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
         self.game_on = True
         self.window_surface = window_surface
         self.paused = False
-        self.game_state = GameState()
-        self.game_loop = GameLoop(window_surface, GameEngine(window_surface), self)
+        self.game_state = GameState(container, event_handler)
+        self.game_loop = GameLoop(window_surface, container, self)
         self.mainClock = pygame.time.Clock()
         self.reset_objects()
 
@@ -43,33 +44,33 @@ class Game(EventObserver):
         self.score += number
 
     def game_won(self):
-        get_object(0).active = False
-        for object in get_objects():
+        self.container.pac_man.active = False
+        for object in self.container.ghosts:
             for key, animation in object.animations.items():
                 animation.pause()
 
     def respawn(self):
         if self.game_state.lives_left != 0:
             self.reset_objects()
-            add_event("REPAINT")
+            self.event_handler.add_event(REPAINT)
 
     def delete_ghost(self):
-        del_objects()
+        self.container.del_objects()
 
     def exit(self):
         self.game_on = False
 
     def reset_objects(self):
-        del_objects()
-        PacMan(2, 1)
-        Blinky(13, 11)
-        Pinky(11, 13)
-        Inky(13, 13)
-        Clyde(15, 13)
+        self.container.del_objects()
+        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
+        Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
+        Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
+        Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
 
 class ServerGame(Game):
-    def __init__(self, window_surface):
-        super().__init__(window_surface)
+    def __init__(self, window_surface, cointainer, event_handler):
+        super().__init__(window_surface, cointainer, event_handler)
         self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.current_key = K_RIGHT
         self.enemy_key  = K_LEFT
@@ -110,17 +111,16 @@ class ServerGame(Game):
                 pass
 
     def reset_objects(self):
-        del_objects()
-        PacMan(2, 1)
-        PacMan(27, 1)
-        Blinky(13, 11)
-        Pinky(11, 13)
-        Inky(13, 13)
-        Clyde(15, 13)
+        self.container.del_objects()
+        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
+        Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
+        Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
+        Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
 
 class ClientGame(Game):
-    def __init__(self, window_surface):
-        super().__init__(window_surface)
+    def __init__(self, window_surface, cointainer, event_handler):
+        super().__init__(window_surface, cointainer, event_handler)
         self.clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.current_key = K_LEFT
         self.enemy_key  = K_RIGHT
@@ -156,13 +156,13 @@ class ClientGame(Game):
             self.mainClock.tick(50)
 
     def reset_objects(self):
-        del_objects()
-        PacMan(27, 1)
-        PacMan(2, 1)
-        Blinky(13, 11)
-        Pinky(11, 13)
-        Inky(13, 13)
-        Clyde(15, 13)
+        self.container.del_objects()
+        PacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
+        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
+        Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
+        Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
+        Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
 
 def parse_to_keys(server_response):
     return int(server_response[:3]), int(server_response[-3:])
