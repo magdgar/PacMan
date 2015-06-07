@@ -15,4 +15,5 @@ if __name__ == "__main__":
     container = Container()
     event_handler = EventHandler(container)
     Game(window_surface, container, event_handler).start_game()
-
+    #ServerGame(window_surface, container, event_handler).start_game()
+    #ClientGame(window_surface, container, event_handler).start_game()

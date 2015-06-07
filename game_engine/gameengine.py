@@ -21,7 +21,7 @@ class GameEngine:
         if self.cointainer.pac_man is not None:
             self.cointainer.pac_man.move_hero(key_events[0])
             self.painter.add_dirty_rect(PacDirtyRect(Rect(self.cointainer.pac_man.x - 2, self.cointainer.pac_man.y - 2, 30, 30), self.cointainer.pac_man.is_dot))
-        if  self.cointainer.enemy_pac_man is not None:
+        if self.cointainer.enemy_pac_man is not None:
             self.cointainer.enemy_pac_man.move_hero(key_events[1])
             self.painter.add_dirty_rect(PacDirtyRect(Rect(self.cointainer.enemy_pac_man.x - 2, self.cointainer.enemy_pac_man.y - 2, 30, 30), self.cointainer.enemy_pac_man.is_dot))
 

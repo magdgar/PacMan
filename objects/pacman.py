@@ -21,7 +21,6 @@ class PacMan(Hero):
 
     def move(self):
         super().move()
-       # add_dirty_rect(PacDirtyRect(Rect(self.x - 2, self.y - 2, 30, 30), self.is_dot))
 
     def move_hero(self, key):
         self.new_direction = key

@@ -14,7 +14,8 @@ from objects.clyde import Clyde
 from objects.pacman import PacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
-
+HOST = ''
+PORT = 4444
 
 class Game(EventObserver):
     def __init__(self, window_surface, container, event_handler):
@@ -78,7 +79,7 @@ class ServerGame(Game):
         self.start_server()
 
     def start_server(self):
-        self.serversocket.bind(('', 4444))
+        self.serversocket.bind(('', PORT))
         self.serversocket.listen(1)
         self.connection, address = self.serversocket.accept()
         print("connected from " + str(address))
@@ -113,6 +114,7 @@ class ServerGame(Game):
     def reset_objects(self):
         self.container.del_objects()
         PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        PacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
         Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
         Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
         Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
@@ -127,7 +129,7 @@ class ClientGame(Game):
         self.start_client()
 
     def start_client(self):
-        self.clientsocket.connect(('25.122.171.23', 4444))
+        self.clientsocket.connect((HOST, PORT))
         th = Thread(target=self.recive_data)
         th.daemon = True
         th.start()
