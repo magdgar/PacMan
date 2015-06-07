@@ -14,7 +14,7 @@ from objects.clyde import Clyde
 from objects.pacman import PacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
-HOST = ''
+HOST = 'localhost'
 PORT = 4444
 
 class Game(EventObserver):
@@ -100,7 +100,7 @@ class ServerGame(Game):
         try:
             self.connection.send((str(self.enemy_key) + str(self.current_key)).encode())
         except:
-            print("ERR")
+            print("trouble sending data")
             pass
 
     def recive_data(self):
@@ -108,7 +108,7 @@ class ServerGame(Game):
             try:
                 self.enemy_key = int(self.connection.recv(1024).decode())
             except:
-                print("ERR")
+                print("trouble reiving data")
                 pass
 
     def reset_objects(self):
@@ -138,7 +138,7 @@ class ClientGame(Game):
         try:
             self.clientsocket.send(str(self.current_key).encode())
         except:
-            print("ERR")
+            print("trouble sending data")
             pass
 
     def recive_data(self):
@@ -146,7 +146,7 @@ class ClientGame(Game):
             try:
                 self.current_key, self.enemy_key = parse_to_keys(self.clientsocket.recv(1024).decode())
             except:
-                print("ERR")
+                print("trouble reciving data")
                 pass
 
     def start_game(self):

@@ -37,6 +37,7 @@ class Ghost(Hero):
     def move(self):
         super().move()
         self.check_if_catched()
+        self.check_if_enemy_catched()
 
     def move_hero(self, arguments):
         self.move_hero_function()
@@ -141,6 +142,24 @@ class Ghost(Hero):
                     anim.play()
                 self.speed = 2
                 self.reload_movements()
+
+    def check_if_enemy_catched(self):#TODO temp!
+        if self.container.enemy_pac_man is not None:
+            if self.area_rect.colliderect(self.container.enemy_pac_man.area_rect):
+                if not self.is_scared:
+                    if self.container.enemy_pac_man.alive:
+                        self.container.enemy_pac_man.alive = False
+                        self.container.enemy_pac_man.active = False
+                        for ghost in self.container.ghosts:
+                            ghost.active = False
+                        self.event_handler.add_event(DEATH)
+                elif self.in_place_to_change_direction():
+                    self.change_move_hero_function(HOUSE_RETURN)
+                    self.current_anim = media.sprites.EyesAnim
+                    for key, anim in self.current_anim.items():
+                        anim.play()
+                    self.speed = 2
+                    self.reload_movements()
 
 
 
