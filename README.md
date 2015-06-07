@@ -9,4 +9,4 @@ Requirements:
    
    -Pygame library
 
-![alt tag](http://s17.postimg.org/z268on2vj/Pac_Man.png)
+![alt tag](http://s9.postimg.org/rpngx2pm7/Pac_Man.png)
