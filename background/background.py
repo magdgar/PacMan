@@ -11,13 +11,14 @@ RIGHT_DOWN_CORNER = pygame.image.load('resources/4.png')
 LEFT_DOWN_CORNER = pygame.image.load('resources/5.png')
 UP_LEFT_CORNER = pygame.image.load('resources/6.png')
 DOT = pygame.image.load('resources/DOT.png')
+POWER_DOT = pygame.image.load('resources/power_dot.png')
 BACKGROUND_IMAGE = pygame.image.load(ACTUAL_SCREENSCHOT)
 BACKGROUND_IMAGE_DOT = pygame.image.load(ACTUAL_DOT_SCREENSCHOT)
 
 # dictionary used for painting
 WALLS_DICT = {1: HORIZONTAL_WALL, 2: VERTICAL_WALL, 3: UP_RIGHT_WALL,
               4: RIGHT_DOWN_CORNER, 5: LEFT_DOWN_CORNER, 6: UP_LEFT_CORNER,
-              7: DOT, 0: BLANK_PIECE}
+              7: DOT, 8: POWER_DOT,  0: BLANK_PIECE}
 
 with open(ACTUAL_LVL) as file:
     ARRAY_2D = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
@@ -28,7 +29,7 @@ def paint_whole_background(window_surface,  with_dots=False,  map_array=ARRAY_2D
 
     for y in range(len(map_array)):
         for x in range(len(map_array[0])):
-            if 8 > map_array[y][x] >= 0:
+            if 9 > map_array[y][x] >= 0:
                 window_surface.fill((0, 0, 0), (x * 20, y * 20, 20, 20))
                 if with_dots:
                     window_surface.blit(WALLS_DICT[map_array[y][x]], (x * 20, y * 20))

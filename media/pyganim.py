@@ -101,7 +101,7 @@ class PygAnimation(object):
 
 
     def reverse(self):
-        # Reverses the order of the animations.
+        # Reverses the order of the standard_anim.
         self.elapsed = self._startTimes[-1] - self.elapsed
         self._images.reverse()
         self._transformedImages.reverse()

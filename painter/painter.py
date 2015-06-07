@@ -33,7 +33,7 @@ class Painter(EventObserver):
         for pac_dirty_rect in self.dirt_rect:
             repaint_fragment_of_background(self.window_surface, pac_dirty_rect.dirty_rect, pac_dirty_rect.dot)
         for hero in self.container.game_objects:
-            hero.animations[hero.direction].blit(self.window_surface, (hero.x, hero.y))
+            hero.current_anim[hero.direction].blit(self.window_surface, (hero.x, hero.y))
         for pac_dirty_rect in self.dirt_rect:
             pygame.display.update(pac_dirty_rect.dirty_rect)
         self.clear_dirty_rect()

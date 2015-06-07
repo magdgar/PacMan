@@ -1,7 +1,7 @@
 """handles event appearing and notifying observers"""
 from events.eventconstans import *
 #dictionary with all possible events as keys and length in frames
-GAME_EVENTS = {DEATH: 60, GAME_OVER: 200, RESPAWN: 1, REPAINT: 1, EXIT: 1, WON: 300, EAT_DOT: 1}
+GAME_EVENTS = {DEATH: 60, GAME_OVER: 200, RESPAWN: 1, REPAINT: 1, EXIT: 1, WON: 300, EAT_DOT: 1, POWER_UP: 360, BACK_TO_CHASE: 20}
 
 
 class EventHandler:
@@ -31,6 +31,8 @@ class EventHandler:
                     self.add_event(EXIT)
                 if event[0] == WON:
                     self.add_event(EXIT)
+                if event[0] == POWER_UP:
+                    self.add_event(BACK_TO_CHASE)
                 #when event time is zero remove event from list
                 self.active_events.remove(event)
 

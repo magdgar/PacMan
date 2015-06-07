@@ -5,7 +5,7 @@ class GameState(EventObserver):
 
     def __init__(self, coinainer, event_handler):
         super().__init__(coinainer, event_handler)
-        self.react_cases = {RESPAWN : self.pacman_die}
+        self.react_cases = {RESPAWN: self.pacman_die}
         self.score = 0
         self.lives_left = 3
 

@@ -9,7 +9,7 @@ class RectMatrix:
             map_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
         self.matrix = [[[Rect(x * 20, y * 20, 20, 20), map_array[y][x]]
                         for x in range(len(map_array[0]))] for y in range(len(map_array))]
-        self.map_array = [[ map_array[y][x] for x in range(len(map_array[0]))] for y in range(len(map_array))]
+        self.map_array = [[map_array[y][x] for x in range(len(map_array[0]))] for y in range(len(map_array))]
         self.remain_dots = self.count_dots()
         self.teleport_points = self.find_teleport_points()
         print(self.teleport_points)
@@ -48,6 +48,13 @@ class RectMatrix:
             return True
         return False
 
+    def eat_power_dot(self, map_point):
+        self.map_array[map_point[0]][map_point[1]] = 0
+        if self.matrix[map_point[0]][map_point[1]][1] == 8:
+            self.matrix[map_point[0]][map_point[1]][1] = 0
+            return True
+        return False
+
     def is_game_won(self):
         return self.remain_dots == 0
 
@@ -78,7 +85,7 @@ class RectMatrix:
     def find_teleport_points(self):
         teleport_points = []
         for (y, x) in as_a_grid(self.matrix):
-            if self.matrix[y][x][1] == 8:
+            if self.matrix[y][x][1] == 9:
                 teleport_points.append((y, x))
 
         return teleport_points

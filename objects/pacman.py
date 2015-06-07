@@ -1,6 +1,6 @@
 from copy import deepcopy
 from pygame.locals import *
-from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON
+from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON, POWER_UP
 
 import media.sprites
 from objects.hero import Hero
@@ -10,12 +10,12 @@ class PacMan(Hero):
 
     def __init__(self, x, y, rect_martix, container, evenent_handler):
         super().__init__(x, y, rect_martix, container, evenent_handler)
-        self.animations = media.sprites.PacManAnim
+        self.current_anim = media.sprites.PacManAnim
         self.react_cases = {DEATH: self.die}
         self.score = 0
         self.alive = True
         self.is_dot = False
-        for key, animation in self.animations.items():
+        for key, animation in self.current_anim.items():
             animation.play()
         self.container.add_object(self)
 
@@ -42,6 +42,9 @@ class PacMan(Hero):
             self.event_handler.add_event(EAT_DOT)
             if self.rect_matrix.count_dots() == 0:
                 self.event_handler.add_event(WON)
+        elif self.rect_matrix.eat_power_dot(self.map_point):
+            self.score += 5
+            self.event_handler.add_event(POWER_UP)
 
     def predicted_pac_man_point(self, steps_to_predict):
         pac_point = self.map_point
