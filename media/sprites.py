@@ -73,3 +73,16 @@ ClydeAnimDown = media.pyganim.PygAnimation([('resources/clyde/clyde_down_1.png',
 ClydeAnimLeft = media.pyganim.PygAnimation([('resources/clyde/clyde_left_1.png', 0.1),
                                             ('resources/clyde/clyde_left_2.png', 0.1)])
 ClydeAnim = {K_UP: ClydeAnimTop, K_RIGHT: ClydeAnimRight, K_DOWN: ClydeAnimDown, K_LEFT: ClydeAnimLeft, K_DELETE : ClydeAnimRight}
+
+FrightenAnim_1 = media.pyganim.PygAnimation([('resources/frighten/f1.png', 0.1), ('resources/frighten/f2.png', 0.1)])
+FrozenAnim_1 = media.pyganim.PygAnimation([('resources/frighten/fw1.png', 0.1), ('resources/frighten/fw2.png', 0.1)])
+
+FrightenAnim = {K_UP: FrightenAnim_1, K_RIGHT: FrightenAnim_1, K_DOWN: FrightenAnim_1, K_LEFT: FrightenAnim_1, K_DELETE: FrightenAnim_1}
+FrozenAnim = {K_UP: FrozenAnim_1, K_RIGHT: FrozenAnim_1, K_DOWN: FrozenAnim_1, K_LEFT: FrozenAnim_1, K_DELETE: FrozenAnim_1}
+
+EyesAnimTop = media.pyganim.PygAnimation([('resources/eyes/eyes_up.png', 0.1)])
+EyesAnimRight  = media.pyganim.PygAnimation([('resources/eyes/eyes_right.png', 0.1)])
+EyesAnimLeft = media.pyganim.PygAnimation([('resources/eyes/eyes_left.png', 0.1)])
+EyesAnimDown = media.pyganim.PygAnimation([('resources/eyes/eyes_down.png', 0.1)])
+
+EyesAnim = {K_UP: EyesAnimTop, K_RIGHT: EyesAnimRight, K_DOWN: EyesAnimDown, K_LEFT: EyesAnimLeft, K_DELETE: EyesAnimTop}
