@@ -26,7 +26,9 @@ class Painter(EventObserver):
         pygame.display.update()
 
     def repaint_score(self):
-        self.dynamic_images.repaint_score()
+        self.dynamic_images.repaint_score(self.container.pac_man.score)
+        if self.container.enemy_pac_man is not None:
+            self.dynamic_images.repaint_score(self.container.enemy_pac_man.score)
         pygame.display.update()
 
     def paint_objects(self):
