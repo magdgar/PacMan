@@ -13,6 +13,7 @@ class GameLoop:
         """calls main modules"""
         self.game_engine.simulate_world(key_events)
         self.painter.paint_objects()
+        self.painter.paint_precicted_rect()
         self.game.event_handler.notify_observers()
 
     def add_observers(self):

@@ -29,7 +29,7 @@ class Painter(EventObserver):
         self.dynamic_images.repaint_score(self.container.pac_man.score)
         if self.container.enemy_pac_man is not None:
             self.dynamic_images.repaint_score(self.container.enemy_pac_man.score)
-        pygame.display.update()
+        pygame.display.update(Rect(0, 620, 400, 100))
 
     def paint_objects(self):
         for pac_dirty_rect in self.dirt_rect:
@@ -38,6 +38,22 @@ class Painter(EventObserver):
             hero.current_anim[hero.direction].blit(self.window_surface, (hero.x, hero.y))
         for pac_dirty_rect in self.dirt_rect:
             pygame.display.update(pac_dirty_rect.dirty_rect)
+        self.clear_dirty_rect()
+
+    def paint_precicted_rect(self):
+        for ghost in self.container.ghosts[1:3]:
+            if not ghost.new_directions_painted:
+                for rect in ghost.last_predicted_rect:
+                    repaint_fragment_of_background(self.window_surface, rect, True)
+                    pygame.display.update()
+                for rect in ghost.get_predicted_rect():
+                    surface = pygame.Surface((20, 20), pygame.SRCALPHA)
+                    surface.fill(ghost.color)
+                    self.window_surface.blit(surface, (rect.left, rect.top))
+                    self.dirt_rect.append(rect)
+                ghost.new_directions_painted = True
+            for dirty_rect in self.dirt_rect:
+                pygame.display.update(dirty_rect)
         self.clear_dirty_rect()
 
     def add_dirty_rect(self, pac_dirty_rect):

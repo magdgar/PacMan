@@ -35,19 +35,12 @@ class DynamicImages:
     def repaint_score(self, score, enemy=False):
         mod = 10
         i = 0
-        print(score)
-        while score >= mod:
-            #pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (540 - i*20, 600))
-            if enemy is None:
-                pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (100 - i*20, 620))
-            else:
+        while score > 0:
+            if enemy:
                 pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (300 - i*20, 620))
+            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (100 - i*20, 620))
             score -= score % mod
             score /= mod
             i += 1
-            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (100 - i*20,620))
-            pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score%mod]), (300 - i*20,620))
-
-
 
 

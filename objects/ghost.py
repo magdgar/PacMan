@@ -1,4 +1,5 @@
 from pygame.constants import *
+from pygame.rect import Rect
 from events.eventconstans import DEATH, POWER_UP, BACK_TO_CHASE
 from pacfunctions.pacfunction import get_next_directions
 from objects.hero import Hero
@@ -25,10 +26,12 @@ class Ghost(Hero):
         self.react_cases = {POWER_UP: self.run_away, BACK_TO_CHASE: self.back_to_chase}
         self.move_functions = {CHASE: self.chase_move, SCATTER: self.scatter_move,
                                SCARED: self.scared_move, HOUSE: self.house_move,
-                               FROZEN: self.stand_still, HOUSE_RETURN: self.house_return_move}
+                                   FROZEN: self.stand_still, HOUSE_RETURN: self.house_return_move}
         self.move_hero_function = self.house_move
         self.new_directions = get_next_directions((round(self.y / 20), round(self.x / 20)),
                                                     (round(self.container.pac_man.y / 20), round(self.container.pac_man.x / 20)))
+        self.last_predicted_rect = []
+        self.new_directions_painted = False
         for key, animation in self.standard_anim.items():
             animation.play()
 
@@ -123,6 +126,17 @@ class Ghost(Hero):
             self.new_directions = directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy
         return self.new_directions
 
+    def get_predicted_rect(self):
+        predicted_rect = []
+        current_rect = self.area_rect
+        for direction in self.new_directions:
+            current_rect = Rect(current_rect.left + (self.movements[direction][0] * 20 / self.speed),
+                                current_rect.top + (self.movements[direction][1] * 20 / self.speed),
+                                20, 20)
+            predicted_rect.append(current_rect)
+        self.last_predicted_rect = predicted_rect
+        return predicted_rect
+
     def is_dot_at_field(self):
         return self.rect_matrix.is_dot_at_field(self.map_point)
 
@@ -163,6 +177,7 @@ class Ghost(Hero):
 
 
 
+
 def stupidity_decorator(func):
     def stupitidy(self, *args, **kwargs):
         if self.in_place_to_change_direction():
@@ -171,6 +186,7 @@ def stupidity_decorator(func):
             if self.change_direction_counter % self.stupidity == 0:
                 self.change_direction_counter = 1
                 func(self, *args, **kwargs)
+                self.new_directions_painted = False
                 self.direction = self.new_directions[0]
             else:
                 if self.change_direction_counter < len(self.new_directions):
