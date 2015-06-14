@@ -1,6 +1,6 @@
 from events.eventobserver import EventObserver
 from objects.ghost import Ghost
-from objects.pacman import PacMan
+from objects.pacman import PacMan, EnemyPacMan
 
 
 class Container:
@@ -28,6 +28,15 @@ class Container:
         del self.ghosts[:]
         self.pac_man = None
         self.enemy_pac_man = None
+
+    def del_object(self, object):
+        self.game_objects.remove(object)
+        if isinstance(object, Ghost):
+            self.ghosts.remove(object)
+        if isinstance(object, EnemyPacMan):
+            self.enemy_pac_man = None
+        elif isinstance(object, PacMan):
+            self.pac_man = None
 
 
 

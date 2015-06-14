@@ -1,6 +1,6 @@
 from pygame.constants import *
 from pygame.rect import Rect
-from events.eventconstans import DEATH, POWER_UP, BACK_TO_CHASE
+from events.eventconstans import DEATH, POWER_UP, BACK_TO_CHASE, ENEMY_DEATH
 from pacfunctions.pacfunction import get_next_directions
 from objects.hero import Hero
 import media.sprites
@@ -146,8 +146,9 @@ class Ghost(Hero):
                 if self.container.pac_man.alive:
                     self.container.pac_man.alive = False
                     self.container.pac_man.active = False
-                    for ghost in self.container.ghosts:
-                        ghost.active = False
+                    if self.container.enemy_pac_man is  None:
+                        for ghost in self.container.ghosts:
+                            ghost.active = False
                     self.event_handler.add_event(DEATH)
             elif self.in_place_to_change_direction():
                 self.change_move_hero_function(HOUSE_RETURN)
@@ -164,9 +165,7 @@ class Ghost(Hero):
                     if self.container.enemy_pac_man.alive:
                         self.container.enemy_pac_man.alive = False
                         self.container.enemy_pac_man.active = False
-                        for ghost in self.container.ghosts:
-                            ghost.active = False
-                        self.event_handler.add_event(DEATH)
+                        self.event_handler.add_event(ENEMY_DEATH)
                 elif self.in_place_to_change_direction():
                     self.change_move_hero_function(HOUSE_RETURN)
                     self.current_anim = media.sprites.EyesAnim

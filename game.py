@@ -9,7 +9,7 @@ from media.matrix import RectMatrix
 from network import network
 from objects.blinky import Blinky
 from objects.clyde import Clyde
-from objects.pacman import PacMan
+from objects.pacman import PacMan, EnemyPacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
 
@@ -70,6 +70,28 @@ class Game(EventObserver):
         Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
         Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
         Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
+
+class AIGame(Game):
+    def __init__(self, window_surface, container, event_handler):
+        super().__init__(window_surface, container, event_handler)
+        self.react_cases = {RESPAWN: self.respawn, ENEMY_RESPAWN: self.enemy_respawn, GAME_OVER: self.delete_ghost,
+                            EXIT: self.exit, WON: self.game_won}
+
+    def respawn(self):
+        self.container.del_object(self.container.pac_man)
+        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        self.event_handler.add_event(REPAINT)
+
+    def enemy_respawn(self):
+        self.container.del_object(self.container.enemy_pac_man)
+        EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
+        self.event_handler.add_event(REPAINT)
+
+    def reset_objects(self):
+        self.container.del_objects()
+        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
+        self.reset_ghosts()
 
 
 class ServerGame(Game):

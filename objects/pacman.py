@@ -1,13 +1,12 @@
 from copy import deepcopy
 from pygame.locals import *
-from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON, POWER_UP
+from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON, POWER_UP, ENEMY_DEATH
 
 import media.sprites
 from objects.hero import Hero
 from pacfunctions.pacfunction import next_point_in_direction
-
+AI_KEY = -1
 class PacMan(Hero):
-
     def __init__(self, x, y, rect_martix, container, evenent_handler):
         super().__init__(x, y, rect_martix, container, evenent_handler)
         self.current_anim = media.sprites.PacManAnim
@@ -19,8 +18,6 @@ class PacMan(Hero):
             animation.play()
         self.container.add_object(self)
 
-    def move(self):
-        super().move()
 
     def move_hero(self, key):
         self.new_direction = key
@@ -69,4 +66,19 @@ class PacMan(Hero):
     def die(self):
         self.direction = K_DELETE
         self.active = False
+
+class EnemyPacMan(PacMan):
+    def __init__(self, x, y, rect_martix, container, evenent_handler):
+        super().__init__(x, y, rect_martix, container, evenent_handler)
+        self.react_cases = {ENEMY_DEATH: self.die}
+
+    def move_hero(self, key):
+        if key == AI_KEY:
+            if self.is_this_the_wall(self.direction):
+                self.direction = self.get_proper_random_direction()
+        else:
+            super().move_hero(key)
+        self.move()
+
+
 

@@ -5,6 +5,7 @@ from pygame.rect import Rect
 from media.dirtyrect import  PacDirtyRect
 from objects.Container import *
 from media.constans import ACTUAL_LVL
+from objects.pacman import EnemyPacMan, AI_KEY
 
 with open(ACTUAL_LVL) as file:
     BG_MATRIX = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
@@ -22,7 +23,10 @@ class GameEngine:
             self.cointainer.pac_man.move_hero(key_events[0])
             self.painter.add_dirty_rect(PacDirtyRect(Rect(self.cointainer.pac_man.x - 2, self.cointainer.pac_man.y - 2, 30, 30), self.cointainer.pac_man.is_dot))
         if self.cointainer.enemy_pac_man is not None:
-            self.cointainer.enemy_pac_man.move_hero(key_events[1])
+            if len(key_events) == 1:
+                self.cointainer.enemy_pac_man.move_hero(AI_KEY)
+            else:
+                self.cointainer.enemy_pac_man.move_hero(key_events[1])
             self.painter.add_dirty_rect(PacDirtyRect(Rect(self.cointainer.enemy_pac_man.x - 2, self.cointainer.enemy_pac_man.y - 2, 30, 30), self.cointainer.enemy_pac_man.is_dot))
 
         for ghost in self.cointainer.ghosts:

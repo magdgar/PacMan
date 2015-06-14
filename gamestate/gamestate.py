@@ -1,7 +1,8 @@
 "contains basic variables used in one gameplay"
 from events.eventobserver import EventObserver
-class GameState(EventObserver):
 
+
+class GameState(EventObserver):
     def __init__(self, coinainer, event_handler):
         super().__init__(coinainer, event_handler)
         self.score = 0
