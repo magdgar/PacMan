@@ -1,27 +1,23 @@
-import socket
 import pygame
 from events.eventconstans import *
-from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT
-from pygame.threads import Thread
+from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT, K_s, K_w
 from events.eventobserver import EventObserver
-from game_engine.gameengine import GameEngine
 from gameloop.gameloop import GameLoop
 from gamestate.gamestate import GameState
-from media.constans import LEVEL_MAP, ACTUAL_LVL
+from media.constans import ACTUAL_LVL
 from media.matrix import RectMatrix
+from network import network
 from objects.blinky import Blinky
 from objects.clyde import Clyde
 from objects.pacman import PacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
-HOST = 'localhost'
-PORT = 4444
 
 class Game(EventObserver):
     def __init__(self, window_surface, container, event_handler):
         super().__init__(container, event_handler)
         self.rect_matrix = RectMatrix(ACTUAL_LVL)
-        self.score = 0
+        self.fps = 60
         self.current_key = K_LEFT
         self.current_enemy_key = K_RIGHT
         self.react_cases = {RESPAWN: self.respawn, GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
@@ -30,19 +26,22 @@ class Game(EventObserver):
         self.paused = False
         self.game_state = GameState(container, event_handler)
         self.game_loop = GameLoop(window_surface, container, self)
-        self.mainClock = pygame.time.Clock()
         self.reset_objects()
 
     def start_game(self):
+        main_clock = pygame.time.Clock()
         while self.game_on:
             for event in pygame.event.get():
-               if event.type == KEYDOWN:
-                   self.current_key = event.key
-            self.game_loop.perform_one_cycle([self.current_key])
-            self.mainClock.tick(60)
+                if event.type == KEYDOWN:
+                    if event.key == K_s:
+                        self.fps -= 5
+                    elif event.key == K_w:
+                        self.fps += 5
+                    else:
+                        self.current_key = event.key
 
-    def add_points(self, number):
-        self.score += number
+            self.game_loop.perform_one_cycle([self.current_key])
+            main_clock.tick(self.fps)
 
     def game_won(self):
         self.container.pac_man.active = False
@@ -64,107 +63,74 @@ class Game(EventObserver):
     def reset_objects(self):
         self.container.del_objects()
         PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        self.reset_ghosts()
+
+    def reset_ghosts(self):
         Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
         Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
         Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
         Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
 
+
 class ServerGame(Game):
     def __init__(self, window_surface, cointainer, event_handler):
         super().__init__(window_surface, cointainer, event_handler)
-        self.serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.current_key = K_RIGHT
-        self.enemy_key  = K_LEFT
-        self.connection = None
-        self.start_server()
-
-    def start_server(self):
-        self.serversocket.bind(('', PORT))
-        self.serversocket.listen(1)
-        self.connection, address = self.serversocket.accept()
-        print("connected from " + str(address))
-        th = Thread(target=self.recive_data)
-        th.daemon = True
-        th.start()
+        self.enemy_key = K_LEFT
+        self.connection = network.get_connection(network.ServerConnection)
+        self.connection.received_data = K_LEFT
+        self.start_game()
 
     def start_game(self):
+        main_clock = pygame.time.Clock()
         while self.game_on:
             for event in pygame.event.get():
                if event.type == KEYDOWN:
                    self.current_key = event.key
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
-            self.send_data()
-            self.mainClock.tick(50)
+            self.connection.send_data((str(self.enemy_key) + str(self.current_key)))
+            self.enemy_key = int(self.connection.received_data)
+            main_clock.tick(1)
 
-    def send_data(self):
-        try:
-            self.connection.send((str(self.enemy_key) + str(self.current_key)).encode())
-        except:
-            print("trouble sending data")
-            pass
-
-    def recive_data(self):
-        while True:
-            try:
-                self.enemy_key = int(self.connection.recv(1024).decode())
-            except:
-                print("trouble reiving data")
-                pass
+    def respawn(self):
+        if self.game_state.lives_left != 0:
+            self.container.pac_man = PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+            self.event_handler.add_event(REPAINT)
 
     def reset_objects(self):
         self.container.del_objects()
         PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
         PacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
-        Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
-        Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
-        Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
-        Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
+        self.reset_ghosts()
 
 class ClientGame(Game):
     def __init__(self, window_surface, cointainer, event_handler):
         super().__init__(window_surface, cointainer, event_handler)
-        self.clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.current_key = K_LEFT
-        self.enemy_key  = K_RIGHT
-        self.start_client()
-
-    def start_client(self):
-        self.clientsocket.connect((HOST, PORT))
-        th = Thread(target=self.recive_data)
-        th.daemon = True
-        th.start()
-
-    def send_data(self):
-        try:
-            self.clientsocket.send(str(self.current_key).encode())
-        except:
-            print("trouble sending data")
-            pass
-
-    def recive_data(self):
-        while True:
-            try:
-                self.current_key, self.enemy_key = parse_to_keys(self.clientsocket.recv(1024).decode())
-            except:
-                print("trouble reciving data")
-                pass
+        self.enemy_key = K_RIGHT
+        self.connection = network.get_connection(network.ClientConnection)
+        self.connection.received_data = str(K_LEFT) + str(K_RIGHT)
 
     def start_game(self):
+        main_clock = pygame.time.Clock()
         while self.game_on:
             for event in pygame.event.get():
-               if event.type == KEYDOWN:
-                   self.clientsocket.send(str(event.key).encode())
+                if event.type == KEYDOWN:
+                    self.connection.send_data(str(event.key))
+            self.current_key, self.enemy_key = parse_to_keys(self.connection.received_data)
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
-            self.mainClock.tick(50)
+            main_clock.tick(1)
+
+    def respawn(self):
+        if self.game_state.lives_left != 0:
+            self.container.pac_man = PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+            self.event_handler.add_event(REPAINT)
 
     def reset_objects(self):
         self.container.del_objects()
         PacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
         PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
-        Blinky(13, 11, self.rect_matrix, self.container, self.event_handler)
-        Pinky(11, 13, self.rect_matrix, self.container, self.event_handler)
-        Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
-        Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
+        self.reset_ghosts()
 
 def parse_to_keys(server_response):
     return int(server_response[:3]), int(server_response[-3:])
