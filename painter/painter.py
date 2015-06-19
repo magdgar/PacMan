@@ -16,7 +16,9 @@ class Painter(EventObserver):
         self.dirt_rect = []
         self.rect_matrix = rect_matrix
         self.react_cases = {GAME_OVER: self.paint_game_over, REPAINT: self.repaint_background_with_dots,
-                            WON: self.paint_game_won, EAT_DOT: self.repaint_score}
+                            WON: self.paint_game_won, EAT_DOT: self.repaint_score,
+                            ENEMY_EAT_DOT: self.repaint_score, RESPAWN: self.erase_life,
+                            ENEMY_RESPAWN: self.erase_enemy_life}
         self.window_surface = window_surface
         self.window_surface.fill(BGCOLOR)
         self.save_screenshot(window_surface)
@@ -28,7 +30,8 @@ class Painter(EventObserver):
     def repaint_score(self):
         self.dynamic_images.repaint_score(self.container.pac_man.score)
         if self.container.enemy_pac_man is not None:
-            self.dynamic_images.repaint_score(self.container.enemy_pac_man.score)
+            print(self.container.enemy_pac_man.score)
+            self.dynamic_images.repaint_score(self.container.enemy_pac_man.score, True)
         pygame.display.update(Rect(0, 620, 400, 100))
 
     def paint_objects(self):
@@ -41,7 +44,7 @@ class Painter(EventObserver):
         self.clear_dirty_rect()
 
     def paint_precicted_rect(self):
-        for ghost in self.container.ghosts[1:3]:
+        for ghost in self.container.ghosts[2:3]:
             if not ghost.new_directions_painted:
                 for rect in ghost.last_predicted_rect:
                     repaint_fragment_of_background(self.window_surface, rect, True)
@@ -68,12 +71,10 @@ class Painter(EventObserver):
 
     def repaint_background_with_dots(self):
         paint_whole_background(self.window_surface, True, self.rect_matrix.map_array)
-        self.dynamic_images.erase_live()
         pygame.display.update()
 
     def paint_game_over(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (220, 260))
-        self.dynamic_images.erase_live()
         for object in self.container.ghosts:
             for key, animation in object.animations.items():
                 animation.stop()
@@ -81,7 +82,6 @@ class Painter(EventObserver):
 
     def paint_game_won(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/won.png'), (0, 0))
-        self.dynamic_images.erase_live()
         for object in self.container.ghosts:
             for key, animation in object.animations.items():
                 animation.stop()
@@ -95,4 +95,10 @@ class Painter(EventObserver):
         paint_whole_background(window_surface, True)
         pygame.display.update()
         pygame.image.save(window_surface, "resources/levels/map_dot.jpeg")
+
+    def erase_life(self):
+        self.dynamic_images.erase_live(False)
+
+    def erase_enemy_life(self):
+        self.dynamic_images.erase_live(True)
 

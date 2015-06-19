@@ -16,17 +16,17 @@ from objects.inky import Inky
 class Game(EventObserver):
     def __init__(self, window_surface, container, event_handler):
         super().__init__(container, event_handler)
+        self.react_cases = {RESPAWN: self.respawn, GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
         self.rect_matrix = RectMatrix(ACTUAL_LVL)
+        self.reset_objects()
         self.fps = 60
         self.current_key = K_LEFT
         self.current_enemy_key = K_RIGHT
-        self.react_cases = {RESPAWN: self.respawn, GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
         self.game_on = True
         self.window_surface = window_surface
         self.paused = False
         self.game_state = GameState(container, event_handler)
         self.game_loop = GameLoop(window_surface, container, self)
-        self.reset_objects()
 
     def start_game(self):
         main_clock = pygame.time.Clock()
@@ -71,20 +71,24 @@ class Game(EventObserver):
         Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
         Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
 
-class AIGame(Game):
+class EnemyGame(Game):
     def __init__(self, window_surface, container, event_handler):
         super().__init__(window_surface, container, event_handler)
-        self.react_cases = {RESPAWN: self.respawn, ENEMY_RESPAWN: self.enemy_respawn, GAME_OVER: self.delete_ghost,
-                            EXIT: self.exit, WON: self.game_won}
+        self.react_cases = {RESPAWN: self.respawn, ENEMY_RESPAWN: self.enemy_respawn,
+                            GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
 
     def respawn(self):
+        prev_score = self.container.pac_man.score
         self.container.del_object(self.container.pac_man)
-        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        if self.game_state.lives_left > 1:
+            PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
+        self.container.pac_man.score = prev_score
         self.event_handler.add_event(REPAINT)
 
     def enemy_respawn(self):
         self.container.del_object(self.container.enemy_pac_man)
-        EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
+        if self.game_state.enemy_lives_left > 0:
+            EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
         self.event_handler.add_event(REPAINT)
 
     def reset_objects(self):
@@ -94,7 +98,7 @@ class AIGame(Game):
         self.reset_ghosts()
 
 
-class ServerGame(Game):
+class ServerGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
         super().__init__(window_surface, cointainer, event_handler)
         self.current_key = K_RIGHT
@@ -114,18 +118,13 @@ class ServerGame(Game):
             self.enemy_key = int(self.connection.received_data)
             main_clock.tick(1)
 
-    def respawn(self):
-        if self.game_state.lives_left != 0:
-            self.container.pac_man = PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
-            self.event_handler.add_event(REPAINT)
-
     def reset_objects(self):
         self.container.del_objects()
         PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
         PacMan(27, 1, self.rect_matrix, self.container, self.event_handler)
         self.reset_ghosts()
 
-class ClientGame(Game):
+class ClientGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
         super().__init__(window_surface, cointainer, event_handler)
         self.current_key = K_LEFT
@@ -142,11 +141,6 @@ class ClientGame(Game):
             self.current_key, self.enemy_key = parse_to_keys(self.connection.received_data)
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
             main_clock.tick(1)
-
-    def respawn(self):
-        if self.game_state.lives_left != 0:
-            self.container.pac_man = PacMan(2, 1, self.rect_matrix, self.container, self.event_handler)
-            self.event_handler.add_event(REPAINT)
 
     def reset_objects(self):
         self.container.del_objects()

@@ -1,6 +1,6 @@
 from copy import deepcopy
 from pygame.locals import *
-from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON, POWER_UP, ENEMY_DEATH
+from events.eventconstans import DEATH, REPAINT, EAT_DOT, WON, POWER_UP, ENEMY_DEATH, ENEMY_EAT_DOT
 
 import media.sprites
 from objects.hero import Hero
@@ -17,7 +17,6 @@ class PacMan(Hero):
         for key, animation in self.current_anim.items():
             animation.play()
         self.container.add_object(self)
-
 
     def move_hero(self, key):
         self.new_direction = key
@@ -39,7 +38,6 @@ class PacMan(Hero):
             if self.rect_matrix.count_dots() == 0:
                 self.event_handler.add_event(WON)
         elif self.rect_matrix.eat_power_dot(self.map_point):
-            self.score += 5
             self.event_handler.add_event(POWER_UP)
 
     def predicted_pac_man_point(self, steps_to_predict):
@@ -74,11 +72,23 @@ class EnemyPacMan(PacMan):
 
     def move_hero(self, key):
         if key == AI_KEY:
-            if self.is_this_the_wall(self.direction):
-                self.direction = self.get_proper_random_direction()
+            if self.in_place_to_change_direction():
+                self.map_point = self.rect_matrix.get_map_point(self.area_rect)
+                if self.is_this_the_wall(self.direction):
+                    self.direction = self.get_proper_random_direction()
+                self.eat_dot()
         else:
             super().move_hero(key)
         self.move()
+
+    def eat_dot(self):
+        if self.rect_matrix.eat_dot(self.map_point):
+            self.score += 1
+            self.event_handler.add_event(ENEMY_EAT_DOT)
+            if self.rect_matrix.count_dots() == 0:
+                self.event_handler.add_event(WON)
+        elif self.rect_matrix.eat_power_dot(self.map_point):
+            self.event_handler.add_event(POWER_UP)
 
 
 
