@@ -21,6 +21,17 @@ class Pinky(Ghost):
         if self.container.enemy_pac_man is None:
             return get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(4))
         else:
-            directions_to_player = get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(4))
-            directions_to_enemy = get_next_directions(self.map_point, self.container.enemy_pac_man.predicted_pac_man_point(4))
-            return directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy
+            if self.container.pac_man.active:
+                directions_to_player = get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(4))
+            else:
+                directions_to_player = [self.get_proper_random_direction()]
+            if self.container.enemy_pac_man.active:
+                directions_to_enemy = get_next_directions(self.map_point, self.container.enemy_pac_man.predicted_pac_man_point(4))
+            else:
+                directions_to_enemy = [self.get_proper_random_direction()]
+
+            if len(directions_to_enemy) == 0 and len(directions_to_player) == 0:
+                return [self.get_proper_random_direction()]
+
+            self.new_directions = directions_to_player if len(directions_to_player) <= len(directions_to_enemy) else directions_to_enemy
+        return self.new_directions

@@ -13,13 +13,13 @@ def add_points(point, second_point):
     return point[0] + second_point[0], point[1] + second_point[1]
 
 def next_point_in_direction(point, direction):
-    if direction == K_UP:
+    if direction == K_UP or direction == K_w:
         return add_points(point, (-1, 0))
-    elif direction == K_RIGHT:
+    elif direction == K_RIGHT or direction == K_d:
         return add_points(point, (0, 1))
-    elif direction == K_DOWN:
+    elif direction == K_DOWN or direction == K_s:
         return add_points(point, (1, 0))
-    elif direction == K_LEFT:
+    elif direction == K_LEFT or direction == K_a:
         return add_points(point, (0, -1))
 
 
@@ -32,6 +32,14 @@ def negative_direction(direction):
         return K_UP
     elif direction == K_LEFT:
         return K_RIGHT
+    elif direction == K_d:
+        return K_a
+    elif direction == K_s:
+        return K_w
+    elif direction == K_w:
+        return K_s
+    elif direction == K_a:
+        return K_d
 
 def as_a_grid(alist):
     for i in range(len(alist)):

@@ -24,7 +24,7 @@ class PacMan(Hero):
             self.tunel_teleportation()
             self.map_point = self.rect_matrix.get_map_point(self.area_rect)
             self.eat_dot()
-            if not self.is_this_the_wall(self.new_direction):
+            if not self.is_this_the_wall(self.new_direction) and key in self.movements.keys():
                 self.direction = self.new_direction
 
             if self.is_this_the_wall(self.direction):
@@ -55,9 +55,9 @@ class PacMan(Hero):
 
     def tunel_teleportation(self):
         if self.map_point in self.rect_matrix.teleport_points:
-            if self.map_point[1] == 28 and self.direction == K_RIGHT:
+            if self.map_point[1] == 28 and (self.direction == K_RIGHT or self.direction == K_d):
                 self.teleport((13, 0))
-            elif self.map_point[1] == 1 and self.direction == K_LEFT:
+            elif self.map_point[1] == 1 and (self.direction == K_LEFT or self.direction == K_a):
                 self.teleport((13, 28))
             self.event_handler.add_event(REPAINT)
 
@@ -77,9 +77,10 @@ class EnemyPacMan(PacMan):
                 if self.is_this_the_wall(self.direction):
                     self.direction = self.get_proper_random_direction()
                 self.eat_dot()
+            self.move()
         else:
             super().move_hero(key)
-        self.move()
+
 
     def eat_dot(self):
         if self.rect_matrix.eat_dot(self.map_point):

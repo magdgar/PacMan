@@ -1,7 +1,7 @@
 import pygame
 import sys
 from events.eventconstans import *
-from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT, K_s, K_w, QUIT
+from pygame.constants import KEYDOWN, K_RIGHT, K_LEFT, K_s, K_w, QUIT, K_y, K_u, K_UP, K_DOWN, K_a, K_d
 from events.eventobserver import EventObserver
 from gameloop.gameloop import GameLoop
 from gamestate.gamestate import GameState
@@ -13,6 +13,9 @@ from objects.clyde import Clyde
 from objects.pacman import PacMan, EnemyPacMan
 from objects.pinky import Pinky
 from objects.inky import Inky
+
+PLAYER_ONE_KEYS = [K_LEFT, K_UP, K_RIGHT, K_DOWN]
+PLAYER_TWO_KEYS = [K_a, K_w, K_d, K_s]
 
 class Game(EventObserver):
     def __init__(self, window_surface, container, event_handler):
@@ -83,11 +86,9 @@ class EnemyGame(Game):
                             GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
 
     def respawn(self):
-        prev_score = self.container.pac_man.score
         self.container.del_object(self.container.pac_man)
         if self.game_state.lives_left > 1:
             PacMan(2, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
-        self.container.pac_man.score = prev_score
         self.event_handler.add_event(REPAINT)
 
     def enemy_respawn(self):
@@ -102,6 +103,33 @@ class EnemyGame(Game):
         EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.enemy_score)
         self.reset_ghosts()
 
+class HumanGame(EnemyGame):
+    def __init__(self, window_surface, container, event_handler):
+        super().__init__(window_surface, container, event_handler)
+        self.react_cases = {RESPAWN: self.respawn, ENEMY_RESPAWN: self.enemy_respawn,
+                            GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
+
+    def start_game(self):
+        main_clock = pygame.time.Clock()
+        while self.game_on:
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    if event.key == K_y:
+                        self.fps -= 5
+                    elif event.key == K_u:
+                        self.fps += 5
+                    else:
+                        if event.key in PLAYER_ONE_KEYS:
+                            self.current_enemy_key = event.key
+                        elif event.key in PLAYER_TWO_KEYS:
+                            self.current_key = event.key
+
+                elif event.type == QUIT:
+                    sys.exit(0)
+
+            self.game_loop.perform_one_cycle([self.current_key, self.current_enemy_key])
+            main_clock.tick(self.fps)
+        sys.exit(0)
 
 class ServerGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
@@ -124,7 +152,7 @@ class ServerGame(EnemyGame):
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
             self.connection.send_data((str(self.enemy_key) + str(self.current_key)))
             self.enemy_key = int(self.connection.received_data)
-            main_clock.tick(1)
+            main_clock.tick(45)
 
     def reset_objects(self):
         self.container.del_objects()
@@ -151,7 +179,7 @@ class ClientGame(EnemyGame):
 
             self.current_key, self.enemy_key = parse_to_keys(self.connection.received_data)
             self.game_loop.perform_one_cycle([self.current_key, self.enemy_key])
-            main_clock.tick(1)
+            main_clock.tick(45)
 
     def reset_objects(self):
         self.container.del_objects()

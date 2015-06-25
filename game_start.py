@@ -1,7 +1,7 @@
 import pygame
 from pygame.constants import MOUSEBUTTONDOWN, QUIT
 import sys
-from game import Game, ClientGame, ServerGame, EnemyGame
+from game import Game, ClientGame, ServerGame, EnemyGame, HumanGame
 
 
 class GameStart:
@@ -39,10 +39,13 @@ class GameStart:
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONDOWN:
                     wsp = pygame.mouse.get_pos()
-                    if wsp[0] < 310:
-                        ClientGame(self.window_surface, self.container, self.event_handler).start_game()
+                    if wsp[1] > 500:
+                        HumanGame(self.window_surface, self.container, self.event_handler).start_game()
                     else:
-                        ServerGame(self.window_surface, self.container, self.event_handler).start_game()
+                        if wsp[0] < 310:
+                            ClientGame(self.window_surface, self.container, self.event_handler).start_game()
+                        else:
+                            ServerGame(self.window_surface, self.container, self.event_handler).start_game()
                 elif event.type == QUIT:
                         sys.exit(0)
 

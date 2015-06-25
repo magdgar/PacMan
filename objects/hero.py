@@ -17,7 +17,9 @@ class Hero(EventObserver):
         self.new_direction = K_RIGHT
         self.movements = {K_UP: (0, -self.speed), K_RIGHT: (self.speed, 0),
                           K_DOWN: (0, self.speed), K_LEFT: (-self.speed, 0),
-                          K_DELETE : (0, 0)}
+                          K_w: (0, -self.speed), K_d: (self.speed, 0),
+                          K_s: (0, self.speed), K_a: (-self.speed, 0),
+                          K_DELETE: (0, 0)}
 
     def move_hero(self, arguments):
         pass
@@ -41,6 +43,14 @@ class Hero(EventObserver):
             return K_DOWN
         elif not self.is_this_the_wall(K_LEFT):
             return K_LEFT
+        elif not self.is_this_the_wall(K_d):
+            return K_d
+        elif not self.is_this_the_wall(K_s):
+            return K_s
+        elif not self.is_this_the_wall(K_a):
+            return K_a
+        elif not self.is_this_the_wall(K_w):
+            return K_w
 
     def in_place_to_change_direction(self):
         return self.rect_matrix.is_at_direction_change_place(self.area_rect)
