@@ -36,7 +36,7 @@ class Game(EventObserver):
         main_clock = pygame.time.Clock()
         while self.game_on:
             for event in pygame.event.get():
-                if event.type == KEYDOWN:
+                if event.type == KEYDOWN and event.key in PLAYER_ONE_KEYS + [K_s, K_w]:
                     if event.key == K_s:
                         self.fps -= 5
                     elif event.key == K_w:
@@ -48,19 +48,17 @@ class Game(EventObserver):
 
             self.game_loop.perform_one_cycle([self.current_key])
             main_clock.tick(self.fps)
-        sys.exit(0)
 
     def game_won(self):
         self.container.pac_man.active = False
-        for object in self.container.ghosts:
-            for key, animation in object.current_anim.items():
-                animation.pause()
-            object.active = False
+        del self.container.ghosts[:]
 
     def respawn(self):
         if self.game_state.lives_left != 0:
             self.reset_objects()
             self.event_handler.add_event(REPAINT)
+        else:
+            self.game_on = False
 
     def delete_ghost(self):
         self.container.del_objects()
@@ -87,14 +85,20 @@ class EnemyGame(Game):
 
     def respawn(self):
         self.container.del_object(self.container.pac_man)
-        if self.game_state.lives_left > 1:
+        if self.game_state.lives_left > 0:
             PacMan(2, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
+        else:
+            self.game_on = False
+        for ghost in self.container.ghosts:
+            ghost.active = True
         self.event_handler.add_event(REPAINT)
 
     def enemy_respawn(self):
         self.container.del_object(self.container.enemy_pac_man)
         if self.game_state.enemy_lives_left > 0:
             EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.enemy_score)
+        else:
+            self.game_on = False
         self.event_handler.add_event(REPAINT)
 
     def reset_objects(self):
@@ -129,7 +133,7 @@ class HumanGame(EnemyGame):
 
             self.game_loop.perform_one_cycle([self.current_key, self.current_enemy_key])
             main_clock.tick(self.fps)
-        sys.exit(0)
+        self.game_on = False
 
 class ServerGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
@@ -144,7 +148,7 @@ class ServerGame(EnemyGame):
         main_clock = pygame.time.Clock()
         while self.game_on:
             for event in pygame.event.get():
-                if event.type == KEYDOWN:
+                if event.type == KEYDOWN and event.key in PLAYER_ONE_KEYS:
                     self.current_key = event.key
                 elif event.type == QUIT:
                     sys.exit(0)
@@ -157,7 +161,7 @@ class ServerGame(EnemyGame):
     def reset_objects(self):
         self.container.del_objects()
         PacMan(2, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
-        PacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
+        EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
         self.reset_ghosts()
 
 class ClientGame(EnemyGame):
@@ -172,7 +176,7 @@ class ClientGame(EnemyGame):
         main_clock = pygame.time.Clock()
         while self.game_on:
             for event in pygame.event.get():
-                if event.type == KEYDOWN:
+                if event.type == KEYDOWN and event.key in PLAYER_ONE_KEYS:
                     self.connection.send_data(str(event.key))
                 elif event.type == QUIT:
                     sys.exit(0)
@@ -184,7 +188,7 @@ class ClientGame(EnemyGame):
     def reset_objects(self):
         self.container.del_objects()
         PacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
-        PacMan(2, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
+        EnemyPacMan(2, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
         self.reset_ghosts()
 
 def parse_to_keys(server_response):

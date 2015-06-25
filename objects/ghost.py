@@ -69,7 +69,7 @@ class Ghost(Hero):
         if self.in_place_to_change_direction():
             self.map_point = self.rect_matrix.get_map_point(self.area_rect)
             self.is_dot = self.is_dot_at_field()
-            self.direction = get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(30))[0]
+            self.direction = get_next_directions(self.map_point, self.container.pac_man.predicted_pac_man_point(20))[0]
 
     def stand_still(self):
         self.direction = K_DELETE

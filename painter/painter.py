@@ -44,10 +44,10 @@ class Painter(EventObserver):
         self.clear_dirty_rect()
 
     def paint_precicted_rect(self):
-        for ghost in self.container.ghosts[2:3]:
+        for ghost in self.container.ghosts[2:2]:
             if not ghost.new_directions_painted:
                 for rect in ghost.last_predicted_rect:
-                    repaint_fragment_of_background(self.window_surface, rect, False)
+                    repaint_fragment_of_background(self.window_surface, rect, True)
                     pygame.display.update()
                 for rect in ghost.get_predicted_rect():
                     surface = pygame.Surface((20, 20), pygame.SRCALPHA)

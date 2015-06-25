@@ -15,5 +15,4 @@ window_surface = pygame.display.set_mode((WIDTH, HEIGHT), 0, 32)
 if __name__ == "__main__":
     container = Container()
     event_handler = EventHandler(container)
-    #EnemyGame(window_surface, container, event_handler).start_game()
     GameStart(window_surface, container, event_handler).display_start_screen()

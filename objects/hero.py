@@ -1,6 +1,11 @@
+from random import randint
 from pygame.constants import *
 from pygame.rect import Rect
 from events.eventobserver import EventObserver
+
+PLAYER_ONE_KEYS = [K_LEFT, K_UP, K_RIGHT, K_DOWN]
+PLAYER_TWO_KEYS = [K_a, K_w, K_d, K_s]
+
 
 class Hero(EventObserver):
 
@@ -35,22 +40,17 @@ class Hero(EventObserver):
         self.area_rect.move_ip(-self.movements[self.direction][0], -self.movements[self.direction][1])
 
     def get_proper_random_direction(self):
-        if not self.is_this_the_wall(K_UP):
-            return K_UP
-        elif not self.is_this_the_wall(K_RIGHT):
-            return K_RIGHT
-        elif not self.is_this_the_wall(K_DOWN):
-            return K_DOWN
-        elif not self.is_this_the_wall(K_LEFT):
-            return K_LEFT
-        elif not self.is_this_the_wall(K_d):
-            return K_d
-        elif not self.is_this_the_wall(K_s):
-            return K_s
-        elif not self.is_this_the_wall(K_a):
-            return K_a
-        elif not self.is_this_the_wall(K_w):
-            return K_w
+        directions = []
+        if self.direction in PLAYER_ONE_KEYS:
+            for direction in PLAYER_ONE_KEYS :
+                if not self.is_this_the_wall(direction):
+                    directions.append(direction)
+            return directions[randint(0, len(directions) - 1)]
+        else:
+            for direction in PLAYER_TWO_KEYS:
+                if not self.is_this_the_wall(direction):
+                    directions.append(direction)
+            return directions[randint(0, len(directions) - 1)]
 
     def in_place_to_change_direction(self):
         return self.rect_matrix.is_at_direction_change_place(self.area_rect)
