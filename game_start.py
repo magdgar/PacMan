@@ -1,6 +1,8 @@
 import pygame
-from pygame.constants import MOUSEBUTTONDOWN
-from game import Game, ClientGame, ServerGame
+from pygame.constants import MOUSEBUTTONDOWN, QUIT
+import sys
+from game import Game, ClientGame, ServerGame, EnemyGame
+
 
 class GameStart:
     def __init__(self, window_surface, container, event_handler):
@@ -27,6 +29,8 @@ class GameStart:
                         else:
                             self.selection_of_the_server_mode()
                         is_true = False
+                    elif event.type == QUIT:
+                        sys.exit(0)
 
     def selection_of_the_server_mode(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load("resources/start_dual.png",), (0, 100))
@@ -39,6 +43,8 @@ class GameStart:
                         ClientGame(self.window_surface, self.container, self.event_handler).start_game()
                     else:
                         ServerGame(self.window_surface, self.container, self.event_handler).start_game()
+                elif event.type == QUIT:
+                        sys.exit(0)
 
     def selection_of_the_game_mode(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load("resources/start_single.png",), (0, 100))
@@ -50,5 +56,7 @@ class GameStart:
                     if wsp[0] < 310:
                         Game(self.window_surface, self.container, self.event_handler).start_game()
                     else:
-                        ClientGame(self.window_surface, self.container, self.event_handler).start_game()
+                        EnemyGame(self.window_surface, self.container, self.event_handler).start_game()
+                elif event.type == QUIT:
+                        sys.exit(0)
 

@@ -34,7 +34,7 @@ def paint_whole_background(window_surface,  with_dots=False,  map_array=ARRAY_2D
                 if with_dots:
                     window_surface.blit(WALLS_DICT[map_array[y][x]], (x * 20, y * 20))
                 else:
-                    if map_array[y][x] == 7:
+                    if map_array[y][x] == 7 or map_array[y][x] == 8:
                         window_surface.blit(WALLS_DICT[0], (x * 20, y * 20))
                     else:
                         window_surface.blit(WALLS_DICT[map_array[y][x]], (x * 20, y * 20))

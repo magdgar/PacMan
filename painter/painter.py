@@ -32,7 +32,7 @@ class Painter(EventObserver):
         if self.container.enemy_pac_man is not None:
             print(self.container.enemy_pac_man.score)
             self.dynamic_images.repaint_score(self.container.enemy_pac_man.score, True)
-        pygame.display.update(Rect(0, 620, 400, 100))
+        pygame.display.update(Rect(0, 620, 600, 100))
 
     def paint_objects(self):
         for pac_dirty_rect in self.dirt_rect:
@@ -47,7 +47,7 @@ class Painter(EventObserver):
         for ghost in self.container.ghosts[2:3]:
             if not ghost.new_directions_painted:
                 for rect in ghost.last_predicted_rect:
-                    repaint_fragment_of_background(self.window_surface, rect, True)
+                    repaint_fragment_of_background(self.window_surface, rect, False)
                     pygame.display.update()
                 for rect in ghost.get_predicted_rect():
                     surface = pygame.Surface((20, 20), pygame.SRCALPHA)
@@ -76,14 +76,14 @@ class Painter(EventObserver):
     def paint_game_over(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/game_over.png'), (220, 260))
         for object in self.container.ghosts:
-            for key, animation in object.animations.items():
+            for key, animation in object.current_anim.items():
                 animation.stop()
         pygame.display.update()
 
     def paint_game_won(self):
         pygame.Surface.blit(self.window_surface, pygame.image.load('resources/won.png'), (0, 0))
         for object in self.container.ghosts:
-            for key, animation in object.animations.items():
+            for key, animation in object.current_anim.items():
                 animation.stop()
         pygame.display.update()
 

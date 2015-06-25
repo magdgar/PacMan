@@ -7,11 +7,11 @@ from objects.hero import Hero
 from pacfunctions.pacfunction import next_point_in_direction
 AI_KEY = -1
 class PacMan(Hero):
-    def __init__(self, x, y, rect_martix, container, evenent_handler):
+    def __init__(self, x, y, rect_martix, container, evenent_handler, score):
         super().__init__(x, y, rect_martix, container, evenent_handler)
         self.current_anim = media.sprites.PacManAnim
         self.react_cases = {DEATH: self.die}
-        self.score = 0
+        self.score = score
         self.alive = True
         self.is_dot = False
         for key, animation in self.current_anim.items():
@@ -66,8 +66,8 @@ class PacMan(Hero):
         self.active = False
 
 class EnemyPacMan(PacMan):
-    def __init__(self, x, y, rect_martix, container, evenent_handler):
-        super().__init__(x, y, rect_martix, container, evenent_handler)
+    def __init__(self, x, y, rect_martix, container, evenent_handler, score):
+        super().__init__(x, y, rect_martix, container, evenent_handler, score)
         self.react_cases = {ENEMY_DEATH: self.die}
 
     def move_hero(self, key):

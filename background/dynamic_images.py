@@ -27,7 +27,7 @@ class DynamicImages:
     def erase_live(self, enemy=False):
         if not enemy:
             self.lives_left -= 1
-            repaint_fragment_of_background(self.window_surface, Rect(40 + self.lives_left*30, 580, 30, 30), False)
+            repaint_fragment_of_background(self.window_surface, Rect(40 + self.lives_left * 30, 580, 30, 30), False)
         else:
             self.enemy_lives_left -= 1
             repaint_fragment_of_background(self.window_surface, Rect(470 + self.enemy_lives_left * 30, 580, 30, 30), False)
@@ -41,9 +41,9 @@ class DynamicImages:
         i = 0
         while score > 0:
             if enemy:
-                pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (300 - i*20, 620))
+                pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (535 - i*20, 620))
             else:
-                pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (100 - i*20, 620))
+                pygame.Surface.blit(self.window_surface, pygame.image.load(NUMBERS_DICT[score % mod]), (105 - i*20, 620))
             score -= score % mod
             score /= mod
             i += 1
