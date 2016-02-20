@@ -12,7 +12,7 @@ BGCOLOR = (0, 0, 0)
 
 class Painter(EventObserver):
     def __init__(self, window_surface, coinainer, event_handler, rect_matrix):
-        super().__init__(coinainer, event_handler)
+        EventObserver.__init__(self, coinainer, event_handler)
         self.dirt_rect = []
         self.rect_matrix = rect_matrix
         self.react_cases = {GAME_OVER: self.paint_game_over, REPAINT: self.repaint_background_with_dots,

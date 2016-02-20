@@ -5,7 +5,6 @@ from game import Game, ServerGame, ClientGame, EnemyGame
 from game_start import GameStart
 from objects.Container import Container
 
-user32 = ctypes.windll.user32
 WIDTH = 600
 HEIGHT = 650
 

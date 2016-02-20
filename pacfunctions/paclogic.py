@@ -35,7 +35,7 @@ def colect_way_back(place_to, road_value):
 
 def increse(points, road_value):
     for point in points:
-        path_array[point[0]][point[1]] = road_value
+        path_array[int(point[0])][int(point[1])] = road_value
 
 
 def road_neighbour(point):
@@ -64,7 +64,7 @@ def valid_coord(point):
 
 
 def valid_value(point):
-    return path_array[point[0]][point[1]] == 0
+    return path_array[int(point[0])][int(point[1])] == 0
 
 def change_to_direction(point_from, next_point):
     if point_from[0] < next_point[0]:

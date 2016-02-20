@@ -5,7 +5,7 @@ from events.eventobserver import EventObserver
 
 class GameState(EventObserver):
     def __init__(self, coinainer, event_handler):
-        super().__init__(coinainer, event_handler)
+        EventObserver.__init__(self, coinainer, event_handler)
         self.react_cases = {EAT_DOT: self.add_score, ENEMY_EAT_DOT: self.add_enemy_score,
                             RESPAWN: self.kill_player, ENEMY_RESPAWN: self.kill_enemy}
         self.score = 0

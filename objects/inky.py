@@ -11,7 +11,7 @@ from pacfunctions.paclogic import all_neighbours
 
 class Inky(Ghost):
     def __init__(self, x, y, rect_martix, container, evenent_handler):
-        super().__init__(x, y, media.sprites.InkyAnim, rect_martix, container, evenent_handler)
+        Ghost.__init__(self, x, y, media.sprites.InkyAnim, rect_martix, container, evenent_handler)
         self.house_time = 800
         self.color = (42, 255, 252, 128)
         self.corner_points = [(27, 27), (27, 16), (24, 16), (24, 22)]

@@ -10,7 +10,7 @@ PLAYER_TWO_KEYS = [K_a, K_w, K_d, K_s]
 class Hero(EventObserver):
 
     def __init__(self, x, y, rect_martix, container, evenent_handler):
-        super().__init__(container, evenent_handler)
+        EventObserver.__init__(self, container, evenent_handler)
         self.rect_matrix = rect_martix
         self.map_point = (y, x) #cooridnates on map.txt
         self.x = x * 20 - 3 # coordinates used to paint object

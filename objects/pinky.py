@@ -8,7 +8,7 @@ from objects.hero import Hero
 
 class Pinky(Ghost):
     def __init__(self, x, y, rect_martix, container, evenent_handler):
-        super().__init__(x, y, media.sprites.PinkyAnim, rect_martix, container, evenent_handler)
+        Ghost.__init__(self, x, y, media.sprites.PinkyAnim, rect_martix, container, evenent_handler)
         self.corner_points = [(1, 2),  (5, 2), (5, 7), (2, 7)]
         self.color = (255, 156, 200, 128)
         self.house_time = 400

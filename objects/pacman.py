@@ -8,7 +8,7 @@ from pacfunctions.pacfunction import next_point_in_direction
 AI_KEY = -1
 class PacMan(Hero):
     def __init__(self, x, y, rect_martix, container, evenent_handler, score):
-        super().__init__(x, y, rect_martix, container, evenent_handler)
+        Hero.__init__(self, x, y, rect_martix, container, evenent_handler)
         self.current_anim = media.sprites.PacManAnim
         self.react_cases = {DEATH: self.die}
         self.score = score
@@ -67,7 +67,7 @@ class PacMan(Hero):
 
 class EnemyPacMan(PacMan):
     def __init__(self, x, y, rect_martix, container, evenent_handler, score):
-        super().__init__(x, y, rect_martix, container, evenent_handler, score)
+        PacMan.__init__(self, x, y, rect_martix, container, evenent_handler, score)
         self.react_cases = {ENEMY_DEATH: self.die}
 
     def move_hero(self, key):
@@ -79,7 +79,7 @@ class EnemyPacMan(PacMan):
                 self.eat_dot()
             self.move()
         else:
-            super().move_hero(key)
+            PacMan.move_hero(key)
 
 
     def eat_dot(self):

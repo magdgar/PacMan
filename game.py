@@ -19,7 +19,7 @@ PLAYER_TWO_KEYS = [K_a, K_w, K_d, K_s]
 
 class Game(EventObserver):
     def __init__(self, window_surface, container, event_handler):
-        super().__init__(container, event_handler)
+        EventObserver.__init__(self, container, event_handler)
         self.react_cases = {RESPAWN: self.respawn, GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
         self.rect_matrix = RectMatrix(ACTUAL_LVL)
         self.fps = 60
@@ -79,7 +79,7 @@ class Game(EventObserver):
 
 class EnemyGame(Game):
     def __init__(self, window_surface, container, event_handler):
-        super().__init__(window_surface, container, event_handler)
+        Game.__init__(self, window_surface, container, event_handler)
         self.react_cases = {RESPAWN: self.respawn, ENEMY_RESPAWN: self.enemy_respawn,
                             GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
 
@@ -137,7 +137,7 @@ class HumanGame(EnemyGame):
 
 class ServerGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
-        super().__init__(window_surface, cointainer, event_handler)
+        EnemyGame.__init__(self, window_surface, cointainer, event_handler)
         self.current_key = K_RIGHT
         self.enemy_key = K_LEFT
         self.connection = network.get_connection(network.ServerConnection)
@@ -166,7 +166,7 @@ class ServerGame(EnemyGame):
 
 class ClientGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
-        super().__init__(window_surface, cointainer, event_handler)
+        EnemyGame.__init__(self, window_surface, cointainer, event_handler)
         self.current_key = K_LEFT
         self.enemy_key = K_RIGHT
         self.connection = network.get_connection(network.ClientConnection)

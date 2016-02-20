@@ -5,7 +5,7 @@ import media
 
 class Blinky(Ghost):
     def __init__(self, x, y, rect_martix, container, evenent_handler):
-        super().__init__(x, y, media.sprites.BlinkyAnim, rect_martix, container, evenent_handler)
+        Ghost.__init__(self, x, y, media.sprites.BlinkyAnim, rect_martix, container, evenent_handler)
         self.corner_points = [(1, 26), (5, 26), (5, 22), (1, 22)]
         self.house_time = 10
         self.color = (250, 0, 0, 128)

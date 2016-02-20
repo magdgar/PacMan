@@ -6,7 +6,7 @@ from objects.ghost import Ghost, stupidity_decorator
 
 class Clyde(Ghost):
     def __init__(self, x, y, rect_martix, container, evenent_handler):
-        super().__init__(x, y, media.sprites.ClydeAnim, rect_martix, container, evenent_handler)
+        Ghost.__init__(self, x, y, media.sprites.ClydeAnim, rect_martix, container, evenent_handler)
         self.house_time = 1200
         self.color = (255, 198, 56, 128)
         self.corner_points = [(27, 2), (27, 13), (24, 13), (24, 7)]

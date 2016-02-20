@@ -12,7 +12,7 @@ FROZEN = 995
 HOUSE_RETURN = 1000
 class Ghost(Hero):
     def __init__(self, x, y, anim, rect_martix, container, evenent_handler):
-        super().__init__(x, y, rect_martix, container, evenent_handler)
+        Hero.__init__(self, x, y, rect_martix, container, evenent_handler)
         self.standard_anim = anim
         self.current_anim = anim
         self.corner_changer = 0
@@ -38,7 +38,7 @@ class Ghost(Hero):
         self.container.add_object(self)
 
     def move(self):
-        super().move()
+        Hero.move(self)
         self.check_if_catched()
         self.check_if_enemy_catched()
 

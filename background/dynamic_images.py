@@ -1,6 +1,7 @@
 import pygame
 from pygame.rect import Rect
-from background.background import repaint_fragment_of_background
+
+# from background.background import repaint_fragment_of_background
 from events.eventobserver import EventObserver
 from media.constans import NUMBERS_DICT
 
@@ -27,10 +28,10 @@ class DynamicImages:
     def erase_live(self, enemy=False):
         if not enemy:
             self.lives_left -= 1
-            repaint_fragment_of_background(self.window_surface, Rect(40 + self.lives_left * 30, 580, 30, 30), False)
+            # repaint_fragment_of_background(self.window_surface, Rect(40 + self.lives_left * 30, 580, 30, 30), False)
         else:
             self.enemy_lives_left -= 1
-            repaint_fragment_of_background(self.window_surface, Rect(470 + self.enemy_lives_left * 30, 580, 30, 30), False)
+            #repaint_fragment_of_background(self.window_surface, Rect(470 + self.enemy_lives_left * 30, 580, 30, 30), False)
 
     def paint_numbers(self):
         for i in range(0, 10):
