@@ -1,4 +1,3 @@
-from pygame.constants import *
 from pacfunctions.paclogic import *
 
 
@@ -9,8 +8,10 @@ def get_next_directions(point_from, point_to):
         directions.append(change_to_direction(shortest_way_list[n], shortest_way_list[n+1]))
     return directions
 
+
 def add_points(point, second_point):
     return point[0] + second_point[0], point[1] + second_point[1]
+
 
 def next_point_in_direction(point, direction):
     if direction == K_UP or direction == K_w:
@@ -40,6 +41,7 @@ def negative_direction(direction):
         return K_s
     elif direction == K_a:
         return K_d
+
 
 def as_a_grid(alist):
     for i in range(len(alist)):

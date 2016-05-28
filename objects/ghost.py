@@ -10,6 +10,8 @@ SCARED = 997
 HOUSE = 996
 FROZEN = 995
 HOUSE_RETURN = 1000
+
+
 class Ghost(Hero):
     def __init__(self, x, y, anim, rect_martix, container, evenent_handler):
         Hero.__init__(self, x, y, rect_martix, container, evenent_handler)
@@ -181,8 +183,6 @@ class Ghost(Hero):
                         anim.play()
                     self.speed = 2
                     self.reload_movements()
-
-
 
 
 def stupidity_decorator(func):

@@ -6,6 +6,8 @@ import media.sprites
 from objects.hero import Hero
 from pacfunctions.pacfunction import next_point_in_direction
 AI_KEY = -1
+
+
 class PacMan(Hero):
     def __init__(self, x, y, rect_martix, container, evenent_handler, score):
         Hero.__init__(self, x, y, rect_martix, container, evenent_handler)
@@ -65,6 +67,7 @@ class PacMan(Hero):
         self.direction = K_DELETE
         self.active = False
 
+
 class EnemyPacMan(PacMan):
     def __init__(self, x, y, rect_martix, container, evenent_handler, score):
         PacMan.__init__(self, x, y, rect_martix, container, evenent_handler, score)
@@ -79,8 +82,7 @@ class EnemyPacMan(PacMan):
                 self.eat_dot()
             self.move()
         else:
-            PacMan.move_hero(key)
-
+            PacMan.move_hero(self, key)
 
     def eat_dot(self):
         if self.rect_matrix.eat_dot(self.map_point):
@@ -90,6 +92,3 @@ class EnemyPacMan(PacMan):
                 self.event_handler.add_event(WON)
         elif self.rect_matrix.eat_power_dot(self.map_point):
             self.event_handler.add_event(POWER_UP)
-
-
-

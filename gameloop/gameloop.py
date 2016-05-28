@@ -2,6 +2,7 @@
 from game_engine.gameengine import GameEngine
 import painter.painter
 
+
 class GameLoop:
     def __init__(self, window_surface, cointainer, game):
         self.game = game

@@ -1,10 +1,7 @@
 import pygame
 from background.background import paint_whole_background, repaint_fragment_of_background
-from events.eventobserver import EventObserver
 from background.dynamic_images import DynamicImages
 from pygame.rect import Rect
-from media.dirtyrect import *
-import background
 from objects.Container import *
 from events.eventconstans import *
 BGCOLOR = (0, 0, 0)

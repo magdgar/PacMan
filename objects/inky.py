@@ -3,9 +3,7 @@ from random import randint
 from objects.ghost import Ghost, stupidity_decorator
 from pacfunctions.pacfunction import get_next_directions
 import media
-from objects.hero import Hero
 from media.constans import MAP_X_DIMENTION, MAP_Y_DIMENTION
-from pygame.rect import Rect
 from pacfunctions.paclogic import all_neighbours
 
 

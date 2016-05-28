@@ -3,6 +3,7 @@ from pygame.rect import Rect
 from pacfunctions.pacfunction import add_points, negative_direction, as_a_grid
 from pacfunctions.paclogic import valid
 
+
 class RectMatrix:
     def __init__(self, path):
         with open(path) as file:
@@ -58,7 +59,6 @@ class RectMatrix:
     def is_game_won(self):
         return self.remain_dots == 0
 
-
     def is_this_the_wall(self, rect, alter):
         for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][0].contains(rect):
@@ -68,7 +68,6 @@ class RectMatrix:
         for (y, x) in as_a_grid(self.matrix):
             if self.matrix[y][x][0].contains(rect):
                 return self.matrix[y][x][0]
-
 
     def get_proper_random_direction(self, point, direction):
         if not self.is_wall_at_field(add_points(point, (-1, 0))) and K_UP != negative_direction(direction):
@@ -80,7 +79,6 @@ class RectMatrix:
         elif not self.is_wall_at_field(add_points(point, (0, -1))) and K_LEFT != negative_direction(direction):
             return K_LEFT
         return negative_direction(direction)
-
 
     def find_teleport_points(self):
         teleport_points = []

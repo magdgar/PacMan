@@ -11,6 +11,7 @@ MAP_DICT = {K_0: 0, K_1: 1, K_2: 2, K_3: 3, K_4: 4, K_5: 5, K_6: 6, K_7: 7}
 with open(ACTUAL_LVL) as file:
     array2d = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
 
+
 class GameLoop:
     def __init__(self, window_surface):
         self.window_surface = window_surface
@@ -41,7 +42,6 @@ class GameLoop:
         y = int(pos[1] / 20)
         self.map_array[y][x] = self.current_paint_item
         print(self.map_array[y][x])
-
 
     def save_map_to_file(self):
         string = ""

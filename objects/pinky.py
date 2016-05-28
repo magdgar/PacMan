@@ -1,9 +1,7 @@
-from pygame.constants import K_DOWN, K_UP
 from objects.ghost import Ghost, stupidity_decorator
 
 from pacfunctions.pacfunction import get_next_directions, next_point_in_direction
 import media
-from objects.hero import Hero
 
 
 class Pinky(Ghost):

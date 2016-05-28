@@ -2,13 +2,13 @@
 
 
 from pygame.rect import Rect
-from media.dirtyrect import  PacDirtyRect
-from objects.Container import *
+from media.dirtyrect import PacDirtyRect
 from media.constans import ACTUAL_LVL
-from objects.pacman import EnemyPacMan, AI_KEY
+from objects.pacman import AI_KEY
 
 with open(ACTUAL_LVL) as file:
     BG_MATRIX = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
+
 
 class GameEngine:
     """class responsible for invoking low-level logic"""

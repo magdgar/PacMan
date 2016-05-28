@@ -1,6 +1,5 @@
 from copy import deepcopy
 from pygame.constants import *
-import sys
 
 with open("pacfunctions/map.txt") as file:
     path_array = [[int(digit) for digit in list(line) if digit != '\n'] for line in file]
@@ -48,11 +47,13 @@ def neighbours(point):
     return [valid_point for valid_point in [(point[0], point[1] - 1), (point[0] - 1, point[1]),
                                             (point[0], point[1] + 1), (point[0] + 1, point[1])] if valid(valid_point)]
 
+
 def all_neighbours(point):
     return [valid_point for valid_point in [(point[0]-1, point[1]-1), (point[0]-1, point[1]-1), (point[0]-1, point[1]), (point[0]-1, point[1]+1),
                                             (point[0], point[1] - 1), (point[0], point[1] + 1),
                                             (point[0]+1, point[1]-1), (point[0]+1, point[1]), (point[0]+1, point[1]+1)]
             if valid(valid_point)]
+
 
 def valid(point):
     return valid_coord(point) and valid_value(point)
@@ -66,6 +67,7 @@ def valid_coord(point):
 def valid_value(point):
     return path_array[int(point[0])][int(point[1])] == 0
 
+
 def change_to_direction(point_from, next_point):
     if point_from[0] < next_point[0]:
         return K_DOWN
@@ -76,6 +78,7 @@ def change_to_direction(point_from, next_point):
     elif point_from[1] > next_point[1]:
         return K_LEFT
 
+
 def to_path_array():
     for y in range(len(path_array)):
         for x in range(len(path_array[0])):
@@ -83,6 +86,7 @@ def to_path_array():
                 path_array[y][x] = '*'
             else:
                 path_array[y][x] = 0
+
 
 def print_path_array(place_from=(0, 0), place_to=(0, 0)):
     print('\n'.join([''.join(['{:2}'.format(item) for item in row])

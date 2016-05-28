@@ -1,7 +1,5 @@
-import ctypes
 import pygame
 from events.eventhandler import EventHandler
-from game import Game, ServerGame, ClientGame, EnemyGame
 from game_start import GameStart
 from objects.Container import Container
 

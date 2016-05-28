@@ -17,6 +17,7 @@ from objects.inky import Inky
 PLAYER_ONE_KEYS = [K_LEFT, K_UP, K_RIGHT, K_DOWN]
 PLAYER_TWO_KEYS = [K_a, K_w, K_d, K_s]
 
+
 class Game(EventObserver):
     def __init__(self, window_surface, container, event_handler):
         EventObserver.__init__(self, container, event_handler)
@@ -77,6 +78,7 @@ class Game(EventObserver):
         Inky(13, 13, self.rect_matrix, self.container, self.event_handler)
         Clyde(15, 13, self.rect_matrix, self.container, self.event_handler)
 
+
 class EnemyGame(Game):
     def __init__(self, window_surface, container, event_handler):
         Game.__init__(self, window_surface, container, event_handler)
@@ -107,9 +109,10 @@ class EnemyGame(Game):
         EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.enemy_score)
         self.reset_ghosts()
 
+
 class HumanGame(EnemyGame):
     def __init__(self, window_surface, container, event_handler):
-        super().__init__(window_surface, container, event_handler)
+        EnemyGame.__init__(self, window_surface, container, event_handler)
         self.react_cases = {RESPAWN: self.respawn, ENEMY_RESPAWN: self.enemy_respawn,
                             GAME_OVER: self.delete_ghost, EXIT: self.exit, WON: self.game_won}
 
@@ -134,6 +137,7 @@ class HumanGame(EnemyGame):
             self.game_loop.perform_one_cycle([self.current_key, self.current_enemy_key])
             main_clock.tick(self.fps)
         self.game_on = False
+
 
 class ServerGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
@@ -164,6 +168,7 @@ class ServerGame(EnemyGame):
         EnemyPacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
         self.reset_ghosts()
 
+
 class ClientGame(EnemyGame):
     def __init__(self, window_surface, cointainer, event_handler):
         EnemyGame.__init__(self, window_surface, cointainer, event_handler)
@@ -190,6 +195,7 @@ class ClientGame(EnemyGame):
         PacMan(27, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
         EnemyPacMan(2, 1, self.rect_matrix, self.container, self.event_handler, self.game_state.score)
         self.reset_ghosts()
+
 
 def parse_to_keys(server_response):
     return int(server_response[:3]), int(server_response[-3:])
