@@ -5,7 +5,7 @@ Enjoy:)
 
 Requirements:
 
-   -Python 3.+ (developed on python 3.2)
+   -Python 2.7
    
    -Pygame library
 
